@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRX | HUB Control Panel - نظام متكامل</title>
+    <title>K V N | Hub Control Panel - نظام متكامل</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -44,8 +45,9 @@
 </head>
 <body class="p-4 md:p-8">
 
+<!-- شاشة الدخول -->
 <div id="login-box" class="max-w-md mx-auto mt-20 bg-[#111827] p-8 rounded-2xl border border-gray-800 glow-effect">
-    <h2 class="text-2xl font-bold text-center mb-6 text-indigo-400 font-mono tracking-widest">TRX | HUB</h2>
+    <h2 class="text-2xl font-bold text-center mb-6 text-indigo-400 font-mono tracking-widest">K V N  H U B</h2>
     <div class="space-y-4">
         <input type="text" id="username" placeholder="اسم المستخدم"
                class="w-full p-3 bg-[#1f2937] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-indigo-500">
@@ -55,11 +57,13 @@
     </div>
 </div>
 
+<!-- لوحة التحكم -->
 <div id="admin-panel" class="hidden max-w-7xl mx-auto space-y-6">
 
+    <!-- رأس الصفحة -->
     <div class="flex justify-between items-center bg-[#111827] p-6 rounded-2xl border border-gray-800">
         <div>
-            <h1 class="text-2xl font-bold text-indigo-400">لوحة تحكم TRX | HUB</h1>
+            <h1 class="text-2xl font-bold text-indigo-400">لوحة تحكم K V N</h1>
             <p class="text-xs text-gray-400 mt-1">مرحباً يا <span class="text-green-400 font-bold" id="welcome-name"></span></p>
             <div class="flex gap-2 mt-2">
                 <span class="feature-badge">🔐 ربط الحساب الأول فقط</span>
@@ -71,6 +75,7 @@
         <button onclick="logout()" class="bg-red-600/20 hover:bg-red-600 border border-red-600 text-white px-4 py-2 rounded-xl transition text-xs font-bold">تسجيل خروج</button>
     </div>
 
+    <!-- مربع الكود الجاهز -->
     <div id="result-box" class="hidden slide-in bg-[#111827] p-6 rounded-2xl border border-emerald-500/50 glow-green space-y-3">
         <div class="flex justify-between items-center">
             <h4 class="text-lg font-bold text-emerald-400">🚀 الكود الجاهز للنشر:</h4>
@@ -82,6 +87,7 @@
         </div>
     </div>
 
+    <!-- مربع كود AI -->
     <div id="ai-result-box" class="hidden slide-in bg-[#111827] p-6 rounded-2xl border border-yellow-500/50 glow-ai space-y-3">
         <div class="flex justify-between items-center flex-wrap gap-2">
             <h4 class="text-lg font-bold text-yellow-400">🤖 الكود بعد دمج Key System:</h4>
@@ -94,7 +100,9 @@
         <textarea id="ai-code-output" readonly dir="ltr" class="w-full p-3 bg-[#0d1117] border border-gray-700 rounded-xl text-yellow-300 font-mono text-xs h-56 focus:outline-none"></textarea>
     </div>
 
+    <!-- قسم رفع السكريبت والمفاتيح -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- رفع سكريبت جديد -->
         <div class="md:col-span-2 bg-[#111827] p-6 rounded-2xl border border-gray-800 space-y-4">
             <h3 class="text-lg font-bold text-purple-400">✨ رفع أو تعديل سكريبت</h3>
             <div>
@@ -129,12 +137,14 @@
             </div>
         </div>
 
+        <!-- قائمة الملفات -->
         <div class="bg-[#111827] p-6 rounded-2xl border border-gray-800 space-y-4">
             <h3 class="text-lg font-bold text-indigo-400">📂 الملفات</h3>
             <div id="files-list" class="space-y-3 max-h-[460px] overflow-y-auto pr-1"></div>
         </div>
     </div>
 
+    <!-- جدول المفاتيح -->
     <div class="bg-[#111827] p-6 rounded-2xl border border-gray-800 space-y-4">
         <div class="flex justify-between items-center flex-wrap gap-4">
             <h3 class="text-lg font-bold text-teal-400">📋 المفاتيح والصلاحية</h3>
@@ -151,6 +161,7 @@
             </div>
         </div>
         
+        <!-- إنشاء مفتاح جديد -->
         <div class="flex gap-3 items-end bg-[#1f2937]/30 p-4 rounded-xl flex-wrap">
             <div class="flex-1 min-w-[150px]">
                 <label class="block text-xs text-gray-400 mb-1">السكريبت:</label>
@@ -163,6 +174,7 @@
             <button onclick="generateKey()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold px-6 py-2 rounded-xl transition">🎲 إنشاء مفتاح</button>
         </div>
         
+        <!-- عرض المفتاح الجديد -->
         <div id="generated-key-box" class="hidden p-3 bg-[#1f2937] border border-yellow-600/50 rounded-xl text-center">
             <p class="text-xs text-gray-400">✅ تم الإنشاء:</p>
             <p id="generated-key-text" class="text-sm font-bold text-yellow-400 font-mono mt-1"></p>
@@ -170,6 +182,7 @@
             <button onclick="copyKey()" class="mt-2 text-xs bg-yellow-700/50 hover:bg-yellow-700 px-3 py-1 rounded-lg">نسخ 📋</button>
         </div>
         
+        <!-- جدول المفاتيح -->
         <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
             <table class="w-full text-right text-xs keys-table">
                 <thead class="sticky top-0 bg-[#111827]">
@@ -190,8 +203,8 @@
 </div>
 
 <script>
-    const ADMIN_USER = "TRX | HUB";
-    const ADMIN_PASS = "TRXXX";
+    const ADMIN_USER = "y3_lnp";
+    const ADMIN_PASS = "Nwaf1977*";
     const SERVER_URL = window.location.origin;
     let authData = {};
     let currentAiCode = "";
@@ -200,6 +213,7 @@
     let refreshInterval = null;
     let currentEditId = null;
 
+    // ========== وظائف الدخول والخروج ==========
     function login() {
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value;
@@ -210,8 +224,10 @@
             document.getElementById('welcome-name').innerText = u;
             loadMyScripts();
             loadMyKeys();
+            
             document.getElementById('search-input').addEventListener('input', filterKeys);
             document.getElementById('search-filter').addEventListener('change', filterKeys);
+            
             if (refreshInterval) clearInterval(refreshInterval);
             refreshInterval = setInterval(() => {
                 if (!document.getElementById('admin-panel').classList.contains('hidden')) {
@@ -250,17 +266,23 @@
         setTimeout(() => btn.classList.remove('refresh-animation'), 500);
     }
 
+    // ========== رفع السكريبت العادي ==========
     async function uploadScript(overrideSource = null, overrideId = null) {
         const id = overrideId || document.getElementById('script-id').value.trim();
         let source = overrideSource || document.getElementById('source-code').value.trim();
         const type = document.querySelector('input[name="script-type"]:checked').value;
+        
         if (!id || !source) return alert("⚠️ املأ الحقول!");
+        
+        // جلب قائمة السكريبتات الحالية
         const resCheck = await fetch(`${SERVER_URL}/api/list`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(authData)
         });
         const scripts = await resCheck.json();
+        
+        // إذا كان السكريبت موجود من قبل ونوعه مدفوع
         if (scripts[id] && scripts[id].type === 'paid' && type === 'paid') {
             const resOld = await fetch(`${SERVER_URL}/api/get-script-source`, {
                 method: 'POST',
@@ -268,8 +290,9 @@
                 body: JSON.stringify({ ...authData, id })
             });
             const oldData = await resOld.json();
+            
             if (oldData.success && oldData.source.includes('KVN Key System')) {
-                const keySystemMatch = oldData.source.match(/(-- =+\n-- 🔐 KVN Key System.*?-- =+\n)/s);
+                const keySystemMatch = oldData.source.match(/(-- ============================================\n-- 🔐 KVN Key System.*?-- ============================================\n)/s);
                 if (keySystemMatch) {
                     const keySystemPart = keySystemMatch[1];
                     const originalCode = source;
@@ -277,39 +300,53 @@
                 }
             }
         }
+        
         const res = await fetch(`${SERVER_URL}/api/upload`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...authData, id, source, type })
         });
         const data = await res.json();
+        
         if (data.success) {
             let ls = `loadstring(game:HttpGet("${SERVER_URL}/load/${id}.lua"))()`;
             if (type === 'paid') ls = `_G.Key = "مفتاحك"\n` + ls;
             document.getElementById('final-link-input').value = ls;
             document.getElementById('result-box').classList.remove('hidden');
-            if (!overrideSource) cancelEdit();
+            if (!overrideSource) { 
+                cancelEdit();
+            }
             loadMyScripts(); 
             loadMyKeys();
             alert("✅ تم الحفظ بنجاح!");
         } else alert("❌ " + data.message);
     }
 
+    // ========== رفع الكود مع Key System مدمج مسبقاً (بدون AI) ==========
     async function uploadWithKeySystem() {
         const id = document.getElementById('script-id').value.trim();
         let source = document.getElementById('source-code').value.trim();
         const type = document.querySelector('input[name="script-type"]:checked').value;
+        
         if (!id || !source) return alert("⚠️ املأ الحقول!");
+        
+        // تأكد من أن النوع مدفوع
         if (type !== 'paid') {
-            if (!confirm("⚠️ هذا السكريبت ليس مدفوعاً. هل تريد تحويله إلى مدفوع مع Key System؟")) return;
+            if (!confirm("⚠️ هذا السكريبت ليس مدفوعاً. هل تريد تحويله إلى مدفوع مع Key System؟")) {
+                return;
+            }
             document.querySelector('input[name="script-type"][value="paid"]').checked = true;
         }
+        
+        // تحقق إذا كان الكود يحتوي على Key System من قبل
         if (!source.includes('KVN Key System') && !source.includes('verify-key') && !source.includes('_G.Key')) {
             const confirmUpload = confirm("⚠️ الكود لا يحتوي على نظام مفاتيح واضح!\nهل أنت متأكد أن لديك Key System مدمج بالكود؟\n\nاضغط OK للرفع كما هو، أو Cancel للإلغاء.");
             if (!confirmUpload) return;
         }
+        
         const btn = document.getElementById('upload-keysystem-btn');
         const originalText = btn ? btn.innerHTML : '';
         if (btn) btn.innerHTML = '<span class="ai-loading">جاري الرفع...</span>';
+        
         try {
             const res = await fetch(`${SERVER_URL}/api/upload`, {
                 method: 'POST',
@@ -317,16 +354,20 @@
                 body: JSON.stringify({ ...authData, id, source, type: 'paid' })
             });
             const data = await res.json();
+            
             if (data.success) {
                 let ls = `loadstring(game:HttpGet("${SERVER_URL}/load/${id}.lua"))()`;
                 ls = `_G.Key = "مفتاحك"\n` + ls;
                 document.getElementById('final-link-input').value = ls;
                 document.getElementById('result-box').classList.remove('hidden');
+                
                 cancelEdit();
                 loadMyScripts();
                 loadMyKeys();
                 alert("✅ تم رفع الكود مع Key System بنجاح!");
-            } else alert("❌ فشل الرفع: " + data.message);
+            } else {
+                alert("❌ فشل الرفع: " + data.message);
+            }
         } catch (err) {
             alert("❌ خطأ: " + err.message);
         } finally {
@@ -334,6 +375,7 @@
         }
     }
 
+    // ========== AI دمج نظام المفاتيح ==========
     async function injectKeyWithAI() {
         const id = document.getElementById('script-id').value.trim();
         const source = document.getElementById('source-code').value.trim();
@@ -383,6 +425,7 @@
         alert('نسخ!'); 
     }
 
+    // ========== تحميل قائمة السكريبتات ==========
     async function loadMyScripts() {
         const res = await fetch(`${SERVER_URL}/api/list`, { 
             method: 'POST', 
@@ -394,6 +437,7 @@
         const selectDD = document.getElementById('key-script-select');
         container.innerHTML = ""; 
         selectDD.innerHTML = "<option value=''>-- اختر --</option>";
+        
         for (let id in scripts) {
             const sc = scripts[id];
             if (sc.type === 'paid') { 
@@ -440,6 +484,7 @@
         } 
     }
     
+    // ========== تعديل السكريبت ==========
     async function editScript(id) {
         const res = await fetch(`${SERVER_URL}/api/get-script-source`, {
             method: 'POST',
@@ -447,23 +492,27 @@
             body: JSON.stringify({ ...authData, id })
         });
         const data = await res.json();
+        
         if (data.success) {
             currentEditId = id;
             document.getElementById('source-code').value = data.source;
             document.getElementById('script-id').value = id;
             document.getElementById('script-id').classList.add('edit-mode');
             document.getElementById('edit-warning').classList.remove('hidden');
+            
             const res2 = await fetch(`${SERVER_URL}/api/list`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(authData)
             });
             const scripts = await res2.json();
+            
             if (scripts[id] && scripts[id].type === 'paid') {
                 document.querySelector('input[name="script-type"][value="paid"]').checked = true;
             } else {
                 document.querySelector('input[name="script-type"][value="free"]').checked = true;
             }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
             alert(`✏️ جاري تعديل: ${id}.lua\nبعد التعديل اضغط "حفظ وإنشاء رابط"`);
         } else {
@@ -478,6 +527,7 @@
         document.getElementById('result-box').classList.remove('hidden'); 
     }
 
+    // ========== إدارة المفاتيح ==========
     async function generateKey() {
         const scriptId = document.getElementById('key-script-select').value;
         const duration = document.getElementById('key-duration').value.trim();
@@ -530,6 +580,7 @@
         const searchTerm = document.getElementById('search-input').value.toLowerCase();
         const filterType = document.getElementById('search-filter').value;
         let filtered = [...allKeysData];
+        
         if (searchTerm) {
             filtered = filtered.filter(k => {
                 if (filterType === 'key') return k.key.toLowerCase().includes(searchTerm);
@@ -540,22 +591,27 @@
                        (k.activatedUsername || '').toLowerCase().includes(searchTerm);
             });
         }
+        
         document.getElementById('search-count').innerHTML = `📊 ${filtered.length}/${allKeysData.length}`;
         const tbody = document.getElementById('keys-list-tbody');
         const noResults = document.getElementById('no-results-message');
+        
         if (filtered.length === 0) { 
             tbody.innerHTML = ''; 
             noResults.classList.remove('hidden'); 
             return; 
         }
+        
         noResults.classList.add('hidden');
         tbody.innerHTML = '';
+        
         filtered.forEach(k => {
             const isExpired = k.isExpired;
             const rowClass = isExpired ? 'expired-key' : 'active-key';
             const expiryDate = k.expiryDate ? new Date(k.expiryDate).toLocaleString('ar') : 'غير محددة';
             const remaining = k.remaining || (isExpired ? 'منتهي ❌' : 'غير محددة');
             const boundUser = k.activatedUsername || '⚪ غير مرتبط';
+            
             tbody.innerHTML += `<tr class="${rowClass} border-b border-gray-800">
                 <td class="py-2 font-mono text-yellow-400 text-[11px]">${k.key}</td>
                 <td class="py-2 font-mono text-xs">${k.scriptId}.lua</td>
@@ -565,4 +621,35 @@
                 <td class="py-2 text-center">
                     <button onclick="updateKeyDuration('${k.key}')" class="bg-blue-600/30 hover:bg-blue-600 text-white px-2 py-1 rounded text-[10px] mx-1">✏️ تعديل</button>
                     <button onclick="resetKeyHWID('${k.key}')" class="bg-teal-600/30 hover:bg-teal-600 px-2 py-1 rounded text-[10px] mx-1">🔄 تصفير</button>
-                    <button onclick="deleteKey('${k.key}')" class="bg-red-600/30 hover:bg-red
+                    <button onclick="deleteKey('${k.key}')" class="bg-red-600/30 hover:bg-red-600 px-2 py-1 rounded text-[10px] mx-1">🗑️ حذف</button>
+                </td>
+              </tr>`;
+        });
+    }
+
+    async function resetKeyHWID(key) { 
+        await fetch(`${SERVER_URL}/api/keys/reset`, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify({ ...authData, key }) 
+        }); 
+        loadMyKeys(); 
+    }
+    
+    async function deleteKey(key) { 
+        if (confirm(`🗑️ حذف المفتاح ${key}؟`)) { 
+            await fetch(`${SERVER_URL}/api/keys/delete`, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ ...authData, key }) 
+            }); 
+            loadMyKeys(); 
+        } 
+    }
+
+    document.addEventListener('keydown', e => { 
+        if (e.key === 'Enter' && !document.getElementById('login-box').classList.contains('hidden')) login(); 
+    });
+</script>
+</body>
+</html>
