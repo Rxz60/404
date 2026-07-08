@@ -1,3 +1,171 @@
-<a href="https://rxz60.github.io/Delta/TRX.mobileconfig">
-    تنزيل ملف التعريف
-</a>
+-- ================================================================
+-- ZM CHAT - النسخة النهائية (مع زرين للنسخ)
+-- ================================================================
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local LocalPlayer = Players.LocalPlayer
+local FirebaseURL = "https://zaid-gm-default-rtdb.firebaseio.com/Messages.json"
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ZM_Chat"
+gui.ResetOnSpawn = false
+gui.Parent = LocalPlayer.PlayerGui
+
+----------------------------------------------------------------
+-- أيقونة
+----------------------------------------------------------------
+local icon = Instance.new("TextButton")
+icon.Size = UDim2.new(0, 40, 0, 40)
+icon.Position = UDim2.new(0.02, 0, 0.4, 0)
+icon.Text = "ZM"
+icon.TextColor3 = Color3.new(1,1,1)
+icon.Font = Enum.Font.GothamBold
+icon.TextSize = 13
+icon.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+icon.Active = true
+icon.Draggable = true
+icon.Parent = gui
+Instance.new("UICorner", icon).CornerRadius = UDim.new(1, 0)
+
+----------------------------------------------------------------
+-- الإطار الرئيسي
+----------------------------------------------------------------
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 270, 0, 320)
+frame.Position = UDim2.new(0.5, -135, 0.5, -160)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+frame.Visible = false
+frame.Active = true
+frame.Parent = gui
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+
+local drag = Instance.new("UIDragDetector")
+drag.Parent = frame
+
+----------------------------------------------------------------
+-- شريط التبويبات
+----------------------------------------------------------------
+local top = Instance.new("Frame")
+top.Size = UDim2.new(1, 0, 0, 32)
+top.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+top.Parent = frame
+Instance.new("UICorner", top).CornerRadius = UDim.new(0, 10)
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 24, 0, 24)
+closeBtn.Position = UDim2.new(1, -28, 0.5, -12)
+closeBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+closeBtn.Text = "✕"
+closeBtn.TextColor3 = Color3.new(1,1,1)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 12
+closeBtn.Parent = top
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+
+closeBtn.MouseButton1Click:Connect(function()
+    frame.Visible = false
+end)
+
+local line = Instance.new("Frame")
+line.Size = UDim2.new(0.333, 0, 0, 2)
+line.Position = UDim2.new(0, 0, 1, -2)
+line.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+line.Parent = top
+
+local tab1 = Instance.new("TextButton")
+tab1.Size = UDim2.new(0.333, 0, 1, 0)
+tab1.BackgroundTransparency = 1
+tab1.Text = "🌍 عام"
+tab1.TextColor3 = Color3.new(1,1,1)
+tab1.Font = Enum.Font.GothamBold
+tab1.TextSize = 11
+tab1.Parent = top
+
+local tab2 = Instance.new("TextButton")
+tab2.Size = UDim2.new(0.333, 0, 1, 0)
+tab2.Position = UDim2.new(0.333, 0, 0, 0)
+tab2.BackgroundTransparency = 1
+tab2.Text = "🔒 خاص"
+tab2.TextColor3 = Color3.fromRGB(150,150,150)
+tab2.Font = Enum.Font.GothamBold
+tab2.TextSize = 11
+tab2.Parent = top
+
+local tab3 = Instance.new("TextButton")
+tab3.Size = UDim2.new(0.334, 0, 1, 0)
+tab3.Position = UDim2.new(0.666, 0, 0, 0)
+tab3.BackgroundTransparency = 1
+tab3.Text = "📞 دعم"
+tab3.TextColor3 = Color3.fromRGB(150,150,150)
+tab3.Font = Enum.Font.GothamBold
+tab3.TextSize = 11
+tab3.Parent = top
+
+local currentTab = "Public"
+
+----------------------------------------------------------------
+-- منطقة العام
+----------------------------------------------------------------
+local publicBox = Instance.new("ScrollingFrame")
+publicBox.Size = UDim2.new(1, -10, 1, -90)
+publicBox.Position = UDim2.new(0, 5, 0, 36)
+publicBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+publicBox.BackgroundTransparency = 0.3
+publicBox.BorderSizePixel = 0
+publicBox.ScrollBarThickness = 3
+publicBox.CanvasSize = UDim2.new(0, 0, 0, 0)
+publicBox.AutomaticCanvasSize = Enum.AutomaticSize.Y
+publicBox.Parent = frame
+Instance.new("UICorner", publicBox).CornerRadius = UDim.new(0, 6)
+
+local publicLayout = Instance.new("UIListLayout")
+publicLayout.Padding = UDim.new(0, 2)
+publicLayout.SortOrder = Enum.SortOrder.LayoutOrder
+publicLayout.Parent = publicBox
+
+local publicPad = Instance.new("UIPadding")
+publicPad.PaddingLeft = UDim.new(0, 4)
+publicPad.PaddingRight = UDim.new(0, 4)
+publicPad.PaddingTop = UDim.new(0, 3)
+publicPad.Parent = publicBox
+
+----------------------------------------------------------------
+-- منطقة الخاص
+----------------------------------------------------------------
+local privateBox = Instance.new("ScrollingFrame")
+privateBox.Size = UDim2.new(1, -10, 1, -90)
+privateBox.Position = UDim2.new(0, 5, 0, 36)
+privateBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+privateBox.BackgroundTransparency = 0.3
+privateBox.BorderSizePixel = 0
+privateBox.ScrollBarThickness = 3
+privateBox.CanvasSize = UDim2.new(0, 0, 0, 0)
+privateBox.AutomaticCanvasSize = Enum.AutomaticSize.Y
+privateBox.Visible = false
+privateBox.Parent = frame
+Instance.new("UICorner", privateBox).CornerRadius = UDim.new(0, 6)
+
+local privateLayout = Instance.new("UIListLayout")
+privateLayout.Padding = UDim.new(0, 2)
+privateLayout.SortOrder = Enum.SortOrder.LayoutOrder
+privateLayout.Parent = privateBox
+
+local privatePad = Instance.new("UIPadding")
+privatePad.PaddingLeft = UDim.new(0, 4)
+privatePad.PaddingRight = UDim.new(0, 4)
+privatePad.PaddingTop = UDim.new(0, 3)
+privatePad.Parent = privateBox
+
+----------------------------------------------------------------
+-- واجهة الدعم (مع زرين للنسخ)
+----------------------------------------------------------------
+local supportFrame = Instance.new("Frame")
+supportFrame.Size = UDim2.new(1, -10, 1, -90)
+supportFrame.Position = UDim2.new(0, 5, 0, 36)
+supportFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+supportFrame.BackgroundTransparency = 0.3
+supportFrame.Visible = false
+supportFrame.Parent = frame
+Instance.new("UICorner", supportFrame).CornerRadius = UDim.new(0, 6)
+
+local title2 = Instanc
