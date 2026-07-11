@@ -3,451 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>النظام المتطور للمعالجة الرسومية</title>
+    <title>Video Capture & Link Checker</title>
     <style>
         :root {
-            --bg-color: #fff5f5; /* أحمر فاتح جداً للموقع بالكامل */
-            --card-bg: #ffe3e3; /* درجة متناسقة أغمق قليلاً للصناديق */
-            --accent-color: #ff4d4d;
-            --accent-hover: #e60000;
-            --text-color: #2b0000;
-            --text-muted: #801a1a;
-            --success-color: #df2020;
-            --border-color: #ffb3b3;
+            --bg: #0b0f19;
+            --panel: #131c2e;
+            --green: #00ff66;
+            --blue: #3b82f6;
+            --red: #ff3366;
+            --text: #ffffff;
+            --muted: #64748b;
+            --border: #1e293b;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #ffe3e3, #ffccd5);
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(223, 32, 32, 0.1);
-            border: 1px solid var(--border-color);
-        }
-
-        header h1 {
-            color: var(--success-color);
-            margin-bottom: 10px;
-            font-size: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .section {
-            background-color: var(--card-bg);
-            border-radius: 15px;
+            width: 100%;
+            max-width: 850px;
+            background: var(--panel);
             padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        .section h2 {
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            font-size: 1.5rem;
-            color: var(--success-color);
+        .upload-zone {
+            border: 2px dashed var(--blue);
+            border-radius: 12px;
+            padding: 30px;
+            cursor: pointer;
+            background: rgba(59, 130, 246, 0.03);
+            margin-bottom: 15px;
         }
 
-        .file-input-wrapper {
-            position: relative;
-            margin-bottom: 20px;
+        #videoInput { display: none; }
+
+        #videoPreview {
+            width: 100%;
+            max-height: 350px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            background: #000;
         }
 
-        input[type="file"] {
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-capture { background: var(--blue); }
+        .btn-copy { background: #475569; display: none; }
+        .btn-check { background: var(--red); width: auto; padding: 0 20px; }
+
+        .progress-container {
+            margin-top: 20px;
             display: none;
         }
 
-        .custom-file-upload {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: var(--accent-color);
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #1e293b;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
-        .custom-file-upload:hover {
-            background-color: var(--accent-hover);
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+        }
+
+        #progressText {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .gallery-container {
+            width: 100%;
+            max-width: 850px;
+            display: none;
+        }
+
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .capture-card {
+            background: #162238;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .capture-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .capture-info {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f172a;
+            font-size: 0.9rem;
         }
 
         .input-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-top: 10px;
         }
 
-        input[type="text"] {
+        .input-group input {
             flex: 1;
             padding: 12px;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: #fff;
-            color: #000;
-            font-size: 1rem;
-        }
-
-        .action-btn {
-            padding: 12px 24px;
-            background-color: var(--success-color);
+            border: 1px solid #4b5563;
+            background: #1f2937;
             color: white;
-            border: none;
+            outline: none;
+            text-align: left;
+        }
+
+        #checkerResult {
+            margin-top: 15px;
+            display: none;
             border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: opacity 0.3s;
-            font-size: 1rem;
-        }
-
-        .action-btn:hover {
-            opacity: 0.9;
-        }
-
-        .bulk-actions {
-            margin: 20px 0;
-            display: none; /* يظهر فقط عند وجود صور */
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .img-card {
-            background-color: #fff;
-            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #374151;
+            background: #000;
         }
 
-        .img-card img {
+        #checkerResult img {
             width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        .img-info {
-            padding: 12px;
-            text-align: center;
-            font-size: 0.95rem;
-            flex-grow: 1;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-        }
-
-        .btn-container {
-            display: flex;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .download-btn {
-            flex: 2;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .download-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .raw-btn {
-            flex: 1;
-            padding: 12px;
-            background-color: #444;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .raw-btn:hover {
-            background-color: #222;
-        }
-
-        .url-image-display {
-            margin-top: 20px;
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .url-image-display img {
-            max-width: 100%;
             max-height: 400px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            object-fit: contain;
+            display: block;
+            cursor: pointer;
         }
 
-        #videoPreview {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .viewer-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
             display: none;
-            border: 2px solid var(--border-color);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
 
-        .status {
+        .viewer-overlay img {
+            max-width: 95%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--red);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
             font-weight: bold;
-            color: var(--success-color);
-            margin: 10px 0;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>نظام التحكم والمعالجة الرسومية المتكامل</h1>
-        <p>نظام تشغيل متطور مخصص لاستخراج تفاصيل الوسائط وعرض البيانات الهيكلية تفصيلياً.</p>
-    </header>
-
     <div class="section">
-        <h2>استدعاء دالة تفكيك مصفوفة الفيديو الرقمية</h2>
-        <div class="file-input-wrapper">
-            <label for="videoInput" class="custom-file-upload">استدعاء ملف الفيديو الحركي</label>
+        <div class="upload-zone" onclick="document.getElementById('videoInput').click()">
             <input type="file" id="videoInput" accept="video/*">
+            <video id="videoPreview" controls></video>
         </div>
-        
-        <video id="videoPreview" controls></video>
-        <div id="processStatus" class="status"></div>
-        
-        <div class="bulk-actions" id="bulkActionsPanel">
-            <button class="action-btn" id="btnDownloadAll">استدعاء دالة حفظ كل الصور المكتشفة دفعة واحدة</button>
+
+        <div class="btn-group">
+            <button id="captureBtn" class="btn btn-capture" style="display:none;">رصد</button>
+            <button id="copyLinksBtn" class="btn btn-copy">نسخ جميع روابط الصور</button>
         </div>
-        
-        <div class="gallery" id="videoGallery"></div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <p id="progressText"></p>
+        </div>
     </div>
 
-    <div class="section">
-        <h2>استدعاء دالة جلب كائنات الصور عبر الرابط المباشر</h2>
+    <div class="gallery-container" id="galleryContainer">
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <div class="section" style="background: #111827;">
         <div class="input-group">
-            <input type="text" id="imageUrlInput" placeholder="أدخل مسار الرابط المطلق للمصفوفة الرسومية...">
-            <button class="action-btn" id="btnFetchUrl">استدعاء دالة معالجة الرابط الخارجي</button>
+            <input type="text" id="urlInput" placeholder="رابط الصورة المباشر" dir="ltr">
+            <button class="btn btn-check" id="checkBtn">فحص</button>
         </div>
-        
-        <div class="url-image-display" id="urlImageBlock">
-            <p style="margin-bottom: 10px; color: var(--text-muted);">معاينة الكائن الرسومي المستدعى:</p>
-            <img id="targetUrlImage" src="" alt="كائن مجهول">
-            <div class="btn-container" style="border-radius: 5px; overflow: hidden;">
-                <button class="download-btn" id="downloadUrlImgBtn">استدعاء دالة حفظ الكائن</button>
-                <button class="raw-btn" id="rawUrlImgBtn">RAW</button>
-            </div>
-        </div>
+        <div id="checkerResult"></div>
     </div>
-</div>
 
-<canvas id="conversionCanvas" style="display: none;"></canvas>
+    <div class="viewer-overlay" id="viewerOverlay">
+        <button class="close-btn" id="closeViewer">X</button>
+        <img id="viewerImage" src="" alt="">
+    </div>
 
-<script>
-    // مصفوفة تخزين الكائنات الرسومية المستخرجة
-    let global_frames_array = [];
+    <canvas id="hiddenCanvas" style="display:none;"></canvas>
 
-    // استدعاء دالة إعداد المستمعات الأساسية للنظام
-    document.getElementById('videoInput').addEventListener('change', function(e) {
-        fn_call_execute_video_pipeline(e);
-    });
+    <script>
+        // تكوين بيانات جيت هاب للرفع
+        const GITHUB_TOKEN = "ضع_التوكن_الخاص_بمستودعك_هنا"; 
+        const GITHUB_REPO = "اسم_المستخدم/اسم_المستودع"; 
+        const GITHUB_BRANCH = "main"; 
 
-    document.getElementById('btnFetchUrl').addEventListener('click', function() {
-        fn_call_fetch_external_resource();
-    });
-
-    document.getElementById('btnDownloadAll').addEventListener('click', function() {
-        fn_call_trigger_bulk_download();
-    });
-
-    // دالة المعالجة الهيكلية لملف الفيديو واستخراج الإطارات الزمنية ثانية بثانية
-    function fn_call_execute_video_pipeline(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
+        const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
-        const videoGallery = document.getElementById('videoGallery');
-        const processStatus = document.getElementById('processStatus');
-        const canvas = document.getElementById('conversionCanvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const copyLinksBtn = document.getElementById('copyLinksBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const galleryContainer = document.getElementById('galleryContainer');
+        const gallery = document.getElementById('gallery');
+        const canvas = document.getElementById('hiddenCanvas');
         const ctx = canvas.getContext('2d');
-        const bulkActionsPanel = document.getElementById('bulkActionsPanel');
+        const viewerOverlay = document.getElementById('viewerOverlay');
+        const viewerImage = document.getElementById('viewerImage');
+        const closeViewer = document.getElementById('closeViewer');
+        const urlInput = document.getElementById('urlInput');
+        const checkBtn = document.getElementById('checkBtn');
+        const checkerResult = document.getElementById('checkerResult');
 
-        const fileURL = URL.createObjectURL(file);
-        videoPreview.src = fileURL;
-        videoPreview.style.display = 'block';
-        videoGallery.innerHTML = ''; 
-        global_frames_array = []; 
-        bulkActionsPanel.style.display = 'none';
-        
-        videoPreview.onloadedmetadata = function() {
-            canvas.width = videoPreview.videoWidth;
-            canvas.height = videoPreview.videoHeight;
-            processStatus.innerText = "حالة النظام: جاري استدعاء دالة الفحص والتقطيع لكل ثانية زمنية...";
-            
-            let duration = Math.floor(videoPreview.duration);
-            let currentTime = 0;
+        let duration = 0;
+        let uploadedLinks = [];
 
-            function fn_call_seek_next_frame() {
-                if (currentTime <= duration) {
-                    videoPreview.currentTime = currentTime;
-                } else {
-                    processStatus.innerText = "حالة النظام: تم اكتمال تشغيل دالة الاستخراج الشاملة بنجاح.";
-                    if(global_frames_array.length > 0) {
-                        bulkActionsPanel.style.display = 'block';
-                    }
-                }
+        videoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                videoPreview.src = URL.createObjectURL(file);
+                videoPreview.style.display = 'block';
+                captureBtn.style.display = 'block';
+                copyLinksBtn.style.display = 'none';
+                gallery.innerHTML = '';
+                galleryContainer.style.display = 'none';
+                progressContainer.style.display = 'none';
+                uploadedLinks = [];
+                videoPreview.onloadedmetadata = function() { duration = videoPreview.duration; };
             }
-
-            videoPreview.onseeked = function() {
-                if (currentTime <= duration) {
-                    ctx.drawImage(videoPreview, 0, 0, canvas.width, canvas.height);
-                    const dataURL = canvas.toDataURL('image/jpeg');
-                    
-                    global_frames_array.push({
-                        base64Data: dataURL,
-                        index: currentTime
-                    });
-                    
-                    const card = document.createElement('div');
-                    card.className = 'img-card';
-                    
-                    const img = document.createElement('img');
-                    img.src = dataURL;
-                    
-                    const info = document.createElement('div');
-                    info.className = 'img-info';
-                    info.innerHTML = `<strong>اللقطة الزمنية:</strong> الثانية ${currentTime}`;
-                    
-                    const btnContainer = document.createElement('div');
-                    btnContainer.className = 'btn-container';
-                    
-                    const downloadBtn = document.createElement('button');
-                    downloadBtn.className = 'download-btn';
-                    downloadBtn.innerText = 'حفظ الصورة';
-                    downloadBtn.onclick = function() {
-                        fn_call_download_single_resource(dataURL, `frame_sec_${currentTime}.jpg`);
-                    };
-                    
-                    const rawBtn = document.createElement('button');
-                    rawBtn.className = 'raw-btn';
-                    rawBtn.innerText = 'RAW';
-                    rawBtn.onclick = function() {
-                        fn_call_open_raw_window(dataURL);
-                    };
-                    
-                    btnContainer.appendChild(downloadBtn);
-                    btnContainer.appendChild(rawBtn);
-                    card.appendChild(img);
-                    card.appendChild(info);
-                    card.appendChild(btnContainer);
-                    videoGallery.appendChild(card);
-                    
-                    currentTime++;
-                    fn_call_seek_next_frame();
-                }
-            };
-
-            fn_call_seek_next_frame();
-        };
-    }
-
-    // دالة فتح نافذة RAW مستقلة لعرض الصورة بالحجم الكامل لتمكين تصويرها بدقة عالية
-    function fn_call_open_raw_window(dataUri) {
-        const rawWindow = window.open();
-        rawWindow.document.write(`<img src="${dataUri}" style="max-width:100%; height:auto; display:block; margin:auto;" />`);
-        rawWindow.document.title = "كائن خام - معالجة كاملة";
-    }
-
-    // دالة تصدير وحفظ كائن مفرد لجهاز المستخدم مباشرة
-    function fn_call_download_single_resource(uri, filename) {
-        const a = document.createElement('a');
-        a.href = uri;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    // دالة الحفظ الشامل المتعدد لكافة الإطارات المستخرجة دفعة واحدة تلقائياً
-    function fn_call_trigger_bulk_download() {
-        if (global_frames_array.length === 0) return;
-        
-        global_frames_array.forEach((item, index) => {
-            setTimeout(() => {
-                fn_call_download_single_resource(item.base64Data, `bulk_frame_sec_${item.index}.jpg`);
-            }, index * 250); // تأخير ربع ثانية متوالي لضمان قبول المتصفح لتحميل الملفات المتعددة
         });
-    }
 
-    // دالة جلب البيانات والروابط الخارجية مع توفير خيارات حفظها وفتحها بنمط RAW
-    function fn_call_fetch_external_resource() {
-        const url = document.getElementById('imageUrlInput').value.trim();
-        const urlBlock = document.getElementById('urlImageBlock');
-        const targetImg = document.getElementById('targetUrlImage');
-        const downloadBtn = document.getElementById('downloadUrlImgBtn');
-        const rawBtn = document.getElementById('rawUrlImgBtn');
-
-        if (!url) {
-            alert('خطأ في استدعاء الدالة: لا توجد بيانات مسار مدخلة.');
-            return;
+        // دالة الرفع إلى GitHub واستخراج رابط الـ raw بنطاق jpg
+        async function uploadToGitHub(base64Data, filename) {
+            if(GITHUB_TOKEN.startsWith("ضع_")) return null;
+            const cleanBase64 = base64Data.split(',')[1];
+            const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${filename}`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Upload ${filename}`,
+                        content: cleanBase64,
+                        branch: GITHUB_BRANCH
+                    })
+                });
+                if(response.ok) {
+                    return `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${filename}`;
+                }
+            } catch(e) { console.error(e); }
+            return null;
         }
 
-        targetImg.src = url;
-        urlBlock.style.display = 'block';
+        captureBtn.addEventListener('click', async function() {
+            if (!duration) return;
+            captureBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            galleryContainer.style.display = 'block';
+            gallery.innerHTML = '';
+            uploadedLinks = [];
 
-        downloadBtn.onclick = async function() {
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                fn_call_download_single_resource(blobUrl, 'external_resource.jpg');
-                URL.revokeObjectURL(blobUrl);
-            } catch (error) {
-                fn_call_download_single_resource(url, 'external_resource.jpg');
+            canvas.width = videoPreview.videoWidth;
+            canvas.height = videoPreview.videoHeight;
+
+            const step = 0.1; 
+            const timestampId = Date.now();
+
+            for (let time = 0; time <= duration; time += step) {
+                videoPreview.currentTime = time;
+                await new Promise(r => videoPreview.onseeked = r);
+
+                ctx.drawImage(videoPreview, 0, 0, canvas.width, canvas.height);
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                const formattedTime = time.toFixed(2).replace('.', ',');
+
+                // رفع الصورة أثناء الرصد حبة حبة
+                const filename = `snap_${timestampId}_${time.toFixed(2).replace('.', '_')}.jpg`;
+                const githubRawUrl = await uploadToGitHub(imgData, filename);
+                
+                if(githubRawUrl) {
+                    uploadedLinks.push(githubRawUrl);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'capture-card';
+                const img = document.createElement('img');
+                img.src = imgData;
+                img.onclick = () => { viewerImage.src = imgData; viewerOverlay.style.display = 'flex'; };
+
+                const info = document.createElement('div');
+                info.className = 'capture-info';
+                info.innerHTML = `<span>⏱️ ${formattedTime}</span>`;
+
+                card.appendChild(img);
+                card.appendChild(info);
+                gallery.appendChild(card);
+
+                const pct = Math.round((time / duration) * 100);
+                progressFill.style.width = pct + '%';
+                progressText.innerText = `${formattedTime}`;
             }
-        };
+            captureBtn.disabled = false;
+            if(uploadedLinks.length > 0) {
+                copyLinksBtn.style.display = 'block';
+            }
+        });
 
-        rawBtn.onclick = function() {
-            fn_call_open_raw_window(url);
-        };
-    }
-</script>
+        // ميزة نسخ جميع الروابط المرسودة بنطاق jpg raw github
+        copyLinksBtn.addEventListener('click', function() {
+            if(uploadedLinks.length === 0) return;
+            const linksText = uploadedLinks.join('\n');
+            navigator.clipboard.writeText(linksText).then(() => {
+                alert('تم نسخ جميع الروابط بنجاح!');
+            });
+        });
 
+        closeViewer.onclick = function() { viewerOverlay.style.display = 'none'; };
+
+        checkBtn.addEventListener('click', function() {
+            const url = urlInput.value.trim();
+            if(!url) return;
+
+            checkerResult.innerHTML = '';
+            checkerResult.style.display = 'block';
+
+            const checkedImg = document.createElement('img');
+            checkedImg.src = url;
+            
+            checkedImg.onload = function() {
+                checkerResult.appendChild(checkedImg);
+                checkedImg.onclick = () => { viewerImage.src = url; viewerOverlay.style.display = 'flex'; };
+            };
+            checkedImg.onerror = function() {
+                checkerResult.innerHTML = `<p style="padding: 15px; color: var(--red);">Error</p>`;
+            };
+        });
+    </script>
 </body>
 </html>
