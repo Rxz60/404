@@ -1,1015 +1,166 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryptoForge · أداة التعديل الاحترافية</title>
-    <!-- Font Awesome 6 (free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
-            background: #0b0d15;
-            color: #e3e6f0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
-        }
-
-        /* Animated background grid */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                linear-gradient(rgba(60, 130, 246, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(60, 130, 246, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 780px;
-            background: rgba(18, 22, 36, 0.85);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(60, 130, 246, 0.2);
-            border-radius: 28px;
-            padding: 40px 35px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-            transition: border-color 0.3s;
-        }
-
-        .container:hover {
-            border-color: rgba(60, 130, 246, 0.4);
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 30px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #3c82f6, #9333ea);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #fff;
-            box-shadow: 0 8px 20px rgba(60, 130, 246, 0.3);
-        }
-
-        .header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            background: linear-gradient(to right, #e3e6f0, #8ab4f8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header .badge {
-            background: #1e293b;
-            border: 1px solid #3c82f6;
-            border-radius: 30px;
-            padding: 4px 14px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            color: #8ab4f8;
-            -webkit-text-fill-color: #8ab4f8;
-        }
-
-        .subtitle {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 28px;
-            margin-top: -10px;
-            padding-right: 62px;
-        }
-
-        /* Upload area */
-        .upload-zone {
-            border: 2px dashed rgba(60, 130, 246, 0.35);
-            border-radius: 18px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(30, 41, 59, 0.4);
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        .upload-zone:hover,
-        .upload-zone.dragover {
-            border-color: #3c82f6;
-            background: rgba(60, 130, 246, 0.08);
-            box-shadow: 0 0 30px rgba(60, 130, 246, 0.08);
-        }
-
-        .upload-zone.has-file {
-            border-color: #22c55e;
-            border-style: solid;
-            background: rgba(34, 197, 94, 0.04);
-            padding: 22px 20px;
-        }
-
-        .upload-zone .icon-big {
-            font-size: 48px;
-            color: #3c82f6;
-            margin-bottom: 12px;
-            opacity: 0.7;
-        }
-
-        .upload-zone.has-file .icon-big {
-            color: #22c55e;
-        }
-
-        .upload-zone h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .upload-zone p {
-            color: #94a3b8;
-            font-size: 14px;
-        }
-
-        .upload-zone input[type="file"] {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        /* File info card */
-        .file-info {
-            display: none;
-            background: #0f1322;
-            border-radius: 14px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(34, 197, 94, 0.15);
-            align-items: center;
-            gap: 14px;
-        }
-
-        .file-info.visible {
-            display: flex;
-        }
-
-        .file-info .fi-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(34, 197, 94, 0.12);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #22c55e;
-            flex-shrink: 0;
-        }
-
-        .file-info .fi-detail {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .file-info .fi-name {
-            font-weight: 600;
-            font-size: 15px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .file-info .fi-meta {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-
-        .file-info .fi-remove {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 6px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .file-info .fi-remove:hover {
-            background: rgba(239, 68, 68, 0.12);
-        }
-
-        /* Config section */
-        .config-section {
-            display: none;
-            margin-bottom: 24px;
-        }
-
-        .config-section.visible {
-            display: block;
-        }
-
-        .config-section .section-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #8ab4f8;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .config-section .section-title i {
-            font-size: 14px;
-        }
-
-        .form-row {
-            margin-bottom: 16px;
-        }
-
-        .form-row label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            color: #c8d0dc;
-            margin-bottom: 6px;
-        }
-
-        .form-row input[type="text"],
-        .form-row input[type="url"] {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0f1322;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            color: #e3e6f0;
-            font-size: 14px;
-            outline: none;
-            transition: border 0.2s;
-        }
-
-        .form-row input:focus {
-            border-color: #3c82f6;
-            box-shadow: 0 0 0 3px rgba(60, 130, 246, 0.12);
-        }
-
-        .form-row input::placeholder {
-            color: #475569;
-        }
-
-        /* Image preview */
-        .icon-preview-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 6px;
-        }
-
-        .icon-preview {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            border: 2px dashed #1e293b;
-            background: #0f1322;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: #475569;
-            flex-shrink: 0;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .icon-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .icon-preview.has-icon {
-            border-color: #3c82f6;
-            border-style: solid;
-        }
-
-        /* Progress bar */
-        .progress-area {
-            display: none;
-            margin-bottom: 20px;
-        }
-
-        .progress-area.visible {
-            display: block;
-        }
-
-        .progress-bar-track {
-            height: 6px;
-            background: #1e293b;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #3c82f6, #9333ea);
-            border-radius: 10px;
-            transition: width 0.2s ease;
-        }
-
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 6px;
-        }
-
-        /* Process button */
-        .btn-process {
-            display: none;
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #3c82f6, #2563eb);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 16px rgba(60, 130, 246, 0.25);
-            letter-spacing: 0.3px;
-        }
-
-        .btn-process.visible {
-            display: block;
-        }
-
-        .btn-process:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(60, 130, 246, 0.35);
-        }
-
-        .btn-process:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-process i {
-            margin-left: 8px;
-        }
-
-        /* Output / Download */
-        .output-section {
-            display: none;
-            margin-top: 24px;
-            background: #0f1322;
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(60, 130, 246, 0.15);
-        }
-
-        .output-section.visible {
-            display: block;
-        }
-
-        .output-section .out-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .output-section .out-header i {
-            color: #22c55e;
-            font-size: 20px;
-        }
-
-        .output-section .out-header h3 {
-            font-size: 17px;
-            font-weight: 600;
-        }
-
-        .output-section .out-details {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-bottom: 16px;
-            line-height: 1.7;
-        }
-
-        .output-section .out-details span {
-            color: #e3e6f0;
-            font-weight: 500;
-        }
-
-        .download-link-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #0b0d15;
-            border-radius: 10px;
-            padding: 10px 14px;
-            border: 1px solid #1e293b;
-            margin-bottom: 12px;
-        }
-
-        .download-link-box input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: #8ab4f8;
-            font-size: 13px;
-            direction: ltr;
-            text-align: left;
-            outline: none;
-            font-family: 'Courier New', monospace;
-        }
-
-        .download-link-box button {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-
-        .download-link-box button:hover {
-            background: rgba(60, 130, 246, 0.1);
-            color: #3c82f6;
-        }
-
-        .btn-download {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
-        }
-
-        .btn-download i {
-            font-size: 18px;
-        }
-
-        .reset-link {
-            display: inline-block;
-            margin-top: 14px;
-            color: #64748b;
-            font-size: 13px;
-            cursor: pointer;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            text-decoration: underline;
-        }
-
-        .reset-link:hover {
-            color: #94a3b8;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 12px;
-            color: #475569;
-        }
-
-        /* Toast notifications */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 14px;
-            color: #e3e6f0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast i {
-            font-size: 16px;
-        }
-
-        .toast.success i { color: #22c55e; }
-        .toast.error i { color: #ef4444; }
-        .toast.info i { color: #3c82f6; }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container { padding: 24px 18px; }
-            .header h1 { font-size: 20px; }
-            .upload-zone { padding: 28px 14px; }
-            .file-info { flex-wrap: wrap; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TRX | HUB - النظام التراكسي</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:'Cairo',sans-serif;padding:20px;overflow-x:hidden}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap');
+.E{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff1a1a,#ff4444,#ff1a1a,transparent);box-shadow:0 0 20px #ff1a1a88;pointer-events:none;z-index:1}
+.E2{bottom:0;top:auto;height:3px;background:linear-gradient(90deg,transparent,#ff1a1a,#ff4444,#ff1a1a,transparent);box-shadow:0 0 20px #ff1a1a88;pointer-events:none;z-index:1;position:fixed;left:0;right:0}
+.E3{position:fixed;top:0;bottom:0;left:0;width:3px;background:linear-gradient(180deg,transparent,#ff1a1a,#ff4444,#ff1a1a,transparent);box-shadow:0 0 20px #ff1a1a88;pointer-events:none;z-index:1}
+.E4{position:fixed;top:0;bottom:0;right:0;width:3px;background:linear-gradient(180deg,transparent,#ff1a1a,#ff4444,#ff1a1a,transparent);box-shadow:0 0 20px #ff1a1a88;pointer-events:none;z-index:1}
+.C{position:relative;z-index:2;width:100%;max-width:780px;background:#111111;border:2px solid #2a0a0a;border-radius:24px;padding:30px 25px 35px;box-shadow:0 0 60px #ff000015,inset 0 0 80px #ff000008}
+.H{text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #2a0a0a}
+.Hr{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.Hi{font-size:38px;line-height:1;filter:drop-shadow(0 0 12px #ff1a1a)}
+.Ht{font-size:28px;font-weight:900;color:#ff1a1a;text-shadow:0 0 20px #ff1a1a66,0 0 60px #ff000033}
+.Hs{font-size:16px;color:#cc9999;margin-top:6px}
+.He{font-size:13px;color:#664444;font-family:'Fira Code',monospace;margin-top:2px;letter-spacing:2px}
+.Hx{font-size:22px;margin-top:8px;color:#ff4444}
+.U{background:rgba(80,10,10,0.25);border:2px dashed #ff333355;border-radius:18px;padding:30px 20px;text-align:center;cursor:pointer;transition:all 0.3s;margin-bottom:22px}
+.U:hover{background:rgba(120,15,15,0.3);border-color:#ff444488}
+.U.drag{background:rgba(180,20,20,0.2);border-color:#ff6666}
+.Up{color:#cc6666;font-size:22px;font-weight:700}
+.Up small{display:block;font-size:14px;font-weight:400;color:#884444;margin-top:6px}
+.Ui{font-size:44px;display:block;margin-bottom:10px;opacity:0.7}
+#fI{display:none}
+.FI{display:none;align-items:center;justify-content:space-between;background:#1a0a0a;border:1px solid #3a1a1a;border-radius:12px;padding:12px 18px;margin-bottom:20px}
+.FI.show{display:flex}
+.FIl{display:flex;align-items:center;gap:12px}
+.FIb{width:42px;height:48px;background:#2a0a0a;border:2px solid #ff333366;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
+.FIn{color:#ddbbbb;font-size:14px;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.FIs{color:#885555;font-size:12px}
+.FIr{display:flex;align-items:center;gap:8px}
+.FIx{background:none;border:none;color:#884444;cursor:pointer;font-size:18px}
+.PB{display:none;height:4px;background:#1a0a0a;border-radius:10px;margin-bottom:16px;overflow:hidden}
+.PB.show{display:block}
+.PF{height:100%;width:0%;background:linear-gradient(90deg,#ff1a1a,#ff5555,#ff1a1a);background-size:200% 100%;animation:PM 1.2s infinite linear;border-radius:10px;transition:width 0.3s}
+@keyframes PM{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.eb{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#6b0f0f,#8b1a1a);border:2px solid #ff333355;border-radius:14px;color:#fff;font-size:20px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.3s;text-shadow:0 0 10px #ff000066;margin-bottom:22px}
+.eb:hover{background:linear-gradient(135deg,#8b1a1a,#aa2222);border-color:#ff666688;box-shadow:0 0 30px #ff000033}
+.eb:disabled{opacity:0.4;cursor:not-allowed}
+.OS{display:none;margin-top:6px}
+.OS.show{display:block}
+.OL{color:#cc8888;font-size:16px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.OL .T{color:#ff1a1a;font-family:'Fira Code',monospace;font-weight:700;font-size:18px}
+.OB{background:#0d0606;border:1px solid #3a1515;border-radius:16px;padding:18px 20px;margin-bottom:14px;min-height:80px;max-height:260px;overflow-y:auto;direction:ltr;text-align:left;font-family:'Fira Code',monospace;font-size:13px;line-height:1.7;color:#ffbbbb;word-break:break-all;white-space:pre-wrap}
+.OB::-webkit-scrollbar{width:5px}
+.OB::-webkit-scrollbar-track{background:#0d0606}
+.OB::-webkit-scrollbar-thumb{background:#4a1a1a;border-radius:10px}
+.AR{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.CB{display:flex;align-items:center;gap:8px;padding:10px 22px;background:#1a0808;border:1px solid #ff333366;border-radius:50px;color:#ffaaaa;font-size:15px;font-weight:600;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.25s}
+.CB:hover{background:#2a0a0a;border-color:#ff666688;color:#ffdddd;box-shadow:0 0 20px #ff000022}
+.CB.ok{background:#0a2a0a;border-color:#33ff3366;color:#88ff88}
+.DT{display:flex;align-items:center;gap:6px;padding:10px 18px;background:#1a0808;border:1px solid #ff333355;border-radius:50px;color:#ffaaaa;font-size:14px;font-weight:600;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.25s}
+.DT:hover{background:#2a0a0a;border-color:#ff666688;color:#ffdddd;box-shadow:0 0 20px #ff000022}
+.FT{margin-top:26px;text-align:center;font-size:12px;color:#442222;border-top:1px solid #1a0a0a;padding-top:16px;font-family:'Fira Code',monospace;letter-spacing:1px}
+.FT span{color:#663333}
+@media(max-width:600px){.C{padding:18px 14px}.Ht{font-size:20px}.Hi{font-size:28px}.Up{font-size:18px}.eb{font-size:17px;padding:14px}.OB{font-size:12px;padding:14px;max-height:180px}.CB{font-size:13px;padding:8px 16px}.DT{font-size:12px;padding:8px 14px}.FIn{max-width:120px}}
+</style>
 </head>
 <body>
 
-<div class="container" id="app">
-    <!-- Header -->
-    <div class="header">
-        <div class="logo-icon">
-            <i class="fas fa-shield-halved"></i>
-        </div>
-        <div>
-            <h1>CryptoForge</h1>
-            <span class="badge">v3.2 PRO</span>
-        </div>
+<div class="E"></div>
+<div class="E2"></div>
+<div class="E3"></div>
+<div class="E4"></div>
+
+<div class="C" id="A">
+  <div class="H">
+    <div class="Hr">
+      <span class="Hi">⚡</span>
+      <span class="Ht">تراكس</span>
+      <span class="Hi">⚡</span>
     </div>
-    <div class="subtitle">
-        <i class="fas fa-microchip"></i> ارفع · عدّل · حمّل — منصة تعديل وتجهيز الملفات
+    <div class="Hs">TRX | HUB — النظام التراكسي</div>
+    <div class="He">// TRX ENCRYPTION SYSTEM v3.7 //</div>
+    <div class="Hx">🔐 تحويل الصور المتقدم إلى كود تشفير 🔐</div>
+  </div>
+
+  <div class="U" id="UA">
+    <span class="Ui">📁</span>
+    <div class="Up">حط الصوره<small>صوره — ملف — ألبوم</small></div>
+    <input type="file" id="fI" accept="image/*,.png,.jpg,.jpeg,.gif,.bmp,.webp,.svg,.txt,.zip,.rar,.pdf,*">
+  </div>
+
+  <div class="FI" id="FI">
+    <div class="FIl">
+      <div class="FIb" id="FIb">📄</div>
+      <div>
+        <div class="FIn" id="FIn">—</div>
+        <div class="FIs" id="FIs">—</div>
+      </div>
     </div>
-
-    <!-- Upload zone -->
-    <div class="upload-zone" id="uploadZone">
-        <div class="icon-big"><i class="fas fa-cloud-arrow-up"></i></div>
-        <h3>ارفع الملف هنا</h3>
-        <p>أو اضغط لاختيار ملف — جميع الصيغ مدعومة</p>
-        <input type="file" id="fileInput" />
+    <div class="FIr">
+      <button class="FIx" onclick="X()">✕</button>
     </div>
+  </div>
 
-    <!-- File info -->
-    <div class="file-info" id="fileInfo">
-        <div class="fi-icon"><i class="fas fa-file"></i></div>
-        <div class="fi-detail">
-            <div class="fi-name" id="fiName">file.exe</div>
-            <div class="fi-meta" id="fiMeta">12.4 MB</div>
-        </div>
-        <button class="fi-remove" id="removeFile" title="إزالة الملف"><i class="fas fa-xmark"></i></button>
+  <div class="PB" id="PB"><div class="PF" id="PF"></div></div>
+  <button class="eb" id="EB" disabled>⚡ شفر الملف — تشفير تراكسي قوي ⚡</button>
+
+  <div class="OS" id="OS">
+    <div class="OL"><span class="T">&lt;/&gt;</span> كود التشفير الناتج</div>
+    <div class="OB" id="OB"></div>
+    <div class="AR">
+      <button class="CB" id="CB"><span>📋</span><span>نسخ الكود</span></button>
+      <button class="DT" id="DT"><span>⬇</span><span>TXT</span></button>
     </div>
+  </div>
 
-    <!-- Config section -->
-    <div class="config-section" id="configSection">
-        <div class="section-title">
-            <i class="fas fa-pen-ruler"></i> تخصيص المخرجات
-        </div>
-
-        <div class="form-row">
-            <label for="appName"><i class="fas fa-tag"></i> اسم التطبيق (App Name)</label>
-            <input type="text" id="appName" placeholder="مثال: Adobe_Updater_v3.exe" />
-        </div>
-
-        <div class="form-row">
-            <label for="iconUrl"><i class="fas fa-image"></i> رابط الصورة (Icon URL) <span style="color:#64748b;font-weight:400;">— اختياري</span></label>
-            <input type="url" id="iconUrl" placeholder="https://example.com/icon.ico أو رابط أي صورة" />
-            <div class="icon-preview-wrapper">
-                <div class="icon-preview" id="iconPreview">
-                    <i class="fas fa-image"></i>
-                </div>
-                <span style="font-size:12px;color:#64748b;">معاينة الأيكونة</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Progress -->
-    <div class="progress-area" id="progressArea">
-        <div class="progress-bar-track">
-            <div class="progress-bar-fill" id="progressFill"></div>
-        </div>
-        <div class="progress-text">
-            <span id="progressLabel">جاري التشفير...</span>
-            <span id="progressPercent">0%</span>
-        </div>
-    </div>
-
-    <!-- Process button -->
-    <button class="btn-process" id="btnProcess" disabled>
-        <i class="fas fa-bolt"></i> بدء المعالجة
-    </button>
-
-    <!-- Output / Download -->
-    <div class="output-section" id="outputSection">
-        <div class="out-header">
-            <i class="fas fa-circle-check"></i>
-            <h3>تم التجهيز بنجاح</h3>
-        </div>
-        <div class="out-details" id="outDetails">
-            اسم الملف: <span id="outFileName">—</span><br/>
-            الحجم: <span id="outFileSize">—</span><br/>
-            التطبيق: <span id="outAppName">—</span>
-        </div>
-        <div class="download-link-box">
-            <input type="text" id="outLink" readonly value="https://cryptoforge.app/dl/..." />
-            <button id="copyLinkBtn" title="نسخ الرابط"><i class="fas fa-copy"></i></button>
-        </div>
-        <a class="btn-download" id="downloadBtn">
-            <i class="fas fa-download"></i> تحميل الملف
-        </a>
-        <br/>
-        <button class="reset-link" id="resetBtn"><i class="fas fa-arrow-rotate-left"></i> معالجة ملف جديد</button>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        CryptoForge v3.2 · بيئة اختبار اختراق معتمدة · جميع العمليات محلية (client-side)
-    </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast">
-    <i class="fas fa-info-circle"></i>
-    <span id="toastMsg">تم</span>
+  <div class="FT"><span>// TRX | HUB — جميع الحقوق محفوظة © 2026 //</span></div>
 </div>
 
 <script>
-    (function() {
-        'use strict';
-
-        // --- DOM refs ---
-        const uploadZone     = document.getElementById('uploadZone');
-        const fileInput      = document.getElementById('fileInput');
-        const fileInfo       = document.getElementById('fileInfo');
-        const fiName         = document.getElementById('fiName');
-        const fiMeta         = document.getElementById('fiMeta');
-        const removeFileBtn  = document.getElementById('removeFile');
-        const configSection  = document.getElementById('configSection');
-        const appNameInput   = document.getElementById('appName');
-        const iconUrlInput   = document.getElementById('iconUrl');
-        const iconPreview    = document.getElementById('iconPreview');
-        const progressArea   = document.getElementById('progressArea');
-        const progressFill   = document.getElementById('progressFill');
-        const progressLabel  = document.getElementById('progressLabel');
-        const progressPercent = document.getElementById('progressPercent');
-        const btnProcess     = document.getElementById('btnProcess');
-        const outputSection  = document.getElementById('outputSection');
-        const outFileName    = document.getElementById('outFileName');
-        const outFileSize    = document.getElementById('outFileSize');
-        const outAppName     = document.getElementById('outAppName');
-        const outLink        = document.getElementById('outLink');
-        const copyLinkBtn    = document.getElementById('copyLinkBtn');
-        const downloadBtn    = document.getElementById('downloadBtn');
-        const resetBtn       = document.getElementById('resetBtn');
-
-        // Toast
-        const toast          = document.getElementById('toast');
-        const toastMsg       = document.getElementById('toastMsg');
-        let toastTimer       = null;
-
-        // --- State ---
-        let selectedFile     = null;     // File object
-        let processedBlob    = null;     // Blob ready for download
-        let processedName    = '';       // Final filename
-        const CHUNK_SIZE     = 2 * 1024 * 1024; // 2MB chunks for progress
-
-        // --- Helpers ---
-        function formatSize(bytes) {
-            if (bytes === 0) return '0 B';
-            const k = 1024;
-            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-        }
-
-        function showToast(msg, type = 'info') {
-            clearTimeout(toastTimer);
-            const iconMap = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-            const icon = iconMap[type] || 'fa-circle-info';
-            toast.innerHTML = `<i class="fas ${icon}"></i><span>${msg}</span>`;
-            toast.className = 'toast show ' + type;
-            toastTimer = setTimeout(() => { toast.classList.remove('show'); }, 3000);
-        }
-
-        function resetAll() {
-            selectedFile = null;
-            processedBlob = null;
-            processedName = '';
-            fileInput.value = '';
-            fileInfo.classList.remove('visible');
-            uploadZone.classList.remove('has-file');
-            configSection.classList.remove('visible');
-            progressArea.classList.remove('visible');
-            btnProcess.classList.remove('visible');
-            outputSection.classList.remove('visible');
-            btnProcess.disabled = true;
-            progressFill.style.width = '0%';
-            progressPercent.textContent = '0%';
-            appNameInput.value = '';
-            iconUrlInput.value = '';
-            iconPreview.innerHTML = '<i class="fas fa-image"></i>';
-            iconPreview.classList.remove('has-icon');
-        }
-
-        function updateIconPreview(url) {
-            if (!url || url.trim() === '') {
-                iconPreview.innerHTML = '<i class="fas fa-image"></i>';
-                iconPreview.classList.remove('has-icon');
-                return;
-            }
-            const img = new Image();
-            img.onload = function() {
-                iconPreview.innerHTML = '';
-                iconPreview.appendChild(img);
-                iconPreview.classList.add('has-icon');
-            };
-            img.onerror = function() {
-                iconPreview.innerHTML = '<i class="fas fa-image" style="color:#ef4444;"></i>';
-                iconPreview.classList.remove('has-icon');
-                showToast('تعذر تحميل الصورة، تأكد من الرابط', 'error');
-            };
-            img.src = url.trim();
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '10px';
-            img.alt = 'icon';
-        }
-
-        // --- File selection ---
-        function handleFile(file) {
-            if (!file) return;
-            selectedFile = file;
-
-            // Show file info
-            fiName.textContent = file.name;
-            fiMeta.textContent = formatSize(file.size);
-            fileInfo.classList.add('visible');
-            uploadZone.classList.add('has-file');
-
-            // Auto-fill app name from filename
-            appNameInput.value = file.name;
-
-            // Show config & process button
-            configSection.classList.add('visible');
-            btnProcess.classList.add('visible');
-            btnProcess.disabled = false;
-
-            // Hide previous output
-            outputSection.classList.remove('visible');
-            processedBlob = null;
-            processedName = '';
-            progressFill.style.width = '0%';
-            progressPercent.textContent = '0%';
-        }
-
-        // --- Events ---
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files && e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
-
-        // Drag & drop
-        uploadZone.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            uploadZone.classList.add('dragover');
-        });
-        uploadZone.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            uploadZone.classList.remove('dragover');
-        });
-        uploadZone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            uploadZone.classList.remove('dragover');
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                handleFile(e.dataTransfer.files[0]);
-                // Sync the file input (can't set FileList directly, but we have the file)
-            }
-        });
-
-        // Remove file
-        removeFileBtn.addEventListener('click', function() {
-            resetAll();
-        });
-
-        // Icon URL preview
-        iconUrlInput.addEventListener('input', function() {
-            updateIconPreview(this.value);
-        });
-
-        // --- Process ---
-        btnProcess.addEventListener('click', async function() {
-            if (!selectedFile) return;
-
-            const customName = appNameInput.value.trim() || selectedFile.name;
-            const iconUrl    = iconUrlInput.value.trim();
-
-            // Disable button
-            btnProcess.disabled = true;
-            btnProcess.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
-
-            // Show progress
-            progressArea.classList.add('visible');
-            progressFill.style.width = '0%';
-            progressPercent.textContent = '0%';
-            progressLabel.textContent = 'جاري تحليل الملف...';
-
-            try {
-                // Simulate processing stages with progress
-                const totalBytes = selectedFile.size;
-                // If file is very small, just use a time-based simulation
-                const useRealProgress = totalBytes > 1024 * 100; // >100KB
-
-                if (useRealProgress) {
-                    // Read file in chunks for realistic progress
-                    const chunks = Math.ceil(totalBytes / CHUNK_SIZE);
-                    const chunksToSimulate = Math.min(chunks, 100); // Max 100 steps
-                    const stepSize = totalBytes / chunksToSimulate;
-
-                    // Stage 1: Reading (0-40%)
-                    progressLabel.textContent = 'جاري فك التشفير...';
-                    let totalRead = 0;
-                    for (let i = 0; i < chunksToSimulate; i++) {
-                        const start = Math.floor(i * stepSize);
-                        const end = Math.min(Math.floor((i + 1) * stepSize), totalBytes);
-                        // Simulate chunk read
-                        await new Promise(r => setTimeout(r, 30 + Math.random() * 40));
-                        totalRead = end;
-                        const pct = Math.min(40, (totalRead / totalBytes) * 40);
-                        progressFill.style.width = pct + '%';
-                        progressPercent.textContent = Math.round(pct) + '%';
-                    }
-
-                    // Stage 2: Processing (40-75%)
-                    progressLabel.textContent = 'جاري تعديل الهيكل وتطبيق الإعدادات...';
-                    for (let i = 0; i < 20; i++) {
-                        await new Promise(r => setTimeout(r, 40 + Math.random() * 60));
-                        const pct = 40 + (i + 1) * 1.75;
-                        progressFill.style.width = pct + '%';
-                        progressPercent.textContent = Math.round(pct) + '%';
-                    }
-
-                    // Stage 3: Repackaging (75-100%)
-                    progressLabel.textContent = 'جاري إعادة التجميع والتوقيع...';
-                    for (let i = 0; i < 15; i++) {
-                        await new Promise(r => setTimeout(r, 30 + Math.random() * 50));
-                        const pct = 75 + (i + 1) * 1.66;
-                        progressFill.style.width = Math.min(pct, 100) + '%';
-                        progressPercent.textContent = Math.round(Math.min(pct, 100)) + '%';
-                    }
-                } else {
-                    // Small file: time-based simulation
-                    const stages = [
-                        { label: 'جاري فك التشفير...', pct: 30, steps: 8 },
-                        { label: 'جاري تعديل الهيكل...', pct: 40, steps: 10 },
-                        { label: 'جاري تطبيق الإعدادات...', pct: 20, steps: 6 },
-                        { label: 'جاري إعادة التجميع...', pct: 10, steps: 4 },
-                    ];
-                    let currentPct = 0;
-                    for (const stage of stages) {
-                        progressLabel.textContent = stage.label;
-                        for (let i = 0; i < stage.steps; i++) {
-                            await new Promise(r => setTimeout(r, 100 + Math.random() * 80));
-                            currentPct += stage.pct / stage.steps;
-                            progressFill.style.width = Math.min(currentPct, 100) + '%';
-                            progressPercent.textContent = Math.round(Math.min(currentPct, 100)) + '%';
-                        }
-                    }
-                }
-
-                // Final: 100%
-                progressFill.style.width = '100%';
-                progressPercent.textContent = '100%';
-                progressLabel.textContent = 'تم بنجاح ✓';
-
-                // Small delay for UX
-                await new Promise(r => setTimeout(r, 400));
-
-                // --- Create output ---
-                // Read original file bytes
-                const originalBuffer = await selectedFile.arrayBuffer();
-
-                // Build metadata payload that we'll prepend (in a real tool this would modify PE/ELF headers)
-                const encoder = new TextEncoder();
-                const metaObj = {
-                    app: customName,
-                    icon: iconUrl || '',
-                    originalName: selectedFile.name,
-                    originalSize: selectedFile.size,
-                    processedBy: 'CryptoForge v3.2',
-                    timestamp: new Date().toISOString()
-                };
-                const metaJson = JSON.stringify(metaObj);
-                const metaBytes = encoder.encode(metaJson);
-
-                // Meta header: 4 bytes for JSON length (Uint32), then JSON, then original file
-                const headerBuf = new ArrayBuffer(4);
-                const headerView = new DataView(headerBuf);
-                headerView.setUint32(0, metaBytes.length, true); // little-endian
-
-                const finalBlob = new Blob([headerBuf, metaBytes, originalBuffer], { type: 'application/octet-stream' });
-
-                processedBlob = finalBlob;
-                processedName = customName;
-
-                // --- Show output ---
-                outFileName.textContent = processedName;
-                outFileSize.textContent = formatSize(finalBlob.size);
-                outAppName.textContent = customName + (iconUrl ? ' (مع أيكونة مخصصة)' : '');
-
-                // Create download link (Object URL)
-                const url = URL.createObjectURL(finalBlob);
-                outLink.value = url;
-                downloadBtn.href = url;
-                downloadBtn.download = processedName;
-
-                outputSection.classList.add('visible');
-
-                showToast('تم تجهيز الملف بنجاح!', 'success');
-
-            } catch (err) {
-                console.error(err);
-                showToast('حدث خطأ أثناء المعالجة: ' + err.message, 'error');
-            } finally {
-                // Re-enable button
-                btnProcess.disabled = false;
-                btnProcess.innerHTML = '<i class="fas fa-bolt"></i> بدء المعالجة';
-            }
-        });
-
-        // --- Copy link ---
-        copyLinkBtn.addEventListener('click', function() {
-            if (outLink.value) {
-                navigator.clipboard.writeText(outLink.value).then(() => {
-                    showToast('تم نسخ الرابط', 'success');
-                }).catch(() => {
-                    // Fallback
-                    outLink.select();
-                    document.execCommand('copy');
-                    showToast('تم نسخ الرابط', 'success');
-                });
-            }
-        });
-
-        // --- Reset ---
-        resetBtn.addEventListener('click', function() {
-            // Clean up Object URL if exists
-            if (outLink.value && outLink.value.startsWith('blob:')) {
-                URL.revokeObjectURL(outLink.value);
-            }
-            resetAll();
-            showToast('تمت إعادة التعيين', 'info');
-        });
-
-        // --- Copy download link box on click ---
-        outLink.addEventListener('click', function() {
-            this.select();
-        });
-
-        console.log('🔧 CryptoForge v3.2 loaded — client-side file processor');
-    })();
+(function(){
+var WM='— تم تشفيرك من قبل تراكس هوب';
+var WI='تم تشفيرك من قبل تراكس';
+function $(i){return document.getElementById(i)}
+var UA=$('UA'),FI=$('fI'),FIB=$('FIb'),FIN=$('FIn'),FIS=$('FIs');
+var FIC=$('FI'),PBR=$('PB'),PFL=$('PF'),EBT=$('EB');
+var OSS=$('OS'),OBB=$('OB'),CBB=$('CB'),DTB=$('DT');
+var CF=null,ER='';
+function sz(n){if(n<1024)return n+' B';if(n<1048576)return(n/1024).toFixed(1)+' KB';return(n/1048576).toFixed(1)+' MB'}
+function prog(p){PBR.classList.add('show');PFL.style.width=Math.min(100,p)+'%';if(p>=100)setTimeout(function(){PBR.classList.remove('show');PFL.style.width='0%'},600)}
+function dl(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function hf(f){if(!f)return;CF=f;FIN.textContent=f.name;FIS.textContent=sz(f.size);FIC.classList.add('show');FIB.textContent=f.type.startsWith('image/')?'🖼️':'📄';EBT.disabled=false;OSS.classList.remove('show');ER=''}
+window.X=function(){CF=null;FI.value='';FIC.classList.remove('show');EBT.disabled=true;OSS.classList.remove('show');ER=''};
+UA.addEventListener('click',function(){FI.click()});
+UA.addEventListener('dragover',function(e){e.preventDefault();UA.classList.add('drag')});
+UA.addEventListener('dragleave',function(){UA.classList.remove('drag')});
+UA.addEventListener('drop',function(e){e.preventDefault();UA.classList.remove('drag');if(e.dataTransfer.files.length)hf(e.dataTransfer.files[0])});
+FI.addEventListener('change',function(){if(FI.files.length)hf(FI.files[0])});
+function hb(d){var h=0xTRACE,i=0,l=d.length,m=l<4096?l:4096;for(i=0;i<m;i++){h=((h<<7)|(h>>>25))^d[i];h=(h*0x9E3779B9)|0}return h>>>0}
+function mk(h,wb){var k=new Uint8Array(64),FX=[0xTR,0xAC,0xE5,0x1D,0xFA,0xCE,0x07,0xBB];for(var i=0;i<64;i++){var v=((h>>>((i%4)*8))&0xFF)^FX[i%8]^(i*0x37&0xFF);if(wb&&wb.length)v^=wb[i%wb.length];v=((v<<3)|(v>>>5))&0xFF;k[i]=v}return k}
+function te(d){
+var e=new Uint8Array(d.length);for(var i=0;i<d.length;i++)e[i]=d[i];
+var h=hb(d),te2=new TextEncoder(),wb=te2.encode(WM),key=mk(h,wb);
+for(var p=0;p<4;p++){var off=p*13+7,tmp=new Uint8Array(e.length);for(var i=0;i<e.length;i++){var ki=(i+off)%key.length,x=e[i];x^=key[ki];x=((x<<3)|(x>>>5))&0xFF;x^=key[(ki+5)%key.length];if(p>=2){x=((x>>1)|(x<<7))&0xFF;x^=key[(ki+9)%key.length]}if(p>=3){x^=(i&0xFF);x=((x<<2)|(x>>6))&0xFF}tmp[i]=x}e=tmp}
+var scr=new Uint8Array(e.length),idx=[];for(var i=0;i<e.length;i++)idx.push(i);var sd=h;for(var i=idx.length-1;i>0;i--){sd=(sd*0x5DEECE66D+0xB)&0xFFFFFFFF;var j=(sd>>>16)%(i+1),t=idx[i];idx[i]=idx[j];idx[j]=t}for(var i=0;i<e.length;i++)scr[idx[i]]=e[i];
+var bin='';for(var i=0;i<scr.length;i++)bin+=String.fromCharCode(scr[i]);var b64=btoa(bin);
+var p1=Math.floor(b64.length/3),p2=Math.floor(b64.length*2/3);return WM+'\n'+b64.slice(0,p1)+WM+b64.slice(p1,p2)+WM+b64.slice(p2)}
+function td(t){
+if(t.indexOf(WM)<0&&t.indexOf(WI)<0)return{err:'⚠ تم حذف العبارة المائية — التشفير دمر بالكامل',data:null};
+var cl=t;if(cl.indexOf(WM+'\n')===0)cl=cl.slice((WM+'\n').length);else if(cl.indexOf(WM)===0)cl=cl.slice(WM.length);
+var i1=cl.indexOf(WM),i2=cl.lastIndexOf(WM),wmf='';
+if(i1>=0&&i2>i1){wmf=cl.slice(i1,i1+WM.length);var bcl=cl.slice(0,i1)+cl.slice(i1+WM.length,i2)+cl.slice(i2+WM.length)}
+else if(i1>=0){wmf=cl.slice(i1,i1+WM.length);var bcl=cl.slice(0,i1)+cl.slice(i1+WM.length)}else return{err:'⚠ العبارة المائية محذوفة — التشفير تالف',data:null};
+if(wmf.indexOf(WI)<0)return{err:'⚠ العبارة المائية معدلة — لا يمكن فك التشفير',data:null};
+var bs;try{bs=atob(bcl)}catch(e){return{err:'⚠ البيانات تالفة — التشفير دمر',data:null}}
+var scr=new Uint8Array(bs.length);for(var i=0;i<bs.length;i++)scr[i]=bs.charCodeAt(i);
+var h2=hb(scr),te2=new TextEncoder(),wb2=te2.encode(wmf),key2=mk(h2,wb2);
+var idx2=[];for(var i=0;i<scr.length;i++)idx2.push(i);var sd2=h2;for(var i=idx2.length-1;i>0;i--){sd2=(sd2*0x5DEECE66D+0xB)&0xFFFFFFFF;var j=(sd2>>>16)%(i+1),t=idx2[i];idx2[i]=idx2[j];idx2[j]=t}
+var unsc=new Uint8Array(scr.length);for(var i=0;i<scr.length;i++)unsc[idx2[i]]=scr[i];
+var dec=new Uint8Array(unsc);
+for(var p=3;p>=0;p--){var off=p*13+7,tmp=new Uint8Array(dec.length);for(var i=0;i<dec.length;i++){var ki=(i+off)%key2.length,x=dec[i];if(p>=3){x=((x<<6)|(x>>2))&0xFF;x^=(i&0xFF)}if(p>=2){x^=key2[(ki+9)%key2.length];x=((x<<1)|(x>>7))&0xFF}x^=key2[(ki+5)%key2.length];x=((x<<5)|(x>>3))&0xFF;x^=key2[ki];tmp[i]=x}dec=tmp}
+return{err:null,data:dec}}
+EBT.addEventListener('click',async function(){if(!CF)return;EBT.disabled=true;EBT.textContent='⚡ جاري التشفير التراكسي ... ⚡';prog(10);try{var buf=await CF.arrayBuffer();prog(30);var d=new Uint8Array(buf);prog(50);await dl(400);prog(70);var enc=te(d);prog(90);await dl(300);prog(100);ER=enc;OBB.textContent=enc;OSS.classList.add('show')}catch(err){OBB.textContent='❌ خطأ: '+err.message;OSS.classList.add('show');ER=''}finally{EBT.disabled=false;EBT.textContent='⚡ شفر الملف — تشفير تراكسي قوي ⚡'}});
+CBB.addEventListener('click',function(){if(!ER)return;navigator.clipboard.writeText(ER).then(function(){var sp=CBB.querySelectorAll('span');sp[0].textContent='✅';sp[1].textContent='تم النسخ!';CBB.classList.add('ok');setTimeout(function(){sp[0].textContent='📋';sp[1].textContent='نسخ الكود';CBB.classList.remove('ok')},2500)}).catch(function(){var ta=document.createElement('textarea');ta.value=ER;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);var sp=CBB.querySelectorAll('span');sp[0].textContent='✅';sp[1].textContent='تم النسخ!';CBB.classList.add('ok');setTimeout(function(){sp[0].textContent='📋';sp[1].textContent='نسخ الكود';CBB.classList.remove('ok')},2500)})});
+DTB.addEventListener('click',function(){if(!ER)return;var bn=CF?CF.name.replace(/\.[^.]+$/,''):'encrypted';var bl=new Blob([ER],{type:'text/plain;charset=utf-8'});var url=URL.createObjectURL(bl);var a=document.createElement('a');a.href=url;a.download=bn+'_encrypted_TRX.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url)});
+})();
 </script>
-
 </body>
 </html>
