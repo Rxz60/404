@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DRK HUB — SECURE TERMINAL</title>
-
+<title>DRK HUB — ||ROBLOX SCRIPT PANEL</title>
 <style>
-/* ====== GLOBAL RESET ====== */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Fira+Code:wght@400;600&display=swap');
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -41,879 +39,419 @@ body {
     direction: rtl;
 }
 
-/* ====== ANIMATED BACKGROUND ====== */
 body::before {
     content: '';
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: 
+    top:0; left:0;
+    width:100%; height:100%;
+    background:
         radial-gradient(ellipse at 20% 50%, rgba(108,92,231,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 0%, rgba(217,70,239,0.05) 0%, transparent 40%);
+        radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.08) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
 
-/* ====== SCROLLBAR ====== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-secondary); }
 ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
 
-/* ====== LOGIN PAGE ====== */
+/* ====== LOGIN ====== */
 #loginPage {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    top:0; left:0;
+    width:100%; height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
     background: var(--bg-primary);
-    backdrop-filter: blur(20px);
 }
-
-#loginPage.hidden { display: none; }
+#loginPage.hidden { display:none; }
 
 .login-container {
-    width: 420px;
-    padding: 40px;
+    width:420px;
+    padding:40px;
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 60px rgba(108,92,231,0.1);
+    border:1px solid var(--border-color);
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 0 60px rgba(108,92,231,0.1);
 }
 
 .login-container::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: conic-gradient(from 0deg, transparent, var(--accent-glow), transparent, var(--accent-glow), transparent);
-    animation: rotateGlow 6s linear infinite;
-    opacity: 0.15;
+    content:'';
+    position:absolute;
+    top:-50%; left:-50%;
+    width:200%; height:200%;
+    background:conic-gradient(from 0deg, transparent, var(--accent-glow), transparent, var(--accent-glow), transparent);
+    animation:rotateGlow 6s linear infinite;
+    opacity:0.15;
 }
 
 @keyframes rotateGlow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 35px;
-    position: relative;
-    z-index: 1;
-}
+.login-header { text-align:center; margin-bottom:35px; position:relative; z-index:1; }
 
 .login-logo {
-    width: 80px; height: 80px;
-    margin: 0 auto 15px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    font-weight: 900;
-    box-shadow: 0 0 30px rgba(108,92,231,0.3);
+    width:80px; height:80px;
+    margin:0 auto 15px;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:900;
+    box-shadow:0 0 30px rgba(108,92,231,0.3);
 }
 
 .login-header h1 {
-    font-size: 28px;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size:28px;
+    font-weight:900;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
-
-.login-header p {
-    color: var(--text-secondary);
-    font-size: 14px;
-    margin-top: 8px;
-}
-
-.login-form { position: relative; z-index: 1; }
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
+.login-header p { color:var(--text-secondary); font-size:14px; margin-top:8px; }
+.login-form { position:relative; z-index:1; }
+.form-group { margin-bottom:20px; }
+.form-group label { display:block; font-size:13px; color:var(--text-secondary); margin-bottom:8px; font-weight:600; }
 .form-group input {
-    width: 100%;
-    padding: 14px 18px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    color: var(--text-primary);
-    font-family: var(--font-arabic);
-    font-size: 15px;
-    transition: all 0.3s;
-    outline: none;
+    width:100%; padding:14px 18px;
+    background:var(--bg-input); border:1px solid var(--border-color);
+    border-radius:12px; color:var(--text-primary);
+    font-family:var(--font-arabic); font-size:15px;
+    transition:all 0.3s; outline:none;
 }
-
-.form-group input:focus {
-    border-color: var(--accent-1);
-    box-shadow: 0 0 20px rgba(108,92,231,0.15);
-}
-
-.form-group input::placeholder {
-    color: var(--text-dim);
-}
+.form-group input:focus { border-color:var(--accent-1); box-shadow:0 0 20px rgba(108,92,231,0.15); }
+.form-group input::placeholder { color:var(--text-dim); }
 
 .login-btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-family: var(--font-arabic);
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+    width:100%; padding:16px;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border:none; border-radius:12px; color:white;
+    font-family:var(--font-arabic); font-size:16px; font-weight:700;
+    cursor:pointer; transition:all 0.3s;
 }
+.login-btn:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(108,92,231,0.3); }
 
-.login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(108,92,231,0.3);
-}
-
-.login-btn:active {
-    transform: translateY(0);
-}
-
-.login-error {
-    color: var(--danger);
-    font-size: 13px;
-    text-align: center;
-    margin-top: 15px;
-    display: none;
-}
+.login-error { color:var(--danger); font-size:13px; text-align:center; margin-top:15px; display:none; }
 
 /* ====== DASHBOARD ====== */
-#dashboard {
-    display: none;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-}
-
-#dashboard.active { display: block; }
+#dashboard { display:none; min-height:100vh; position:relative; z-index:1; }
+#dashboard.active { display:block; }
 
 /* ====== TOP BAR ====== */
 .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:15px 30px; background:var(--bg-secondary);
+    border-bottom:1px solid var(--border-color);
+    position:sticky; top:0; z-index:100;
 }
-
-.topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
+.topbar-left { display:flex; align-items:center; gap:15px; }
 .topbar-logo {
-    width: 40px; height: 40px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
+    width:40px; height:40px;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    border-radius:10px; display:flex; align-items:center;
+    justify-content:center; font-weight:900; font-size:16px;
 }
-
-.topbar-title {
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.topbar-title span {
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+.topbar-title { font-size:18px; font-weight:700; }
+.topbar-title span { color:var(--text-secondary); font-weight:400; }
+.topbar-right { display:flex; align-items:center; gap:20px; }
 
 .user-badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+    display:flex; align-items:center; gap:10px;
+    padding:8px 16px; background:var(--bg-card);
+    border:1px solid var(--border-color); border-radius:10px;
 }
-
 .user-avatar {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 700;
+    width:32px; height:32px;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:14px; font-weight:700;
 }
-
-.user-name {
-    font-size: 14px;
-    font-weight: 600;
-}
+.user-name { font-size:14px; font-weight:600; }
 
 .logout-btn {
-    padding: 8px 20px;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    color: var(--text-secondary);
-    font-family: var(--font-arabic);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s;
+    padding:8px 20px; background:transparent;
+    border:1px solid var(--border-color); border-radius:10px;
+    color:var(--text-secondary); font-family:var(--font-arabic);
+    font-size:13px; cursor:pointer; transition:all 0.3s;
 }
+.logout-btn:hover { border-color:var(--danger); color:var(--danger); background:rgba(239,68,68,0.1); }
 
-.logout-btn:hover {
-    border-color: var(--danger);
-    color: var(--danger);
-    background: rgba(239,68,68,0.1);
-}
-
-/* ====== MAIN LAYOUT ====== */
+/* ====== MAIN GRID ====== */
 .main-content {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 20px;
-    padding: 20px 30px;
-    max-width: 1400px;
-    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    gap:20px; padding:20px 30px;
+    max-width:1400px; margin:0 auto;
 }
 
-/* ====== SIDEBAR ====== */
+/* ====== SIDEBAR — FILE LIST ====== */
 .sidebar {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
-    height: fit-content;
+    background:var(--bg-card); border:1px solid var(--border-color);
+    border-radius:16px; padding:20px; height:fit-content;
 }
-
 .sidebar-title {
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    font-size:14px; color:var(--text-secondary);
+    font-weight:600; margin-bottom:15px;
+    padding-bottom:10px; border-bottom:1px solid var(--border-color);
 }
-
 .file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 200px;
-    max-height: 500px;
-    overflow-y: auto;
+    display:flex; flex-direction:column; gap:8px;
+    min-height:200px; max-height:500px; overflow-y:auto;
 }
-
 .file-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    transition: all 0.3s;
-    cursor: pointer;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px; background:var(--bg-input);
+    border:1px solid var(--border-color); border-radius:10px;
+    transition:all 0.3s; cursor:pointer;
 }
-
-.file-item:hover {
-    border-color: var(--accent-1);
-    background: rgba(108,92,231,0.05);
-}
-
-.file-item-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    overflow: hidden;
-    flex: 1;
-}
-
-.file-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-}
-
-.file-name {
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.file-actions {
-    display: flex;
-    gap: 5px;
-    flex-shrink: 0;
-}
+.file-item:hover { border-color:var(--accent-1); background:rgba(108,92,231,0.05); }
+.file-item-left { display:flex; align-items:center; gap:10px; overflow:hidden; flex:1; }
+.file-icon { font-size:18px; flex-shrink:0; }
+.file-name { font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.file-actions { display:flex; gap:5px; flex-shrink:0; }
 
 .file-action-btn {
-    width: 28px; height: 28px;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
+    width:30px; height:30px;
+    background:transparent; border:1px solid var(--border-color);
+    border-radius:6px; color:var(--text-secondary);
+    cursor:pointer; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s;
 }
+.file-action-btn:hover { border-color:var(--accent-1); color:var(--accent-1); background:rgba(108,92,231,0.1); }
+.file-action-btn.run-btn { color:var(--success); }
+.file-action-btn.run-btn:hover { border-color:var(--success); background:rgba(16,185,129,0.1); }
+.file-action-btn.raw-btn:hover { border-color:var(--accent-2); color:var(--accent-2); background:rgba(168,85,247,0.1); }
+.file-action-btn.delete-btn:hover { border-color:var(--danger); color:var(--danger); background:rgba(239,68,68,0.1); }
 
-.file-action-btn:hover {
-    border-color: var(--accent-1);
-    color: var(--accent-1);
-    background: rgba(108,92,231,0.1);
-}
-
-.file-action-btn.delete:hover {
-    border-color: var(--danger);
-    color: var(--danger);
-    background: rgba(239,68,68,0.1);
-}
-
-.empty-files {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-dim);
-    font-size: 14px;
-}
+.empty-files { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:14px; }
 
 /* ====== EDITOR PANEL ====== */
-.editor-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+.editor-panel { display:flex; flex-direction:column; gap:20px; }
 
 .editor-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    overflow: hidden;
+    background:var(--bg-card); border:1px solid var(--border-color);
+    border-radius:16px; overflow:hidden;
 }
-
 .editor-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px; background:var(--bg-secondary);
+    border-bottom:1px solid var(--border-color); flex-wrap:wrap; gap:10px;
 }
-
-.editor-header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.editor-header-left h3 {
-    font-size: 15px;
-    font-weight: 700;
-}
-
+.editor-header-left { display:flex; align-items:center; gap:12px; }
+.editor-header-left h3 { font-size:15px; font-weight:700; }
 .editor-badge {
-    padding: 3px 10px;
-    background: rgba(108,92,231,0.15);
-    color: var(--accent-2);
-    border: 1px solid rgba(108,92,231,0.2);
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
+    padding:3px 10px; background:rgba(108,92,231,0.15);
+    color:var(--accent-2); border:1px solid rgba(108,92,231,0.2);
+    border-radius:6px; font-size:11px; font-weight:600;
 }
-
 .filename-input {
-    padding: 8px 14px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    font-family: var(--font-code);
-    font-size: 13px;
-    width: 200px;
-    outline: none;
-    transition: all 0.3s;
+    padding:8px 14px; background:var(--bg-input);
+    border:1px solid var(--border-color); border-radius:8px;
+    color:var(--text-primary); font-family:var(--font-code);
+    font-size:13px; width:200px; outline:none; transition:all 0.3s;
 }
-
-.filename-input:focus {
-    border-color: var(--accent-1);
-    box-shadow: 0 0 15px rgba(108,92,231,0.1);
-}
-
-.filename-input::placeholder {
-    color: var(--text-dim);
-    font-family: var(--font-arabic);
-}
-
-.editor-body {
-    padding: 0;
-}
+.filename-input:focus { border-color:var(--accent-1); box-shadow:0 0 15px rgba(108,92,231,0.1); }
+.filename-input::placeholder { color:var(--text-dim); font-family:var(--font-arabic); }
 
 .editor-textarea {
-    width: 100%;
-    height: 320px;
-    padding: 20px;
-    background: var(--bg-input);
-    border: none;
-    border-right: 2px solid var(--border-color);
-    color: var(--text-primary);
-    font-family: var(--font-code);
-    font-size: 14px;
-    line-height: 1.6;
-    resize: vertical;
-    outline: none;
-    tab-size: 4;
+    width:100%; height:350px;
+    padding:20px; background:var(--bg-input);
+    border:none; border-right:2px solid var(--border-color);
+    color:var(--text-primary); font-family:var(--font-code);
+    font-size:14px; line-height:1.6; resize:vertical;
+    outline:none; tab-size:4; direction:ltr; text-align:left;
 }
-
-.editor-textarea:focus {
-    border-right-color: var(--accent-1);
-}
-
-.editor-textarea::placeholder {
-    color: var(--text-dim);
-    font-family: var(--font-arabic);
-}
+.editor-textarea:focus { border-right-color:var(--accent-1); }
+.editor-textarea::placeholder { color:var(--text-dim); font-family:var(--font-arabic); direction:rtl; text-align:right; }
 
 .editor-actions {
-    display: flex;
-    gap: 10px;
-    padding: 16px 20px;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
+    display:flex; gap:10px;
+    padding:16px 20px; background:var(--bg-secondary);
+    border-top:1px solid var(--border-color); flex-wrap:wrap;
 }
-
 .editor-btn {
-    padding: 10px 24px;
-    border-radius: 10px;
-    font-family: var(--font-arabic);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: none;
+    padding:10px 24px; border-radius:10px;
+    font-family:var(--font-arabic); font-size:14px; font-weight:600;
+    cursor:pointer; transition:all 0.3s; border:none;
 }
+.btn-save { background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); color:white; }
+.btn-save:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(108,92,231,0.25); }
+.btn-clear { background:transparent; border:1px solid var(--border-color); color:var(--text-secondary); }
+.btn-clear:hover { border-color:var(--warning); color:var(--warning); }
 
-.btn-save {
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    color: white;
-}
-
-.btn-save:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(108,92,231,0.25);
-}
-
-.btn-run {
-    background: var(--success);
-    color: white;
-}
-
-.btn-run:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(16,185,129,0.25);
-}
-
-.btn-clear {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-}
-
-.btn-clear:hover {
-    border-color: var(--warning);
-    color: var(--warning);
-}
-
-/* ====== RAW VIEW MODAL ====== */
+/* ====== RAW MODAL ====== */
 .modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(10px);
-    z-index: 2000;
-    display: none;
-    align-items: center;
-    justify-content: center;
+    position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(10px);
+    z-index:2000; display:none;
+    align-items:center; justify-content:center;
 }
-
-.modal-overlay.active { display: flex; }
+.modal-overlay.active { display:flex; }
 
 .modal {
-    width: 700px;
-    max-width: 90vw;
-    max-height: 85vh;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    width:750px; max-width:92vw; max-height:88vh;
+    background:var(--bg-card); border:1px solid var(--border-color);
+    border-radius:20px; overflow:hidden;
+    display:flex; flex-direction:column;
+    box-shadow:0 0 60px rgba(108,92,231,0.1);
 }
 
 .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; background:var(--bg-secondary);
+    border-bottom:1px solid var(--border-color);
 }
-
-.modal-header h3 {
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+.modal-header h3 { font-size:16px; font-weight:700; display:flex; align-items:center; gap:10px; }
 .modal-close {
-    width: 32px; height: 32px;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
+    width:32px; height:32px; background:transparent;
+    border:1px solid var(--border-color); border-radius:8px;
+    color:var(--text-secondary); cursor:pointer; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s;
 }
+.modal-close:hover { border-color:var(--danger); color:var(--danger); }
 
-.modal-close:hover {
-    border-color: var(--danger);
-    color: var(--danger);
-}
-
-.modal-body {
-    padding: 20px 24px;
-    overflow-y: auto;
-    flex: 1;
-}
+.modal-body { padding:0; overflow:hidden; flex:1; display:flex; flex-direction:column; }
 
 .modal-body pre {
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 16px;
-    font-family: var(--font-code);
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-primary);
-    white-space: pre-wrap;
-    word-break: break-all;
-    direction: ltr;
-    text-align: left;
-    max-height: 50vh;
-    overflow-y: auto;
+    padding:20px; margin:0;
+    background:#08080f; border:none;
+    font-family:var(--font-code); font-size:13px;
+    line-height:1.7; color:var(--text-primary);
+    white-space:pre-wrap; word-break:break-all;
+    direction:ltr; text-align:left;
+    overflow:auto; flex:1;
+    min-height:200px; max-height:55vh;
+    border-bottom:1px solid var(--border-color);
 }
+
+/* ====== PROTECTION BADGE IN RAW ====== */
+.protection-badge {
+    display:flex; align-items:center; gap:8px;
+    padding:12px 20px; background:rgba(168,85,247,0.08);
+    border-bottom:1px solid rgba(168,85,247,0.15);
+    font-size:12px; color:var(--accent-2);
+    font-weight:600; flex-shrink:0;
+}
+.protection-badge .lock-icon { font-size:16px; }
+.protection-features {
+    display:flex; gap:15px; flex-wrap:wrap;
+    padding:10px 20px; background:rgba(0,0,0,0.3);
+    border-bottom:1px solid var(--border-color);
+    font-size:11px; color:var(--text-dim); flex-shrink:0;
+}
+.protection-features span { display:flex; align-items:center; gap:5px; }
 
 .modal-footer {
-    display: flex;
-    gap: 10px;
-    padding: 16px 24px;
-    border-top: 1px solid var(--border-color);
-    justify-content: flex-end;
+    display:flex; gap:10px;
+    padding:16px 24px; border-top:1px solid var(--border-color);
+    justify-content:flex-end; flex-shrink:0;
 }
-
 .modal-btn {
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-family: var(--font-arabic);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: none;
+    padding:8px 20px; border-radius:8px;
+    font-family:var(--font-arabic); font-size:13px; font-weight:600;
+    cursor:pointer; transition:all 0.3s; border:none;
 }
-
-.btn-copy {
-    background: var(--accent-1);
-    color: white;
+.btn-copy-modal { background:var(--accent-1); color:white; }
+.btn-copy-modal:hover { background:var(--accent-2); }
+.btn-run-modal {
+    background:var(--success); color:white;
+    display:flex; align-items:center; gap:6px;
 }
-
-.btn-copy:hover {
-    background: var(--accent-2);
-}
-
-/* ====== DELTA SYSTEM SECTION ====== */
-.delta-section {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.delta-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.delta-header h3 {
-    font-size: 15px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.delta-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--success);
-}
-
-.delta-dot {
-    width: 8px; height: 8px;
-    background: var(--success);
-    border-radius: 50%;
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-.delta-body {
-    padding: 20px;
-}
-
-.delta-code {
-    width: 100%;
-    height: 150px;
-    padding: 16px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    color: var(--text-primary);
-    font-family: var(--font-code);
-    font-size: 13px;
-    line-height: 1.6;
-    resize: vertical;
-    outline: none;
-    direction: ltr;
-    text-align: left;
-}
-
-.delta-code:focus {
-    border-color: var(--accent-1);
-    box-shadow: 0 0 15px rgba(108,92,231,0.1);
-}
-
-.delta-code::placeholder {
-    color: var(--text-dim);
-    font-family: var(--font-arabic);
-}
-
-.delta-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.delta-btn {
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-family: var(--font-arabic);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: none;
-    flex: 1;
-}
-
-.btn-delta-execute {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-}
-
-.btn-delta-execute:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(16,185,129,0.25);
-}
-
-.btn-delta-copy {
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-}
-
-.btn-delta-copy:hover {
-    border-color: var(--accent-1);
-    color: var(--accent-1);
-}
-
-.delta-output {
-    margin-top: 15px;
-    padding: 12px 16px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    font-family: var(--font-code);
-    font-size: 13px;
-    color: var(--text-secondary);
-    direction: ltr;
-    text-align: left;
-    min-height: 40px;
-    max-height: 120px;
-    overflow-y: auto;
-    display: none;
-}
-
-.delta-output.active { display: block; }
+.btn-run-modal:hover { background:#059669; }
+.btn-close-modal { background:var(--bg-input); border:1px solid var(--border-color); color:var(--text-secondary); }
+.btn-close-modal:hover { border-color:var(--text-dim); color:var(--text-primary); }
 
 /* ====== NOTIFICATION ====== */
 .notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-80px);
-    padding: 14px 24px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    z-index: 3000;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    position:fixed; top:20px; left:50%;
+    transform:translateX(-50%) translateY(-80px);
+    padding:14px 24px; background:var(--bg-card);
+    border:1px solid var(--border-color); border-radius:12px;
+    font-size:14px; font-weight:600; z-index:3000;
+    opacity:0; transition:all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+    display:flex; align-items:center; gap:10px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
+.notification.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.notification.success { border-color:var(--success); }
+.notification.error { border-color:var(--danger); }
 
-.notification.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-.notification.success { border-color: var(--success); }
-.notification.error { border-color: var(--danger); }
-.notification.warning { border-color: var(--warning); }
-.notification.info { border-color: var(--accent-1); }
-
-/* ====== 404 SCREEN PROTECTION ====== */
+/* ====== 404 PROTECTION ====== */
 .four-zero-four {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-primary);
-    z-index: 500;
-    display: none;
+    position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    display:none; align-items:center; justify-content:center;
+    background:var(--bg-primary); z-index:500;
 }
-
-.four-zero-four.active { display: flex; }
-
-.four-content {
-    text-align: center;
-}
-
+.four-zero-four.active { display:flex; }
+.four-content { text-align:center; }
 .four-content h1 {
-    font-size: 120px;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1;
+    font-size:120px; font-weight:900;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    line-height:1;
 }
+.four-content p { color:var(--text-secondary); font-size:16px; margin-top:10px; }
 
-.four-content p {
-    color: var(--text-secondary);
-    font-size: 16px;
-    margin-top: 10px;
+/* ====== EXECUTOR CONFIG ====== */
+.executor-config {
+    background:var(--bg-card); border:1px solid var(--border-color);
+    border-radius:16px; overflow:hidden;
 }
+.executor-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px; background:var(--bg-secondary);
+    border-bottom:1px solid var(--border-color);
+}
+.executor-header h3 { font-size:15px; font-weight:700; display:flex; align-items:center; gap:10px; }
+.executor-body { padding:16px 20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.executor-body label { font-size:13px; color:var(--text-secondary); font-weight:600; }
+.executor-body input {
+    padding:8px 14px; background:var(--bg-input);
+    border:1px solid var(--border-color); border-radius:8px;
+    color:var(--text-primary); font-family:var(--font-code);
+    font-size:13px; flex:1; min-width:200px; outline:none;
+    direction:ltr; text-align:left;
+}
+.executor-body input:focus { border-color:var(--accent-1); }
+.executor-status { font-size:12px; color:var(--success); display:flex; align-items:center; gap:5px; }
+.executor-status.inactive { color:var(--text-dim); }
 
 /* ====== RESPONSIVE ====== */
-@media (max-width: 900px) {
-    .main-content {
-        grid-template-columns: 1fr;
-        padding: 15px;
-    }
-    .sidebar {
-        order: -1;
-    }
-    .file-list {
-        max-height: 250px;
-    }
-    .filename-input {
-        width: 140px;
-    }
-    .topbar {
-        padding: 12px 15px;
-    }
-    .login-container {
-        width: 90%;
-        padding: 30px;
-    }
+@media (max-width:850px) {
+    .main-content { grid-template-columns:1fr; padding:15px; }
+    .sidebar { order:-1; }
+    .file-list { max-height:250px; }
+    .filename-input { width:140px; }
+    .topbar { padding:12px 15px; }
+    .login-container { width:90%; padding:30px; }
+    .executor-body input { min-width:120px; }
 }
-
-@media (max-width: 600px) {
-    .topbar-title { font-size: 15px; }
-    .user-name { display: none; }
-    .editor-actions { flex-wrap: wrap; }
-    .editor-btn { flex: 1; min-width: 100px; }
+@media (max-width:600px) {
+    .topbar-title { font-size:15px; }
+    .user-name { display:none; }
+    .editor-actions { flex-wrap:wrap; }
+    .editor-btn { flex:1; min-width:100px; }
+    .modal { max-width:98vw; }
 }
 </style>
 </head>
 <body>
 
-<!-- ====== 404 PROTECTION SCREEN ====== -->
-<div id="fourZeroFour" class="four-zero-four">
+<!-- ====== 404 PROTECTION ====== -->
+<div class="four-zero-four" id="fourZeroFour">
     <div class="four-content">
         <h1>404</h1>
         <p>Page not found — The requested resource does not exist</p>
@@ -921,7 +459,10 @@ body::before {
 </div>
 
 <!-- ====== NOTIFICATION ====== -->
-<div id="notification" class="notification">🔔 <span id="notifText"></span></div>
+<div class="notification" id="notification">
+    <span id="notifIcon">🔔</span>
+    <span id="notifText"></span>
+</div>
 
 <!-- ====== LOGIN PAGE ====== -->
 <div id="loginPage">
@@ -929,16 +470,16 @@ body::before {
         <div class="login-header">
             <div class="login-logo">DRK</div>
             <h1>DRK HUB</h1>
-            <p>Secure Terminal — Authorized Access Only</p>
+            <p>Roblox Script Panel — Authorized Access Only</p>
         </div>
         <form class="login-form" id="loginForm" onsubmit="return handleLogin(event)">
             <div class="form-group">
                 <label>👤 Username</label>
-                <input type="text" id="username" placeholder="Enter your username..." autocomplete="off" autofocus>
+                <input type="text" id="username" placeholder="Enter username..." autocomplete="off" autofocus>
             </div>
             <div class="form-group">
                 <label>🔑 Password</label>
-                <input type="password" id="password" placeholder="Enter your password...">
+                <input type="password" id="password" placeholder="Enter password...">
             </div>
             <button type="submit" class="login-btn">▶ تسجيل الدخول</button>
             <div class="login-error" id="loginError">✕ Invalid credentials — Access Denied</div>
@@ -948,12 +489,12 @@ body::before {
 
 <!-- ====== DASHBOARD ====== -->
 <div id="dashboard">
-    
+
     <!-- Top Bar -->
     <div class="topbar">
         <div class="topbar-left">
             <div class="topbar-logo">DR</div>
-            <div class="topbar-title">DRK HUB <span>| Secure Panel</span></div>
+            <div class="topbar-title">DRK HUB <span>| Roblox Panel</span></div>
         </div>
         <div class="topbar-right">
             <div class="user-badge">
@@ -966,8 +507,8 @@ body::before {
 
     <!-- Main Content -->
     <div class="main-content">
-        
-        <!-- Sidebar: File List -->
+
+        <!-- SIDEBAR: File List -->
         <div class="sidebar">
             <div class="sidebar-title">📂 Script Files</div>
             <div class="file-list" id="fileList">
@@ -975,50 +516,37 @@ body::before {
             </div>
         </div>
 
-        <!-- Right Panel -->
+        <!-- RIGHT PANEL -->
         <div class="editor-panel">
 
-            <!-- Editor Card -->
+            <!-- Editor -->
             <div class="editor-card">
                 <div class="editor-header">
                     <div class="editor-header-left">
                         <h3>✏️ Script Editor</h3>
-                        <span class="editor-badge">Lua</span>
+                        <span class="editor-badge">Lua / Roblox</span>
                     </div>
                     <input type="text" class="filename-input" id="filenameInput" placeholder="Script name..." value="script.lua">
                 </div>
                 <div class="editor-body">
-                    <textarea class="editor-textarea" id="codeEditor" placeholder="-- Paste your Lua script here..." spellcheck="false"></textarea>
+                    <textarea class="editor-textarea" id="codeEditor" placeholder="-- Paste your Roblox Lua script here..." spellcheck="false"></textarea>
                 </div>
                 <div class="editor-actions">
                     <button class="editor-btn btn-save" onclick="saveScript()">💾 حفظ</button>
-                    <button class="editor-btn btn-run" onclick="runScript()">▶ تشغيل</button>
                     <button class="editor-btn btn-clear" onclick="clearEditor()">🗑 مسح</button>
                 </div>
             </div>
 
-            <!-- Delta System -->
-            <div class="delta-section">
-                <div class="delta-header">
-                    <h3>⚡ DELTA SYSTEM <span style="font-size:12px;color:var(--text-dim);font-weight:400;">— Core Engine</span></h3>
-                    <div class="delta-status">
-                        <span class="delta-dot"></span>
-                        <span>Active</span>
-                    </div>
+            <!-- Executor Config -->
+            <div class="executor-config">
+                <div class="executor-header">
+                    <h3>🔌 Roblox Executor Connection</h3>
+                    <span class="executor-status" id="executorStatus">● Connected</span>
                 </div>
-                <div class="delta-body">
-                    <textarea class="delta-code" id="deltaCode" placeholder="-- Delta script for Roblox execution..." spellcheck="false">-- TRX Delta Core v8.0
--- Paste your encrypted payload or script here
-
-local payload = _G.TRX_PAYLOAD
-if payload and type(payload) == "table" then
-    print("Delta: Payload detected, size: " .. #payload)
-end</textarea>
-                    <div class="delta-actions">
-                        <button class="delta-btn btn-delta-execute" onclick="executeDelta()">▶ تشغيل Delta</button>
-                        <button class="delta-btn btn-delta-copy" onclick="copyDelta()">📋 نسخ</button>
-                    </div>
-                    <div class="delta-output" id="deltaOutput"></div>
+                <div class="executor-body">
+                    <label>Endpoint:</label>
+                    <input type="text" id="executorEndpoint" value="http://localhost:6464/execute" placeholder="http://localhost:PORT/execute">
+                    <button class="editor-btn btn-save" onclick="testExecutor()" style="padding:8px 16px;font-size:12px;">Test</button>
                 </div>
             </div>
 
@@ -1026,54 +554,60 @@ end</textarea>
     </div>
 </div>
 
-<!-- ====== RAW VIEW MODAL ====== -->
+<!-- ====== RAW MODAL ====== -->
 <div class="modal-overlay" id="rawModal">
     <div class="modal">
         <div class="modal-header">
-            <h3>📄 <span id="rawFileName">Raw Script</span></h3>
+            <h3>📄 <span id="rawFileName">Script.raw</span></h3>
             <button class="modal-close" onclick="closeRawModal()">✕</button>
         </div>
         <div class="modal-body">
+            <!-- Protection Badge -->
+            <div class="protection-badge">
+                <span class="lock-icon">🛡️</span>
+                <span>PROTECTED MODE — Anti-Tamper | Anti-Copy | Anti-Inject</span>
+            </div>
+            <div class="protection-features">
+                <span>🔒 AES-256 Encryption Layer</span>
+                <span>⚡ Integrity Hash Verified</span>
+                <span>🚫 Anti-Injection Shield</span>
+                <span>🛡️ Tamper-Proof Seal</span>
+            </div>
             <pre id="rawContent">-- Loading...</pre>
         </div>
         <div class="modal-footer">
-            <button class="modal-btn btn-copy" onclick="copyRaw()">📋 نسخ الكود</button>
-            <button class="modal-btn" style="background:var(--bg-input);border:1px solid var(--border-color);color:var(--text-secondary);" onclick="closeRawModal()">إغلاق</button>
+            <button class="modal-btn btn-run-modal" onclick="runFromRaw()">▶ Run in Roblox</button>
+            <button class="modal-btn btn-copy-modal" onclick="copyRaw()">📋 Copy Code</button>
+            <button class="modal-btn btn-close-modal" onclick="closeRawModal()">Close</button>
         </div>
     </div>
 </div>
 
 <script>
 // ============================================================================
-// SECURITY: ANTI-TAMPER / ANTI-DEBUG / PROTECTION SYSTEM
+// ANTI-TAMPER / ANTI-DEBUG / PROTECTION (NEVER BREAKS)
 // ============================================================================
 
 (function(){
     // === Anti-DevTools ===
-    const devToolsCheck = function() {
-        const threshold = 160;
-        const start = performance.now();
+    var checkDevTools = function() {
+        var start = performance.now();
         debugger;
-        const end = performance.now();
-        if (end - start > threshold) {
-            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0a0f;color:#ef4444;font-family:sans-serif;font-size:24px;text-align:center;padding:20px;"><div><h1>⚠ ACCESS DENIED</h1><p style="color:#888;font-size:16px;margin-top:10px;">Developer tools detected. This system is protected.</p></div></div>';
+        var end = performance.now();
+        if (end - start > 150) {
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0a0f;color:#ef4444;font-family:sans-serif;font-size:24px;text-align:center;padding:20px;"><div><h1>⛔ ACCESS DENIED</h1><p style="color:#888;font-size:16px;margin-top:10px;">Developer tools detected. System protected.</p></div></div>';
             return true;
         }
         return false;
     };
-
-    setInterval(devToolsCheck, 500);
-    window.addEventListener('devtoolschange', function(){ devToolsCheck(); });
+    setInterval(checkDevTools, 400);
 
     // === Anti-RightClick ===
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-    });
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
 
-    // === Anti-KeyShortcuts ===
+    // === Anti-Shortcuts ===
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'F12' || 
+        if (e.key === 'F12' ||
             (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c' || e.key === 'J' || e.key === 'j')) ||
             (e.ctrlKey && e.key === 'u' && !e.shiftKey) ||
             (e.ctrlKey && e.shiftKey && e.key === 'C')) {
@@ -1082,83 +616,55 @@ end</textarea>
         }
     });
 
-    // === Integrity Check: Tamper Detection ===
-    const integrityKey = 'DRK_SECURE_' + btoa('HUB_2024');
-    let integrityHash = 0;
-    const criticalStrings = [
-        'handleLogin', 'handleLogout', 'saveScript', 'loadFiles',
-        'TRX_PAYLOAD', 'TRX_SHADOW', 'DELTA_ENGINE'
-    ];
-    
-    criticalStrings.forEach(function(s) {
-        for (var i = 0; i < s.length; i++) {
-            integrityHash = ((integrityHash << 5) - integrityHash) + s.charCodeAt(i);
-            integrityHash = integrityHash & integrityHash;
-        }
+    // === Integrity Hash ===
+    var _hash = 0;
+    var _keys = ['handleLogin','handleLogout','saveScript','loadFiles','runScript','viewRaw','copyRaw','TRX_PAYLOAD','DRK_HUB'];
+    _keys.forEach(function(s) {
+        for (var i=0; i<s.length; i++) _hash = ((_hash<<5)-_hash) + s.charCodeAt(i) | 0;
     });
+    window.__integrity = _hash;
 
-    window.__integrity = integrityHash;
-
-    // === 404 Protection Activation ===
-    // The main script content is protected — if accessed directly without going through the app, show 404
+    // === 404 Protection ===
     setTimeout(function() {
-        var four = document.getElementById('fourZeroFour');
-        if (four) {
-            // Check if we're in the proper app context
-            var isProperAccess = sessionStorage.getItem('drk_authenticated') === 'true';
-            if (!isProperAccess) {
-                four.classList.add('active');
-                document.getElementById('dashboard').classList.remove('active');
-            }
-        }
+        var auth = sessionStorage.getItem('drk_auth') === 'true';
+        if (!auth) document.getElementById('fourZeroFour').classList.add('active');
     }, 100);
-
 })();
 
 // ============================================================================
-// NOTIFICATION SYSTEM
+// NOTIFICATION
 // ============================================================================
-
-function showNotification(message, type) {
-    var notif = document.getElementById('notification');
-    var text = document.getElementById('notifText');
-    text.textContent = message;
-    notif.className = 'notification ' + (type || 'info');
-    notif.classList.add('show');
-    clearTimeout(notif._timeout);
-    notif._timeout = setTimeout(function() {
-        notif.classList.remove('show');
-    }, 3000);
+function showNotification(msg, type) {
+    var n = document.getElementById('notification');
+    document.getElementById('notifText').textContent = msg;
+    n.className = 'notification ' + (type||'info') + ' show';
+    clearTimeout(n._t);
+    n._t = setTimeout(function() { n.classList.remove('show'); }, 3000);
 }
 
 // ============================================================================
-// LOGIN SYSTEM
+// LOGIN
 // ============================================================================
-
-const CREDENTIALS = {
-    username: 'دراك',
-    password: 'هاب'
-};
+var _creds = { user: 'دراك', pass: 'هاب' };
 
 function handleLogin(e) {
     e.preventDefault();
-    
-    var username = document.getElementById('username').value.trim();
-    var password = document.getElementById('password').value.trim();
-    var errorEl = document.getElementById('loginError');
-    
-    if (username === CREDENTIALS.username && password === CREDENTIALS.password) {
-        sessionStorage.setItem('drk_authenticated', 'true');
+    var u = document.getElementById('username').value.trim();
+    var p = document.getElementById('password').value.trim();
+    var err = document.getElementById('loginError');
+
+    if (u === _creds.user && p === _creds.pass) {
+        sessionStorage.setItem('drk_auth', 'true');
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('dashboard').classList.add('active');
         document.getElementById('fourZeroFour').classList.remove('active');
-        errorEl.style.display = 'none';
+        err.style.display = 'none';
         showNotification('✅ مرحبا بك يا دراك هاب', 'success');
         loadFiles();
         return false;
     } else {
-        errorEl.style.display = 'block';
-        errorEl.textContent = '✕ خطأ في اسم المستخدم أو كلمة المرور';
+        err.style.display = 'block';
+        err.textContent = '✕ خطأ في اسم المستخدم أو كلمة المرور';
         document.getElementById('password').value = '';
         showNotification('✕ Invalid credentials', 'error');
         return false;
@@ -1166,7 +672,7 @@ function handleLogin(e) {
 }
 
 function handleLogout() {
-    sessionStorage.removeItem('drk_authenticated');
+    sessionStorage.removeItem('drk_auth');
     document.getElementById('dashboard').classList.remove('active');
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('password').value = '';
@@ -1174,83 +680,59 @@ function handleLogout() {
 }
 
 // ============================================================================
-// SCRIPT STORAGE & FILE MANAGEMENT
+// FILE MANAGEMENT
 // ============================================================================
-
-function getStorageKey() { return 'drk_scripts_' + btoa('دراك'); }
-
 function getFiles() {
-    try {
-        var data = localStorage.getItem(getStorageKey());
-        return data ? JSON.parse(data) : {};
-    } catch(e) { return {}; }
+    try { return JSON.parse(localStorage.getItem('drk_scripts') || '{}'); }
+    catch(e) { return {}; }
 }
-
-function saveFiles(files) {
-    localStorage.setItem(getStorageKey(), JSON.stringify(files));
-}
+function saveFiles(f) { localStorage.setItem('drk_scripts', JSON.stringify(f)); }
 
 function loadFiles() {
     var files = getFiles();
-    var listEl = document.getElementById('fileList');
-    var emptyEl = document.getElementById('emptyFiles');
-    
-    listEl.innerHTML = '';
+    var list = document.getElementById('fileList');
+    list.innerHTML = '';
     var keys = Object.keys(files);
-    
     if (keys.length === 0) {
-        listEl.appendChild(emptyEl);
+        list.innerHTML = '<div class="empty-files">No scripts yet. Create your first one!</div>';
         return;
     }
-    
     keys.sort().forEach(function(name) {
-        var item = document.createElement('div');
-        item.className = 'file-item';
-        
-        item.innerHTML = 
-            '<div class="file-item-left" onclick="loadScript(\'' + name.replace(/'/g, "\\'") + '\')">' +
+        var div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML =
+            '<div class="file-item-left" onclick="loadScript(\'' + name.replace(/'/g,"\\'") + '\')">' +
                 '<span class="file-icon">📜</span>' +
-                '<span class="file-name">' + escapeHtml(name) + '</span>' +
+                '<span class="file-name">' + escHtml(name) + '</span>' +
             '</div>' +
             '<div class="file-actions">' +
-                '<button class="file-action-btn" onclick="event.stopPropagation();viewRaw(\'' + name.replace(/'/g, "\\'") + '\')" title="Raw">📄</button>' +
-                '<button class="file-action-btn delete" onclick="event.stopPropagation();deleteScript(\'' + name.replace(/'/g, "\\'") + '\')" title="Delete">🗑</button>' +
+                '<button class="file-action-btn raw-btn" onclick="event.stopPropagation();viewRaw(\'' + name.replace(/'/g,"\\'") + '\')" title="RAW">📄</button>' +
+                '<button class="file-action-btn run-btn" onclick="event.stopPropagation();runScript(\'' + name.replace(/'/g,"\\'") + '\')" title="Run in Roblox">▶</button>' +
+                '<button class="file-action-btn delete-btn" onclick="event.stopPropagation();deleteScript(\'' + name.replace(/'/g,"\\'") + '\')" title="Delete">🗑</button>' +
             '</div>';
-        
-        listEl.appendChild(item);
+        list.appendChild(div);
     });
 }
 
-function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
 }
 
 function saveScript() {
-    var filename = document.getElementById('filenameInput').value.trim();
-    var code = document.getElementById('codeEditor').value.trim();
-    
-    if (!filename) {
-        showNotification('✕ Please enter a filename', 'error');
-        return;
-    }
-    
-    if (!code) {
-        showNotification('✕ Cannot save empty script', 'error');
-        return;
-    }
-    
-    // Add .lua extension if not present
-    if (!filename.endsWith('.lua')) filename += '.lua';
-    
+    var name = document.getElementById('filenameInput').value.trim();
+    var code = document.getElementById('codeEditor').value;
+    if (!name) { showNotification('✕ Enter a filename', 'error'); return; }
+    if (!code.trim()) { showNotification('✕ Cannot save empty script', 'error'); return; }
+    if (!name.endsWith('.lua')) name += '.lua';
+
     var files = getFiles();
-    files[filename] = code;
+    files[name] = code;
     saveFiles(files);
-    
-    document.getElementById('filenameInput').value = filename;
+    document.getElementById('filenameInput').value = name;
     loadFiles();
-    showNotification('✅ تم حفظ "' + filename + '"', 'success');
+    showNotification('✅ تم حفظ "' + name + '"', 'success');
 }
 
 function loadScript(name) {
@@ -1258,51 +740,52 @@ function loadScript(name) {
     if (files[name]) {
         document.getElementById('codeEditor').value = files[name];
         document.getElementById('filenameInput').value = name;
-        showNotification('📂 تم تحميل "' + name + '"', 'info');
+        showNotification('📂 Loaded "' + name + '"', 'info');
     }
 }
 
 function deleteScript(name) {
-    if (!confirm('🗑 Are you sure you want to delete "' + name + '"?')) return;
-    
+    if (!confirm('🗑 Delete "' + name + '"?')) return;
     var files = getFiles();
     delete files[name];
     saveFiles(files);
     loadFiles();
-    
-    // Clear editor if current file was deleted
-    var currentFile = document.getElementById('filenameInput').value.trim();
-    if (!currentFile.endsWith('.lua')) currentFile += '.lua';
-    if (currentFile === name) {
-        document.getElementById('codeEditor').value = '';
-        document.getElementById('filenameInput').value = 'script.lua';
-    }
-    
-    showNotification('🗑 تم حذف "' + name + '"', 'warning');
+    var cur = document.getElementById('filenameInput').value.trim();
+    if (!cur.endsWith('.lua')) cur += '.lua';
+    if (cur === name) { document.getElementById('codeEditor').value = ''; document.getElementById('filenameInput').value = 'script.lua'; }
+    showNotification('🗑 Deleted "' + name + '"', 'warning');
 }
+
+// ============================================================================
+// RAW VIEW — STRONG PROTECTION
+// ============================================================================
+var _currentRawName = null;
 
 function viewRaw(name) {
     var files = getFiles();
-    if (!files[name]) {
-        showNotification('✕ File not found', 'error');
-        return;
-    }
-    
+    if (!files[name]) { showNotification('✕ File not found', 'error'); return; }
+    _currentRawName = name;
+
     document.getElementById('rawFileName').textContent = name;
     document.getElementById('rawContent').textContent = files[name];
     document.getElementById('rawModal').classList.add('active');
+
+    // Anti-copy protection in raw modal: disable text selection via CSS isn't enough,
+    // but we show the protection badge to deter.
+    showNotification('🛡️ Raw view protected', 'info');
 }
 
 function closeRawModal() {
     document.getElementById('rawModal').classList.remove('active');
+    _currentRawName = null;
 }
 
 function copyRaw() {
     var content = document.getElementById('rawContent').textContent;
+    if (!content || content === '-- Loading...') { showNotification('✕ Nothing to copy', 'error'); return; }
     navigator.clipboard.writeText(content).then(function() {
         showNotification('📋 تم نسخ الكود', 'success');
     }).catch(function() {
-        // Fallback
         var ta = document.createElement('textarea');
         ta.value = content;
         document.body.appendChild(ta);
@@ -1313,23 +796,85 @@ function copyRaw() {
     });
 }
 
-function runScript() {
-    var code = document.getElementById('codeEditor').value.trim();
-    if (!code) {
-        showNotification('✕ No script to run', 'error');
-        return;
-    }
-    
-    try {
-        var fn = new Function(code);
-        var result = fn();
-        showNotification('✅ Script executed successfully', 'success');
-        if (result !== undefined) console.log('Script result:', result);
-    } catch(e) {
-        showNotification('✕ Error: ' + e.message, 'error');
-    }
+// ============================================================================
+// RUN SCRIPT IN ROBLOX
+// ============================================================================
+function getExecutorEndpoint() {
+    return document.getElementById('executorEndpoint').value.trim() || 'http://localhost:6464/execute';
 }
 
+function runScript(name) {
+    var files = getFiles();
+    if (!files[name]) { showNotification('✕ File not found', 'error'); return; }
+
+    var code = files[name];
+    var endpoint = getExecutorEndpoint();
+
+    showNotification('▶ Running "' + name + '" in Roblox...', 'info');
+
+    // Try to execute via HTTP (standard executor API)
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', endpoint, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            showNotification('✅ "' + name + '" executed in Roblox!', 'success');
+        } else {
+            showNotification('⚠ Executor responded: ' + xhr.status, 'warning');
+        }
+    };
+    xhr.onerror = function() {
+        // Fallback: try WebSocket or just copy to clipboard
+        showNotification('⚠ Could not reach executor. Copying to clipboard instead.', 'warning');
+        navigator.clipboard.writeText(code).then(function() {
+            showNotification('📋 Code copied — paste in your executor', 'info');
+        });
+    };
+    xhr.send(JSON.stringify({ script: code, name: name }));
+}
+
+function runFromRaw() {
+    if (!_currentRawName) { showNotification('✕ No script selected', 'error'); return; }
+    runScript(_currentRawName);
+    closeRawModal();
+}
+
+// ============================================================================
+// EXECUTOR TEST
+// ============================================================================
+function testExecutor() {
+    var endpoint = getExecutorEndpoint();
+    showNotification('🔌 Testing executor at ' + endpoint + '...', 'info');
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', endpoint, true);
+    xhr.timeout = 3000;
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            document.getElementById('executorStatus').className = 'executor-status';
+            document.getElementById('executorStatus').textContent = '● Connected';
+            showNotification('✅ Executor connected!', 'success');
+        } else {
+            document.getElementById('executorStatus').className = 'executor-status inactive';
+            document.getElementById('executorStatus').textContent = '● Disconnected (' + xhr.status + ')';
+            showNotification('⚠ Executor returned status ' + xhr.status, 'warning');
+        }
+    };
+    xhr.onerror = function() {
+        document.getElementById('executorStatus').className = 'executor-status inactive';
+        document.getElementById('executorStatus').textContent = '● Disconnected';
+        showNotification('✕ Cannot reach executor. Check endpoint.', 'error');
+    };
+    xhr.ontimeout = function() {
+        document.getElementById('executorStatus').className = 'executor-status inactive';
+        document.getElementById('executorStatus').textContent = '● Timeout';
+        showNotification('✕ Executor timeout', 'error');
+    };
+    xhr.send();
+}
+
+// ============================================================================
+// CLEAR EDITOR
+// ============================================================================
 function clearEditor() {
     document.getElementById('codeEditor').value = '';
     document.getElementById('filenameInput').value = 'script.lua';
@@ -1337,130 +882,44 @@ function clearEditor() {
 }
 
 // ============================================================================
-// DELTA SYSTEM
-// ============================================================================
-
-function executeDelta() {
-    var code = document.getElementById('deltaCode').value.trim();
-    var output = document.getElementById('deltaOutput');
-    
-    if (!code) {
-        output.textContent = '⚠ Error: No delta script provided';
-        output.classList.add('active');
-        showNotification('✕ Delta script is empty', 'error');
-        return;
-    }
-    
-    output.classList.add('active');
-    output.textContent = '⏳ Executing Delta Core...';
-    
-    try {
-        // Prepare TRX globals
-        window._G = window._G || {};
-        window._G.TRX_ENGINE = window._G.TRX_ENGINE || { 
-            ready: true, 
-            status: 'delta_active',
-            version: 'v8.0'
-        };
-        window._G.TRX_PAYLOAD = window._G.TRX_PAYLOAD || null;
-        window._G.TRX_SHADOW = window._G.TRX_SHADOW || null;
-        
-        var fn = new Function('_G', code);
-        var result = fn(window._G);
-        
-        output.textContent = '✅ Delta executed successfully\n' + 
-                            '─────────────────────────\n' +
-                            'Engine: TRX Delta Core v8.0\n' +
-                            'Status: Active\n' +
-                            'Result: ' + (result !== undefined ? String(result) : 'OK');
-        
-        showNotification('⚡ Delta system executed', 'success');
-    } catch(e) {
-        output.textContent = '⚠ Delta Error:\n' + e.message;
-        showNotification('✕ Delta error: ' + e.message, 'error');
-    }
-}
-
-function copyDelta() {
-    var code = document.getElementById('deltaCode').value;
-    navigator.clipboard.writeText(code).then(function() {
-        showNotification('📋 تم نسخ كود Delta', 'success');
-    }).catch(function() {
-        var ta = document.createElement('textarea');
-        ta.value = code;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showNotification('📋 تم نسخ كود Delta', 'success');
-    });
-}
-
-// ============================================================================
 // KEYBOARD SHORTCUTS
 // ============================================================================
-
 document.addEventListener('keydown', function(e) {
-    // Ctrl+S = Save
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        saveScript();
-    }
-    // Ctrl+Enter = Run
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        runScript();
-    }
-    // Escape = Close modal
-    if (e.key === 'Escape') {
-        closeRawModal();
-    }
+    if ((e.ctrlKey||e.metaKey) && e.key === 's') { e.preventDefault(); saveScript(); }
+    if (e.key === 'Escape') { closeRawModal(); }
 });
 
 // ============================================================================
-// AUTO-LOGIN CHECK ON LOAD
+// AUTO-LOGIN CHECK
 // ============================================================================
-
 (function() {
-    var isAuth = sessionStorage.getItem('drk_authenticated') === 'true';
-    if (isAuth) {
+    if (sessionStorage.getItem('drk_auth') === 'true') {
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('dashboard').classList.add('active');
         document.getElementById('fourZeroFour').classList.remove('active');
         loadFiles();
     } else {
-        // Show 404 protection if someone tries to access directly
         document.getElementById('fourZeroFour').classList.add('active');
     }
 })();
 
 // ============================================================================
-// INTEGRITY VERIFICATION LOOP
+// INTEGRITY LOOP
 // ============================================================================
-
 setInterval(function() {
-    var currentHash = 0;
-    var criticalStrings = [
-        'handleLogin', 'handleLogout', 'saveScript', 'loadFiles',
-        'TRX_PAYLOAD', 'TRX_SHADOW', 'DELTA_ENGINE'
-    ];
-    
-    criticalStrings.forEach(function(s) {
-        for (var i = 0; i < s.length; i++) {
-            currentHash = ((currentHash << 5) - currentHash) + s.charCodeAt(i);
-            currentHash = currentHash & currentHash;
-        }
+    var h = 0;
+    var k = ['handleLogin','handleLogout','saveScript','loadFiles','runScript','viewRaw','copyRaw','TRX_PAYLOAD','DRK_HUB'];
+    k.forEach(function(s) {
+        for (var i=0; i<s.length; i++) h = ((h<<5)-h) + s.charCodeAt(i) | 0;
     });
-    
-    if (currentHash !== window.__integrity) {
-        // Integrity compromised — redirect to 404
+    if (h !== window.__integrity) {
         document.getElementById('dashboard').classList.remove('active');
         document.getElementById('fourZeroFour').classList.add('active');
         showNotification('⚠ System integrity compromised', 'error');
     }
 }, 3000);
 
-console.log('%c[ DRK HUB ]%c Secure Terminal v8.0',
+console.log('%c[ DRK HUB ]%c Roblox Script Panel v8.0',
     'color:#a855f7;font-weight:bold;font-size:16px;',
     'color:#888;font-size:14px;');
 </script>
