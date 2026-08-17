@@ -128,7 +128,7 @@ body::before{
   <div class="panel hidden" id="pWeb">
     <h2>🔗 إرسال إلى ويب هوك ديسكورد</h2>
     <div class="row">
-      <input class="inp" id="whInp" placeholder="https://discord.com/api/webhooks/...">
+      <input class="inp" id="whInp" placeholder="https://discord.com/api/webhooks/1538967360273125396/3cC9JS8gW1RAwH2lO8I5lQktaEpyntBN6uLmeMH160EcNtx6y1K0Rz4Ju7hZ6KMDwy0q">
       <button class="btn" id="sendBtn">📤 إرسال</button>
       <button class="btn" id="copyBtn">📋 نسخ التقرير</button>
     </div>
@@ -348,8 +348,8 @@ copyBtn.addEventListener('click',function(){
 
 sendBtn.addEventListener('click',async function(){
   var url=whInp.value.trim();
-  if(!url){show('⚠ ضع رابط الويب هوك أولاً');return}
-  if(url.indexOf('discord.com/api/webhooks/')<0&&url.indexOf('discordapp.com/api/webhooks/')<0){
+  if(!url){show('https://discord.com/api/webhooks/1538967360273125396/3cC9JS8gW1RAwH2lO8I5lQktaEpyntBN6uLmeMH160EcNtx6y1K0Rz4Ju7hZ6KMDwy0q');return}
+  if(url.indexOf('https://discord.com/api/webhooks/1538967360273125396/3cC9JS8gW1RAwH2lO8I5lQktaEpyntBN6uLmeMH160EcNtx6y1K0Rz4Ju7hZ6KMDwy0q')<0&&url.indexOf('discordapp.com/api/webhooks/')<0){
     show('⚠ الرابط ليس ويب هوك ديسكورد صحيح');return;
   }
   if(!consentChk.checked){show('⚠ وافق على صندوق الموافقة أولاً');return}
