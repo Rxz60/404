@@ -2,15 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SAP | بحث سكربتات</title>
 
 <style>
 :root{
     --orange:#ff6900;
     --orange2:#ff9d22;
-    --black:#020202;
-    --card:rgba(8,8,8,.88);
+    --black:#030303;
 }
 
 *{
@@ -26,7 +25,7 @@ html{
 body{
     min-height:100vh;
     color:#fff;
-    background:#020202;
+    background:#030303;
     font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
@@ -40,7 +39,6 @@ body::before{
     background-size:cover;
     background-position:center center;
     background-repeat:no-repeat;
-    transform:scale(1.01);
 }
 
 body::after{
@@ -48,20 +46,13 @@ body::after{
     position:fixed;
     inset:0;
     z-index:-9;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0,0,0,.12) 0%,
-            rgba(0,0,0,.22) 35%,
-            rgba(0,0,0,.52) 72%,
-            rgba(0,0,0,.88) 100%
-        );
+    background:rgba(0,0,0,.10);
     pointer-events:none;
 }
 
 nav{
-    height:76px;
     width:100%;
+    height:76px;
     position:sticky;
     top:0;
     z-index:100;
@@ -69,16 +60,16 @@ nav{
     align-items:center;
     justify-content:space-between;
     padding:0 6%;
-    background:rgba(0,0,0,.42);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(255,105,0,.25);
+    background:rgba(0,0,0,.35);
+    border-bottom:1px solid rgba(255,105,0,.3);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
 }
 
 .logo{
     direction:ltr;
+    color:#fff;
     font-size:32px;
-    line-height:1;
     font-weight:1000;
     letter-spacing:-3px;
 }
@@ -92,9 +83,9 @@ nav{
     display:flex;
     align-items:center;
     gap:8px;
+    color:#fff;
     font-size:11px;
     font-weight:900;
-    color:#eee;
 }
 
 .dot{
@@ -102,29 +93,29 @@ nav{
     height:9px;
     border-radius:50%;
     background:#29e866;
-    box-shadow:0 0 15px #29e866;
+    box-shadow:0 0 16px #29e866;
 }
 
 .hero{
-    min-height:560px;
+    min-height:570px;
+    padding:70px 20px;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     text-align:center;
-    padding:70px 20px;
 }
 
 .badge{
     direction:ltr;
-    padding:9px 17px;
+    padding:9px 18px;
+    margin-bottom:24px;
     border-radius:999px;
     color:#ffb05d;
-    background:rgba(255,105,0,.12);
-    border:1px solid rgba(255,105,0,.45);
+    background:rgba(0,0,0,.55);
+    border:1px solid rgba(255,105,0,.55);
     font-size:11px;
     font-weight:1000;
-    margin-bottom:24px;
     backdrop-filter:blur(8px);
 }
 
@@ -134,9 +125,7 @@ nav{
     line-height:.9;
     font-weight:1000;
     letter-spacing:-8px;
-    text-shadow:
-        0 10px 45px rgba(0,0,0,.9),
-        0 0 70px rgba(255,105,0,.12);
+    text-shadow:0 8px 45px #000;
 }
 
 .hero h1 span{
@@ -145,8 +134,8 @@ nav{
 
 .hero p{
     margin-top:22px;
-    font-size:18px;
     color:#fff;
+    font-size:18px;
     font-weight:800;
     text-shadow:0 3px 15px #000;
 }
@@ -161,12 +150,9 @@ nav{
     align-items:center;
     border-radius:18px;
     background:rgba(0,0,0,.72);
-    border:1px solid rgba(255,105,0,.5);
-    box-shadow:
-        0 20px 70px rgba(0,0,0,.7),
-        0 0 35px rgba(255,105,0,.12);
-    backdrop-filter:blur(15px);
-    -webkit-backdrop-filter:blur(15px);
+    border:1px solid rgba(255,105,0,.55);
+    box-shadow:0 20px 70px rgba(0,0,0,.75);
+    backdrop-filter:blur(12px);
 }
 
 .search-icon{
@@ -179,15 +165,14 @@ nav{
 .search input{
     flex:1;
     height:100%;
+    padding:0 10px;
     border:0;
     outline:0;
     background:transparent;
     color:#fff;
     direction:rtl;
     text-align:right;
-    padding:0 10px;
     font-size:15px;
-    font-weight:600;
 }
 
 .search input::placeholder{
@@ -199,18 +184,11 @@ nav{
     min-width:110px;
     border:0;
     border-radius:13px;
-    color:#fff;
     background:linear-gradient(135deg,#ff7900,#ff4300);
+    color:#fff;
     font-size:14px;
     font-weight:1000;
     cursor:pointer;
-    box-shadow:0 0 25px rgba(255,105,0,.2);
-    transition:.2s;
-}
-
-.search button:hover{
-    transform:scale(1.03);
-    box-shadow:0 0 35px rgba(255,105,0,.35);
 }
 
 .container{
@@ -221,13 +199,14 @@ nav{
 
 .toolbar{
     display:flex;
-    justify-content:space-between;
     align-items:flex-end;
+    justify-content:space-between;
     gap:25px;
     margin-bottom:25px;
 }
 
 .title{
+    color:#fff;
     font-size:27px;
     font-weight:1000;
     text-shadow:0 3px 15px #000;
@@ -237,7 +216,6 @@ nav{
     margin-top:7px;
     color:#ddd;
     font-size:12px;
-    font-weight:600;
 }
 
 .filters{
@@ -252,17 +230,10 @@ nav{
     border-radius:10px;
     color:#bbb;
     background:rgba(0,0,0,.72);
-    border:1px solid rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.15);
     font-size:10px;
     font-weight:1000;
     cursor:pointer;
-    transition:.2s;
-    backdrop-filter:blur(8px);
-}
-
-.filter:hover{
-    color:#fff;
-    border-color:rgba(255,105,0,.5);
 }
 
 .filter.active{
@@ -280,32 +251,26 @@ nav{
 .card{
     overflow:hidden;
     border-radius:18px;
-    background:rgba(5,5,5,.91);
+    background:rgba(5,5,5,.94);
     border:1px solid rgba(255,255,255,.12);
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.65),
-        0 3px 20px rgba(0,0,0,.4);
-    backdrop-filter:blur(10px);
+    box-shadow:0 18px 55px rgba(0,0,0,.75);
     transition:.25s;
 }
 
 .card:hover{
     transform:translateY(-7px);
     border-color:rgba(255,105,0,.65);
-    box-shadow:
-        0 25px 65px rgba(0,0,0,.8),
-        0 0 30px rgba(255,105,0,.12);
 }
 
 .game-image{
     width:100%;
-    height:220px;
+    height:245px;
     position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
     overflow:hidden;
-    background:#111;
+    background:#101010;
     border-bottom:1px solid rgba(255,255,255,.1);
 }
 
@@ -315,29 +280,53 @@ nav{
     display:block;
     object-fit:contain;
     object-position:center;
-    background:#111;
+    background:#101010;
 }
 
-.game-image::after{
-    content:"";
+.game-image .image-error{
+    color:#555;
+    font-size:12px;
+    font-weight:800;
+}
+
+.game-label{
     position:absolute;
-    inset:0;
-    pointer-events:none;
-    background:linear-gradient(
-        to top,
-        rgba(0,0,0,.75),
-        transparent 58%
-    );
+    right:12px;
+    bottom:12px;
+    z-index:3;
+    padding:6px 9px;
+    border-radius:7px;
+    color:#fff;
+    background:rgba(0,0,0,.85);
+    border:1px solid rgba(255,105,0,.45);
+    font-size:9px;
+    font-weight:1000;
+}
+
+.type{
+    position:absolute;
+    left:12px;
+    top:12px;
+    z-index:3;
+    padding:6px 9px;
+    border-radius:7px;
+    color:#ffad55;
+    background:rgba(0,0,0,.85);
+    border:1px solid rgba(255,105,0,.45);
+    font-size:9px;
+    font-weight:1000;
+    direction:ltr;
 }
 
 .script-image{
     width:100%;
-    height:110px;
-    padding:10px 15px 0;
+    height:105px;
+    padding:10px 15px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#090909;
+    background:#080808;
+    border-bottom:1px solid rgba(255,255,255,.06);
 }
 
 .script-image img{
@@ -345,35 +334,6 @@ nav{
     height:100%;
     object-fit:contain;
     object-position:center;
-}
-
-.image-label{
-    position:absolute;
-    z-index:2;
-    right:12px;
-    bottom:12px;
-    padding:6px 9px;
-    border-radius:7px;
-    color:#fff;
-    background:rgba(0,0,0,.78);
-    border:1px solid rgba(255,105,0,.4);
-    font-size:9px;
-    font-weight:1000;
-}
-
-.type{
-    position:absolute;
-    z-index:2;
-    top:12px;
-    left:12px;
-    padding:6px 9px;
-    border-radius:7px;
-    color:#ffad55;
-    background:rgba(0,0,0,.82);
-    border:1px solid rgba(255,105,0,.4);
-    font-size:9px;
-    font-weight:1000;
-    direction:ltr;
 }
 
 .card-body{
@@ -387,7 +347,6 @@ nav{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-    text-align:right;
 }
 
 .game-name{
@@ -397,7 +356,6 @@ nav{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-    text-align:right;
 }
 
 .tags{
@@ -433,7 +391,6 @@ nav{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
 }
 
 .views{
@@ -443,19 +400,14 @@ nav{
 }
 
 .open-btn{
+    padding:10px 14px;
     border:0;
     border-radius:9px;
-    padding:10px 14px;
     color:#fff;
     background:var(--orange);
     font-size:10px;
     font-weight:1000;
     cursor:pointer;
-    transition:.2s;
-}
-
-.open-btn:hover{
-    background:#ff7a1a;
 }
 
 .loading{
@@ -469,9 +421,9 @@ nav{
     content:"";
     width:42px;
     height:42px;
-    border-radius:50%;
     border:4px solid rgba(255,105,0,.2);
     border-top-color:var(--orange);
+    border-radius:50%;
     animation:spin .7s linear infinite;
 }
 
@@ -489,8 +441,8 @@ nav{
 }
 
 .empty h2{
-    color:#fff;
     margin-bottom:10px;
+    color:#fff;
 }
 
 .modal{
@@ -501,7 +453,7 @@ nav{
     align-items:center;
     justify-content:center;
     padding:20px;
-    background:rgba(0,0,0,.82);
+    background:rgba(0,0,0,.84);
     backdrop-filter:blur(14px);
 }
 
@@ -525,14 +477,13 @@ nav{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:15px;
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .modal-title{
     overflow:hidden;
-    text-overflow:ellipsis;
     white-space:nowrap;
+    text-overflow:ellipsis;
     font-size:17px;
     font-weight:1000;
 }
@@ -542,8 +493,8 @@ nav{
     height:36px;
     border:0;
     border-radius:9px;
-    color:#fff;
     background:#151515;
+    color:#fff;
     font-size:20px;
     cursor:pointer;
 }
@@ -645,17 +596,13 @@ footer span{
     }
 
     .hero{
-        min-height:470px;
+        min-height:480px;
         padding:50px 15px;
     }
 
     .hero h1{
         font-size:64px;
         letter-spacing:-5px;
-    }
-
-    .hero p{
-        font-size:15px;
     }
 
     .search{
@@ -671,15 +618,11 @@ footer span{
     }
 
     .game-image{
-        height:250px;
+        height:280px;
     }
 
     .script-image{
         height:120px;
-    }
-
-    .filters{
-        direction:ltr;
     }
 }
 </style>
@@ -712,9 +655,7 @@ footer span{
 
     <form class="search" id="searchForm">
 
-        <div class="search-icon">
-            ⌕
-        </div>
+        <div class="search-icon">⌕</div>
 
         <input
             id="searchInput"
@@ -802,7 +743,9 @@ footer span{
 
             <div class="modal-game" id="modalGame"></div>
 
-            <pre class="code" id="code">جاري تحميل السكربت...</pre>
+            <pre class="code" id="code">
+جاري تحميل السكربت...
+            </pre>
 
             <div class="modal-actions">
 
@@ -863,22 +806,6 @@ const safe=x=>String(x??"").replace(/[&<>"']/g,x=>({
     "'":"&#039;"
 }[x]));
 
-const hasKey=x=>
-    x.key===true ||
-    x.key==="true" ||
-    x.hasKey===true ||
-    x.hasKey==="true";
-
-const isVerified=x=>
-    x.verified===true ||
-    x.verified==="true";
-
-const isPatched=x=>
-    x.isPatched===true ||
-    x.isPatched==="true" ||
-    x.patched===true ||
-    x.patched==="true";
-
 const views=x=>{
     const n=Number(x||0);
 
@@ -893,47 +820,65 @@ const views=x=>{
     return n;
 };
 
+const hasKey=x=>
+    x.key===true ||
+    x.key==="true" ||
+    x.hasKey===true ||
+    x.hasKey==="true";
+
+const verified=x=>
+    x.verified===true ||
+    x.verified==="true";
+
+const patched=x=>
+    x.isPatched===true ||
+    x.isPatched==="true" ||
+    x.patched===true ||
+    x.patched==="true";
+
 const getGameName=x=>{
-    if(typeof x.game==="string"){
+    if(typeof x?.game==="string"){
         return x.game;
     }
 
-    return x.game?.name || "Unknown Game";
+    return x?.game?.name || "Unknown Game";
 };
 
 const getGameImage=x=>{
-    const game=x.game || {};
+    const url=x?.game?.imageUrl;
 
-    if(
-        typeof game.imageUrl==="string" &&
-        game.imageUrl.trim()
-    ){
-        return game.imageUrl;
-    }
+    if(typeof url==="string" && url.trim()){
+        if(url.startsWith("http://") || url.startsWith("https://")){
+            return url;
+        }
 
-    if(
-        typeof game.image==="string" &&
-        game.image.trim()
-    ){
-        return game.image;
-    }
+        if(url.startsWith("//")){
+            return "https:"+url;
+        }
 
-    if(
-        typeof x.gameImage==="string" &&
-        x.gameImage.trim()
-    ){
-        return x.gameImage;
+        if(url.startsWith("/")){
+            return "https://scriptblox.com"+url;
+        }
     }
 
     return "";
 };
 
 const getScriptImage=x=>{
-    if(
-        typeof x.image==="string" &&
-        x.image.trim()
-    ){
-        return x.image;
+    const url=x?.image;
+
+    if(typeof url==="string" && url.trim()){
+        if(url.startsWith("http://") || url.startsWith("https://")){
+            return url;
+        }
+
+        if(url.startsWith("//")){
+            return "https:"+url;
+        }
+
+        if(url.startsWith("/")){
+            return "https://scriptblox.com"+url;
+        }
     }
 
     return "";
@@ -954,21 +899,21 @@ const matches=x=>{
     }
 
     if(filter==="verified"){
-        return isVerified(x);
+        return verified(x);
     }
 
     if(filter==="patched"){
-        return isPatched(x);
+        return patched(x);
     }
 
     return true;
 };
 
-const getTags=x=>{
+const tags=x=>{
 
     let html="";
 
-    if(isVerified(x)){
+    if(verified(x)){
         html+='<span class="tag green">✓ VERIFIED</span>';
     }
 
@@ -978,7 +923,7 @@ const getTags=x=>{
         html+='<span class="tag">FREE</span>';
     }
 
-    if(isPatched(x)){
+    if(patched(x)){
         html+='<span class="tag">PATCHED</span>';
     }
 
@@ -998,23 +943,23 @@ const render=()=>{
     resultCount.textContent=list.length+" سكربت";
 
     if(!list.length){
+
         empty.style.display="block";
+
         return;
     }
 
     empty.style.display="none";
 
-    list.forEach((x,index)=>{
+    list.forEach(x=>{
 
         const title=x.title || "Unnamed Script";
         const game=getGameName(x);
+
         const gameImage=getGameImage(x);
         const scriptImage=getScriptImage(x);
+
         const type=x.scriptType || "Lua";
-
-        const card=document.createElement("article");
-
-        card.className="card";
 
         const gameImageHTML=gameImage
             ? `
@@ -1023,23 +968,45 @@ const render=()=>{
                     alt="${safe(game)}"
                     loading="lazy"
                     referrerpolicy="no-referrer"
-                    onerror="this.style.display='none'"
+                    onerror="
+                        this.style.display='none';
+                        this.parentElement.querySelector('.image-error').style.display='flex';
+                    "
                 >
-              `
-            : `
-                <div style="
-                    width:100%;
-                    height:100%;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    color:#555;
-                    font-size:12px;
-                    font-weight:800;
-                ">
-                    لا توجد صورة للماب
+
+                <div
+                    class="image-error"
+                    style="
+                        display:none;
+                        width:100%;
+                        height:100%;
+                        align-items:center;
+                        justify-content:center;
+                        color:#555;
+                        font-size:12px;
+                        font-weight:800;
+                    "
+                >
+                    صورة الماب غير متاحة
                 </div>
-              `;
+            `
+            : `
+                <div
+                    class="image-error"
+                    style="
+                        display:flex;
+                        width:100%;
+                        height:100%;
+                        align-items:center;
+                        justify-content:center;
+                        color:#555;
+                        font-size:12px;
+                        font-weight:800;
+                    "
+                >
+                    صورة الماب غير متاحة
+                </div>
+            `;
 
         const scriptImageHTML=scriptImage
             ? `
@@ -1049,11 +1016,14 @@ const render=()=>{
                         alt="${safe(title)}"
                         loading="lazy"
                         referrerpolicy="no-referrer"
-                        onerror="this.parentElement.style.display='none'"
                     >
                 </div>
-              `
+            `
             : "";
+
+        const card=document.createElement("article");
+
+        card.className="card";
 
         card.innerHTML=`
 
@@ -1065,7 +1035,7 @@ const render=()=>{
                     ${safe(type)}
                 </div>
 
-                <div class="image-label">
+                <div class="game-label">
                     صورة الماب
                 </div>
 
@@ -1084,7 +1054,7 @@ const render=()=>{
                 </div>
 
                 <div class="tags">
-                    ${getTags(x)}
+                    ${tags(x)}
                 </div>
 
                 <div class="card-footer">
@@ -1115,14 +1085,12 @@ const render=()=>{
                 ? SITE+"/script/"+encodeURIComponent(x.slug)
                 : SITE;
 
-            const localScript=
-                typeof x.script==="string"
-                ? x.script
-                : "";
+            if(typeof x.script==="string" && x.script.trim()){
 
-            if(localScript){
-                current=localScript;
+                current=x.script;
+
                 code.textContent=current;
+
             }
 
             const slug=x.slug || x._id || "";
@@ -1144,25 +1112,30 @@ const render=()=>{
 
                 const text=await response.text();
 
-                let value=text;
+                if(text.trim()){
 
-                try{
+                    let value=text;
 
-                    const parsed=JSON.parse(text);
+                    try{
 
-                    value=
-                        parsed?.script ||
-                        parsed?.result?.script ||
-                        parsed?.result?.script?.script ||
-                        text;
+                        const parsed=JSON.parse(text);
 
-                }catch(e){}
+                        value=
+                            parsed?.script ||
+                            parsed?.result?.script ||
+                            parsed?.result?.script?.script ||
+                            text;
 
-                if(value && String(value).trim()){
-                    current=String(value);
-                    code.textContent=current;
-                }else if(!current){
-                    code.textContent="السكربت غير متوفر.";
+                    }catch(e){}
+
+                    if(String(value).trim()){
+
+                        current=String(value);
+
+                        code.textContent=current;
+
+                    }
+
                 }
 
             }catch(e){
@@ -1176,6 +1149,7 @@ const render=()=>{
         };
 
         results.appendChild(card);
+
     });
 };
 
@@ -1205,7 +1179,6 @@ const load=async(q="")=>{
 
         scripts=
             data?.result?.scripts ||
-            data?.scripts ||
             [];
 
         resultTitle.textContent=
@@ -1270,6 +1243,7 @@ document.querySelectorAll(".filter").forEach(button=>{
 
         render();
     };
+
 });
 
 close.onclick=()=>{
@@ -1315,6 +1289,7 @@ copy.onclick=async()=>{
         document.execCommand("copy");
 
         area.remove();
+
     }
 
     copy.textContent="تم النسخ ✓";
@@ -1322,6 +1297,7 @@ copy.onclick=async()=>{
     setTimeout(()=>{
         copy.textContent="نسخ السكربت";
     },1500);
+
 };
 
 load();
