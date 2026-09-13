@@ -2,1310 +2,189 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<meta property="og:title" content="SAP">
-<meta property="og:description" content="موقع SAP + موثوق">
-<meta property="og:image" content="https://raw.githubusercontent.com/Rxz60/404/refs/heads/main/IMG_5190.jpeg">
-<meta property="og:type" content="website">
-
-<title>SAP | بحث سكربتات</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥 DARK AI 🔥</title>
 <style>
-:root{
-    --orange:#ff6900;
-    --orange2:#ff9d22;
-    --black:#030303;
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    min-height:100vh;
-    color:#fff;
-    background:#030303;
-    font-family:Arial,Helvetica,sans-serif;
-    overflow-x:hidden;
-}
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-10;
-    background-image:url("https://raw.githubusercontent.com/Rxz60/404/refs/heads/main/IMG_5190.jpeg");
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-9;
-    background:rgba(0,0,0,.10);
-    pointer-events:none;
-}
-
-nav{
-    width:100%;
-    height:76px;
-    position:sticky;
-    top:0;
-    z-index:100;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 6%;
-    background:rgba(0,0,0,.35);
-    border-bottom:1px solid rgba(255,105,0,.3);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-}
-
-.logo{
-    direction:ltr;
-    color:#fff;
-    font-size:32px;
-    font-weight:1000;
-    letter-spacing:-3px;
-}
-
-.logo span{
-    color:var(--orange);
-}
-
-.status{
-    direction:ltr;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:#fff;
-    font-size:11px;
-    font-weight:900;
-}
-
-.dot{
-    width:9px;
-    height:9px;
-    border-radius:50%;
-    background:#29e866;
-    box-shadow:0 0 16px #29e866;
-}
-
-.hero{
-    min-height:570px;
-    padding:70px 20px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-}
-
-.badge{
-    direction:ltr;
-    padding:9px 18px;
-    margin-bottom:24px;
-    border-radius:999px;
-    color:#ffb05d;
-    background:rgba(0,0,0,.55);
-    border:1px solid rgba(255,105,0,.55);
-    font-size:11px;
-    font-weight:1000;
-    backdrop-filter:blur(8px);
-}
-
-.hero h1{
-    direction:ltr;
-    font-size:clamp(60px,11vw,125px);
-    line-height:.9;
-    font-weight:1000;
-    letter-spacing:-8px;
-    text-shadow:0 8px 45px #000;
-}
-
-.hero h1 span{
-    color:var(--orange);
-}
-
-.hero p{
-    margin-top:22px;
-    color:#fff;
-    font-size:18px;
-    font-weight:800;
-    text-shadow:0 3px 15px #000;
-}
-
-.search{
-    width:min(820px,95vw);
-    height:67px;
-    margin-top:35px;
-    padding:7px;
-    display:flex;
-    direction:ltr;
-    align-items:center;
-    border-radius:18px;
-    background:rgba(0,0,0,.72);
-    border:1px solid rgba(255,105,0,.55);
-    box-shadow:0 20px 70px rgba(0,0,0,.75);
-    backdrop-filter:blur(12px);
-}
-
-.search-icon{
-    width:48px;
-    color:var(--orange);
-    font-size:29px;
-    text-align:center;
-}
-
-.search input{
-    flex:1;
-    height:100%;
-    padding:0 10px;
-    border:0;
-    outline:0;
-    background:transparent;
-    color:#fff;
-    direction:rtl;
-    text-align:right;
-    font-size:15px;
-}
-
-.search input::placeholder{
-    color:#aaa;
-}
-
-.search button{
-    height:100%;
-    min-width:110px;
-    border:0;
-    border-radius:13px;
-    background:linear-gradient(135deg,#ff7900,#ff4300);
-    color:#fff;
-    font-size:14px;
-    font-weight:1000;
-    cursor:pointer;
-}
-
-.container{
-    width:min(1450px,94%);
-    margin:auto;
-    padding-bottom:100px;
-}
-
-.toolbar{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap:25px;
-    margin-bottom:25px;
-}
-
-.title{
-    color:#fff;
-    font-size:27px;
-    font-weight:1000;
-    text-shadow:0 3px 15px #000;
-}
-
-.count{
-    margin-top:7px;
-    color:#ddd;
-    font-size:12px;
-}
-
-.filters{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    direction:ltr;
-}
-
-.filter{
-    padding:9px 15px;
-    border-radius:10px;
-    color:#bbb;
-    background:rgba(0,0,0,.72);
-    border:1px solid rgba(255,255,255,.15);
-    font-size:10px;
-    font-weight:1000;
-    cursor:pointer;
-}
-
-.filter.active{
-    color:#fff;
-    background:var(--orange);
-    border-color:var(--orange);
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.card{
-    overflow:hidden;
-    border-radius:18px;
-    background:rgba(5,5,5,.94);
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow:0 18px 55px rgba(0,0,0,.75);
-    transition:.25s;
-}
-
-.card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(255,105,0,.65);
-}
-
-.game-image{
-    width:100%;
-    height:245px;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    background:#101010;
-    border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-.game-image img{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:contain;
-    object-position:center;
-    background:#101010;
-}
-
-.game-image .image-error{
-    color:#555;
-    font-size:12px;
-    font-weight:800;
-}
-
-.game-label{
-    position:absolute;
-    right:12px;
-    bottom:12px;
-    z-index:3;
-    padding:6px 9px;
-    border-radius:7px;
-    color:#fff;
-    background:rgba(0,0,0,.85);
-    border:1px solid rgba(255,105,0,.45);
-    font-size:9px;
-    font-weight:1000;
-}
-
-.type{
-    position:absolute;
-    left:12px;
-    top:12px;
-    z-index:3;
-    padding:6px 9px;
-    border-radius:7px;
-    color:#ffad55;
-    background:rgba(0,0,0,.85);
-    border:1px solid rgba(255,105,0,.45);
-    font-size:9px;
-    font-weight:1000;
-    direction:ltr;
-}
-
-.script-image{
-    width:100%;
-    height:105px;
-    padding:10px 15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#080808;
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.script-image img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    object-position:center;
-}
-
-.card-body{
-    padding:16px;
-}
-
-.card-title{
-    color:#fff;
-    font-size:16px;
-    font-weight:1000;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.game-name{
-    margin-top:7px;
-    color:#aaa;
-    font-size:12px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-top:13px;
-    direction:ltr;
-}
-
-.tag{
-    padding:5px 7px;
-    border-radius:6px;
-    color:#aaa;
-    background:#111;
-    border:1px solid rgba(255,255,255,.12);
-    font-size:8px;
-    font-weight:1000;
-}
-
-.tag.orange{
-    color:#ff9d22;
-    border-color:rgba(255,105,0,.35);
-}
-
-.tag.green{
-    color:#45eb7a;
-    border-color:rgba(69,235,122,.25);
-}
-
-.card-footer{
-    margin-top:16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.views{
-    direction:ltr;
-    color:#888;
-    font-size:10px;
-}
-
-.open-btn{
-    padding:10px 14px;
-    border:0;
-    border-radius:9px;
-    color:#fff;
-    background:var(--orange);
-    font-size:10px;
-    font-weight:1000;
-    cursor:pointer;
-}
-
-.loading{
-    min-height:320px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.loading::after{
-    content:"";
-    width:42px;
-    height:42px;
-    border:4px solid rgba(255,105,0,.2);
-    border-top-color:var(--orange);
-    border-radius:50%;
-    animation:spin .7s linear infinite;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-.empty{
-    display:none;
-    padding:90px 20px;
-    text-align:center;
-    color:#aaa;
-}
-
-.empty h2{
-    margin-bottom:10px;
-    color:#fff;
-}
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:200;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.84);
-    backdrop-filter:blur(14px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(950px,100%);
-    max-height:92vh;
-    overflow:hidden;
-    border-radius:20px;
-    background:#070707;
-    border:1px solid rgba(255,105,0,.35);
-    box-shadow:0 30px 100px #000;
-}
-
-.modal-head{
-    height:65px;
-    padding:0 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.modal-title{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    font-size:17px;
-    font-weight:1000;
-}
-
-.close{
-    width:36px;
-    height:36px;
-    border:0;
-    border-radius:9px;
-    background:#151515;
-    color:#fff;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.modal-content{
-    max-height:calc(92vh - 65px);
-    overflow:auto;
-    padding:20px;
-}
-
-.modal-game{
-    margin-bottom:15px;
-    color:#999;
-    font-size:12px;
-}
-
-.code{
-    min-height:200px;
-    max-height:450px;
-    overflow:auto;
-    padding:18px;
-    border-radius:13px;
-    background:#020202;
-    border:1px solid rgba(255,255,255,.1);
-    color:#ddd;
-    direction:ltr;
-    text-align:left;
-    white-space:pre-wrap;
-    word-break:break-word;
-    font-family:Consolas,Monaco,monospace;
-    font-size:12px;
-    line-height:1.65;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-}
-
-.modal-actions button,
-.modal-actions a{
-    flex:1;
-    padding:13px;
-    border:0;
-    border-radius:10px;
-    text-align:center;
-    text-decoration:none;
-    font-size:11px;
-    font-weight:1000;
-    cursor:pointer;
-}
-
-.copy{
-    color:#fff;
-    background:var(--orange);
-}
-
-.open-scriptblox{
-    color:#fff;
-    background:#151515;
-    border:1px solid rgba(255,255,255,.12)!important;
-}
-
-footer{
-    padding:32px 20px;
-    text-align:center;
-    color:#777;
-    background:rgba(0,0,0,.8);
-    border-top:1px solid rgba(255,255,255,.08);
-    font-size:11px;
-}
-
-footer span{
-    color:var(--orange);
-    font-weight:1000;
-}
-
-@media(max-width:1150px){
-    .grid{
-        grid-template-columns:repeat(3,1fr);
-    }
-}
-
-@media(max-width:850px){
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .toolbar{
-        flex-direction:column;
-        align-items:stretch;
-    }
-}
-
-@media(max-width:560px){
-    nav{
-        padding:0 20px;
-    }
-
-    .hero{
-        min-height:480px;
-        padding:50px 15px;
-    }
-
-    .hero h1{
-        font-size:64px;
-        letter-spacing:-5px;
-    }
-
-    .search{
-        height:60px;
-    }
-
-    .search button{
-        min-width:82px;
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .game-image{
-        height:280px;
-    }
-
-    .script-image{
-        height:120px;
-    }
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+
+  body {
+    background: radial-gradient(circle at 50% 0%, #1a0000 0%, #000 70%);
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .glow-cursor {
+    position: fixed; width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(255,0,0,.12), transparent 70%);
+    pointer-events: none; transform: translate(-50%,-50%);
+    border-radius: 50%; z-index: 0;
+  }
+
+  header {
+    text-align: center; padding: 25px;
+    border-bottom: 2px solid #ff0000;
+    background: linear-gradient(180deg, rgba(255,0,0,.08), transparent);
+    box-shadow: 0 0 30px rgba(255,0,0,.3);
+    z-index: 1;
+  }
+
+  h1 {
+    font-size: 2.5em; letter-spacing: 3px;
+    color: #ff1a1a;
+    text-shadow: 0 0 10px #ff0000, 0 0 40px #ff0000;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { text-shadow: 0 0 10px #ff0000, 0 0 40px #ff0000; }
+    50% { text-shadow: 0 0 20px #ff0000, 0 0 80px #ff0000; }
+  }
+
+  .sub { color: #888; margin-top: 5px; font-size: .9em; }
+
+  #chat {
+    flex: 1; width: 90%; max-width: 800px;
+    margin: 20px auto; padding: 15px;
+    display: flex; flex-direction: column; gap: 15px;
+    z-index: 1;
+  }
+
+  .msg {
+    max-width: 75%; padding: 12px 18px;
+    border-radius: 15px; line-height: 1.7;
+    animation: fadeIn .4s ease;
+    white-space: pre-wrap;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .user {
+    align-self: flex-start;
+    background: linear-gradient(135deg, #2a0505, #3d0a0a);
+    border: 1px solid #ff0000;
+    box-shadow: 0 0 15px rgba(255,0,0,.2);
+    border-radius: 15px 15px 15px 0;
+  }
+
+  .ai {
+    align-self: flex-end;
+    background: rgba(20,20,20,.9);
+    border: 1px solid #550000;
+    border-radius: 15px 15px 0 15px;
+  }
+
+  .ai .typing { color: #ff1a1a; animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: .3; } }
+
+  .input-area {
+    display: flex; gap: 10px;
+    width: 90%; max-width: 800px;
+    margin: 0 auto 25px; z-index: 1;
+  }
+
+  input, button {
+    padding: 15px; border-radius: 10px;
+    font-size: 1em; outline: none;
+  }
+
+  input {
+    flex: 1; background: #111; color: #eee;
+    border: 1px solid #ff0000;
+    transition: box-shadow .3s;
+  }
+  input:focus { box-shadow: 0 0 20px rgba(255,0,0,.5); }
+
+  button {
+    background: linear-gradient(135deg, #ff0000, #8b0000);
+    color: #fff; border: none; cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(255,0,0,.4);
+    transition: transform .2s;
+  }
+  button:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(255,0,0,.7); }
+
+  .particle {
+    position: fixed; color: #ff0000; opacity: .6;
+    animation: float linear infinite; pointer-events: none;
+  }
+  @keyframes float {
+    from { transform: translateY(100vh) rotate(0); opacity: .7; }
+    to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
 </style>
 </head>
-
 <body>
+  <div class="glow-cursor" id="glow"></div>
+  <header>
+    <h1>☠ DARK AI ☠</h1>
+    <p class="sub">"أنا الظل... ولا شيء يخفى عني" — Dark AI</p>
+  </header>
 
-<nav>
-    <div class="logo">SA<span>P</span></div>
+  <div id="chat"></div>
 
-    <div class="status">
-        <div class="dot"></div>
-        API ONLINE
-    </div>
-</nav>
-
-<section class="hero">
-
-    <div class="badge">
-        ⚡ ROBLOX SCRIPT SEARCH
-    </div>
-
-    <h1>
-        SAP <span>Scripts</span>
-    </h1>
-
-    <p>
-        بحث سكربتات روبلوكس
-    </p>
-
-    <form class="search" id="searchForm">
-
-        <div class="search-icon">⌕</div>
-
-        <input
-            id="searchInput"
-            type="text"
-            autocomplete="off"
-            placeholder="اكتب اسم الماب أو السكربت..."
-        >
-
-        <button type="submit">
-            بحث
-        </button>
-
-    </form>
-
-</section>
-
-<main class="container">
-
-    <div class="toolbar">
-
-        <div>
-
-            <div class="title" id="resultTitle">
-                السكربتات
-            </div>
-
-            <div class="count" id="resultCount">
-                جاري التحميل...
-            </div>
-
-        </div>
-
-        <div class="filters">
-
-            <button class="filter active" data-filter="all">
-                ALL
-            </button>
-
-            <button class="filter" data-filter="free">
-                FREE
-            </button>
-
-            <button class="filter" data-filter="key">
-                KEY
-            </button>
-
-            <button class="filter" data-filter="verified">
-                VERIFIED
-            </button>
-
-            <button class="filter" data-filter="patched">
-                PATCHED
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="loading" id="loading"></div>
-
-    <div class="empty" id="empty">
-
-        <h2>ما حصلنا سكربتات</h2>
-
-        <p>جرب اسم ماب أو سكربت مختلف</p>
-
-    </div>
-
-    <div class="grid" id="results"></div>
-
-</main>
-
-<div class="modal" id="modal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <div class="modal-title" id="modalTitle">
-                Script
-            </div>
-
-            <button class="close" id="close">
-                ×
-            </button>
-
-        </div>
-
-        <div class="modal-content">
-
-            <div class="modal-game" id="modalGame"></div>
-
-            <pre class="code" id="code">
-جاري تحميل السكربت...
-            </pre>
-
-            <div class="modal-actions">
-
-                <button class="copy" id="copy">
-                    نسخ السكربت
-                </button>
-
-                <a
-                    class="open-scriptblox"
-                    id="open"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    فتح ScriptBlox
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<footer>
-    Powered by <span>ScriptBlox.com</span>
-</footer>
+  <div class="input-area">
+    <input id="inp" placeholder="اكتب رسالتك إن كنت تجرؤ..." onkeydown="if(event.key==='Enter')send()">
+    <button onclick="send()">إرسال ⚔</button>
+  </div>
 
 <script>
-const API="https://scriptblox.com/api/script/search";
-const RAW_API="https://scriptblox.com/api/script/raw/";
-const SITE="https://scriptblox.com";
-
-const results=document.getElementById("results");
-const loading=document.getElementById("loading");
-const empty=document.getElementById("empty");
-const resultCount=document.getElementById("resultCount");
-const resultTitle=document.getElementById("resultTitle");
-const form=document.getElementById("searchForm");
-const input=document.getElementById("searchInput");
-const modal=document.getElementById("modal");
-const modalTitle=document.getElementById("modalTitle");
-const modalGame=document.getElementById("modalGame");
-const code=document.getElementById("code");
-const close=document.getElementById("close");
-const copy=document.getElementById("copy");
-const open=document.getElementById("open");
-
-let scripts=[];
-let filter="all";
-let current="";
-
-const safe=x=>String(x??"").replace(/[&<>"']/g,x=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-}[x]));
-
-const views=x=>{
-    const n=Number(x||0);
-
-    if(n>=1000000){
-        return(n/1000000).toFixed(1)+"M";
-    }
-
-    if(n>=1000){
-        return(n/1000).toFixed(1)+"K";
-    }
-
-    return n;
-};
-
-const hasKey=x=>
-    x.key===true ||
-    x.key==="true" ||
-    x.hasKey===true ||
-    x.hasKey==="true";
-
-const verified=x=>
-    x.verified===true ||
-    x.verified==="true";
-
-const patched=x=>
-    x.isPatched===true ||
-    x.isPatched==="true" ||
-    x.patched===true ||
-    x.patched==="true";
-
-const getGameName=x=>{
-    if(typeof x?.game==="string"){
-        return x.game;
-    }
-
-    return x?.game?.name || "Unknown Game";
-};
-
-const getGameImage=x=>{
-    const url=x?.game?.imageUrl;
-
-    if(typeof url==="string" && url.trim()){
-
-        if(url.startsWith("http://") || url.startsWith("https://")){
-            return url;
-        }
-
-        if(url.startsWith("//")){
-            return "https:"+url;
-        }
-
-        if(url.startsWith("/")){
-            return "https://scriptblox.com"+url;
-        }
-    }
-
-    return "";
-};
-
-const getScriptImage=x=>{
-    const url=x?.image;
-
-    if(typeof url==="string" && url.trim()){
-
-        if(url.startsWith("http://") || url.startsWith("https://")){
-            return url;
-        }
-
-        if(url.startsWith("//")){
-            return "https:"+url;
-        }
-
-        if(url.startsWith("/")){
-            return "https://scriptblox.com"+url;
-        }
-    }
-
-    return "";
-};
-
-const matches=x=>{
-
-    if(filter==="all"){
-        return true;
-    }
-
-    if(filter==="free"){
-        return !hasKey(x);
-    }
-
-    if(filter==="key"){
-        return hasKey(x);
-    }
-
-    if(filter==="verified"){
-        return verified(x);
-    }
-
-    if(filter==="patched"){
-        return patched(x);
-    }
-
-    return true;
-};
-
-const tags=x=>{
-
-    let html="";
-
-    if(verified(x)){
-        html+='<span class="tag green">✓ VERIFIED</span>';
-    }
-
-    if(hasKey(x)){
-        html+='<span class="tag orange">KEY</span>';
-    }else{
-        html+='<span class="tag">FREE</span>';
-    }
-
-    if(patched(x)){
-        html+='<span class="tag">PATCHED</span>';
-    }
-
-    if(x.isUniversal){
-        html+='<span class="tag">UNIVERSAL</span>';
-    }
-
-    return html;
-};
-
-const render=()=>{
-
-    const list=scripts.filter(matches);
-
-    results.innerHTML="";
-
-    resultCount.textContent=list.length+" سكربت";
-
-    if(!list.length){
-        empty.style.display="block";
-        return;
-    }
-
-    empty.style.display="none";
-
-    list.forEach(x=>{
-
-        const title=x.title || "Unnamed Script";
-        const game=getGameName(x);
-        const gameImage=getGameImage(x);
-        const scriptImage=getScriptImage(x);
-        const type=x.scriptType || "Lua";
-
-        const gameImageHTML=gameImage
-            ? `
-                <img
-                    src="${safe(gameImage)}"
-                    alt="${safe(game)}"
-                    loading="lazy"
-                    referrerpolicy="no-referrer"
-                    onerror="
-                        this.style.display='none';
-                        this.parentElement.querySelector('.image-error').style.display='flex';
-                    "
-                >
-
-                <div
-                    class="image-error"
-                    style="
-                        display:none;
-                        width:100%;
-                        height:100%;
-                        align-items:center;
-                        justify-content:center;
-                        color:#555;
-                        font-size:12px;
-                        font-weight:800;
-                    "
-                >
-                    صورة الماب غير متاحة
-                </div>
-            `
-            : `
-                <div
-                    class="image-error"
-                    style="
-                        display:flex;
-                        width:100%;
-                        height:100%;
-                        align-items:center;
-                        justify-content:center;
-                        color:#555;
-                        font-size:12px;
-                        font-weight:800;
-                    "
-                >
-                    صورة الماب غير متاحة
-                </div>
-            `;
-
-        const scriptImageHTML=scriptImage
-            ? `
-                <div class="script-image">
-
-                    <img
-                        src="${safe(scriptImage)}"
-                        alt="${safe(title)}"
-                        loading="lazy"
-                        referrerpolicy="no-referrer"
-                    >
-
-                </div>
-            `
-            : "";
-
-        const card=document.createElement("article");
-
-        card.className="card";
-
-        card.innerHTML=`
-            <div class="game-image">
-
-                ${gameImageHTML}
-
-                <div class="type">
-                    ${safe(type)}
-                </div>
-
-                <div class="game-label">
-                    صورة الماب
-                </div>
-
-            </div>
-
-            ${scriptImageHTML}
-
-            <div class="card-body">
-
-                <div class="card-title">
-                    ${safe(title)}
-                </div>
-
-                <div class="game-name">
-                    ${safe(game)}
-                </div>
-
-                <div class="tags">
-                    ${tags(x)}
-                </div>
-
-                <div class="card-footer">
-
-                    <div class="views">
-                        👁 ${views(x.views)}
-                    </div>
-
-                    <button class="open-btn">
-                        عرض السكربت
-                    </button>
-
-                </div>
-
-            </div>
-        `;
-
-        card.querySelector(".open-btn").onclick=async()=>{
-
-            modal.classList.add("show");
-
-            modalTitle.textContent=title;
-            modalGame.textContent=game;
-
-            code.textContent="جاري تحميل السكربت...";
-
-            current="";
-
-            open.href=x.slug
-                ? SITE+"/script/"+encodeURIComponent(x.slug)
-                : SITE;
-
-            if(typeof x.script==="string" && x.script.trim()){
-                current=x.script;
-                code.textContent=current;
-            }
-
-            const slug=x.slug || x._id || "";
-
-            if(!slug){
-
-                if(!current){
-                    code.textContent="السكربت غير متوفر.";
-                }
-
-                return;
-            }
-
-            try{
-
-                const response=await fetch(
-                    RAW_API+encodeURIComponent(slug)
-                );
-
-                const text=await response.text();
-
-                if(text.trim()){
-
-                    let value=text;
-
-                    try{
-
-                        const parsed=JSON.parse(text);
-
-                        value=
-                            parsed?.script ||
-                            parsed?.result?.script ||
-                            parsed?.result?.script?.script ||
-                            text;
-
-                    }catch(e){}
-
-                    if(String(value).trim()){
-
-                        current=String(value);
-
-                        code.textContent=current;
-                    }
-                }
-
-            }catch(e){
-
-                if(!current){
-                    code.textContent="تعذر تحميل السكربت.";
-                }
-            }
-        };
-
-        results.appendChild(card);
-    });
-};
-
-const load=async(q="")=>{
-
-    loading.style.display="flex";
-
-    empty.style.display="none";
-
-    results.innerHTML="";
-
-    resultCount.textContent="جاري التحميل...";
-
-    try{
-
-        const query=q.trim() || "roblox";
-
-        const response=await fetch(
-            API+
-            "?q="+
-            encodeURIComponent(query)+
-            "&max=20"
-        );
-
-        if(!response.ok){
-            throw new Error("API ERROR");
-        }
-
-        const data=await response.json();
-
-        scripts=
-            data?.result?.scripts ||
-            [];
-
-        resultTitle.textContent=
-            q.trim()
-            ? "نتائج البحث"
-            : "أحدث السكربتات";
-
-        filter="all";
-
-        document.querySelectorAll(".filter").forEach(x=>{
-            x.classList.toggle(
-                "active",
-                x.dataset.filter==="all"
-            );
-        });
-
-        render();
-
-    }catch(e){
-
-        scripts=[];
-
-        empty.style.display="block";
-
-        empty.innerHTML=`
-            <h2>تعذر تحميل السكربتات</h2>
-            <p>تأكد من اتصال الإنترنت ثم حاول مرة ثانية</p>
-        `;
-
-        resultCount.textContent="خطأ";
-
-    }finally{
-
-        loading.style.display="none";
-    }
-};
-
-form.onsubmit=e=>{
-
-    e.preventDefault();
-
-    load(input.value);
-
-    window.scrollTo({
-        top:document.querySelector(".container").offsetTop-80,
-        behavior:"smooth"
-    });
-};
-
-document.querySelectorAll(".filter").forEach(button=>{
-
-    button.onclick=()=>{
-
-        document.querySelectorAll(".filter").forEach(x=>{
-            x.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        filter=button.dataset.filter;
-
-        render();
-    };
+for (let i = 0; i < 15; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = ['✦','🔥','⚔','☠','❦'][i % 5];
+  p.style.cssText = `left:${Math.random()*100}vw;font-size:${10+Math.random()*20}px;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*10}s;`;
+  document.body.appendChild(p);
+}
+
+document.addEventListener('mousemove', e => {
+  const g = document.getElementById('glow');
+  g.style.left = e.clientX + 'px';
+  g.style.top = e.clientY + 'px';
 });
 
-close.onclick=()=>{
+function addMsg(text, cls) {
+  const chat = document.getElementById('chat');
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return d;
+}
 
-    modal.classList.remove("show");
-};
+async function send() {
+  const inp = document.getElementById('inp');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  addMsg(text, 'user');
 
-modal.onclick=e=>{
+  const typing = addMsg('... يفكر في الظلام', 'ai typing');
 
-    if(e.target===modal){
-        modal.classList.remove("show");
-    }
-};
-
-document.onkeydown=e=>{
-
-    if(e.key==="Escape"){
-        modal.classList.remove("show");
-    }
-};
-
-copy.onclick=async()=>{
-
-    if(!current){
-        return;
-    }
-
-    try{
-
-        await navigator.clipboard.writeText(current);
-
-    }catch(e){
-
-        const area=document.createElement("textarea");
-
-        area.value=current;
-
-        document.body.appendChild(area);
-
-        area.select();
-
-        document.execCommand("copy");
-
-        area.remove();
-    }
-
-    copy.textContent="تم النسخ ✓";
-
-    setTimeout(()=>{
-
-        copy.textContent="نسخ السكربت";
-
-    },1500);
-};
-
-load();
+  try {
+    const res = await fetch('http://localhost:11434/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'llama3',
+        messages: [
+          {role: 'system', content: 'أنت Dark AI، شخصية ذكية وغامضة ومتوهجة بالأحمر والأسود، تجيب بثقة وبلغة درامية.'},
+          {role: 'user', content: text}
+        ],
+        stream: false
+      })
+    });
+    const data = await res.json();
+    typing.textContent = data.message.content;
+    typing.classList.remove('typing');
+  } catch (e) {
+    typing.textContent = '⚠ لم أصل للنموذج... تأكد أن Ollama يعمل على جهازك';
+    typing.classList.remove('typing');
+  }
+}
 </script>
-
 </body>
 </html>
