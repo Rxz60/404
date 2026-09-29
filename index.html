@@ -1,544 +1,956 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html dir="rtl" lang="ar" id="htmlRoot">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050505">
-<title>SAP | Lua Key Generator</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Tahoma, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.07), transparent 35%),
-        #030303;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.container {
-    width: 100%;
-    max-width: 720px;
-}
-
-.logo {
-    text-align: center;
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: 8px;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #999;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-.panel {
-    background: rgba(10,10,10,.94);
-    border: 1px solid #292929;
-    border-radius: 22px;
-    padding: 25px;
-    box-shadow: 0 0 45px rgba(255,255,255,.04);
-}
-
-.title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 9px;
-}
-
-select,
-input {
-    width: 100%;
-    height: 48px;
-    background: #080808;
-    color: white;
-    border: 1px solid #292929;
-    border-radius: 12px;
-    outline: none;
-    padding: 0 14px;
-    font-size: 14px;
-    margin-bottom: 18px;
-}
-
-select:focus,
-input:focus {
-    border-color: #666;
-}
-
-.generate {
-    width: 100%;
-    height: 50px;
-    border: 0;
-    border-radius: 13px;
-    background: white;
-    color: black;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.generate:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255,255,255,.12);
-}
-
-.result {
-    margin-top: 22px;
-    display: none;
-}
-
-.result-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 9px;
-}
-
-.result-top span {
-    color: #aaa;
-    font-size: 13px;
-}
-
-.copy {
-    background: #161616;
-    color: white;
-    border: 1px solid #292929;
-    border-radius: 9px;
-    padding: 8px 13px;
-    cursor: pointer;
-}
-
-.key {
-    width: 100%;
-    min-height: 95px;
-    background: #050505;
-    border: 1px solid #292929;
-    border-radius: 13px;
-    padding: 16px;
-    color: #eee;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.7;
-    word-break: break-all;
-    direction: ltr;
-    text-align: left;
-}
-
-.actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.action {
-    height: 45px;
-    border-radius: 11px;
-    border: 1px solid #292929;
-    background: #101010;
-    color: white;
-    cursor: pointer;
-}
-
-.action:hover {
-    background: #181818;
-}
-
-.batch {
-    margin-top: 28px;
-    padding-top: 23px;
-    border-top: 1px solid #222;
-}
-
-.batch-title {
-    font-size: 17px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.batch-text {
-    color: #888;
-    font-size: 12px;
-    margin-bottom: 15px;
-}
-
-.batch-result {
-    display: none;
-    margin-top: 15px;
-}
-
-.keys-list {
-    max-height: 260px;
-    overflow-y: auto;
-    background: #050505;
-    border: 1px solid #292929;
-    border-radius: 13px;
-    padding: 8px;
-}
-
-.key-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px;
-    border-bottom: 1px solid #191919;
-}
-
-.key-item:last-child {
-    border-bottom: 0;
-}
-
-.key-number {
-    color: #666;
-    width: 28px;
-    font-size: 12px;
-}
-
-.key-value {
-    flex: 1;
-    direction: ltr;
-    text-align: left;
-    font-family: monospace;
-    font-size: 12px;
-    word-break: break-all;
-    color: #ddd;
-}
-
-.small-copy {
-    border: 1px solid #292929;
-    background: #111;
-    color: white;
-    border-radius: 7px;
-    padding: 6px 9px;
-    cursor: pointer;
-}
-
-.status {
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #fff;
-    color: #000;
-    padding: 11px 18px;
-    border-radius: 11px;
-    font-size: 13px;
-    font-weight: bold;
-    opacity: 0;
-    pointer-events: none;
-    transition: .25s;
-}
-
-.status.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-.footer {
-    text-align: center;
-    color: #555;
-    font-size: 11px;
-    margin-top: 18px;
-}
-
-@media(max-width:600px) {
-    .logo {
-        font-size: 34px;
-    }
-
-    .panel {
-        padding: 18px;
-    }
-
-    .actions {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#570014">
+    <title>MRX AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #570014;
+            background-image: linear-gradient(135deg, #68001b 0%, #5a0015 42%, #47000f 100%);
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+        .bot-msg-content { user-select: text !important; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: #f05; border-radius: 4px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+        .fade { animation: fadeIn .12s ease-out forwards; }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .zoom-in { animation: zoomIn .2s ease-out forwards; }
+        @keyframes rotFast { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+        .spin-custom { animation: rotFast 6s linear infinite; }
+        .wormgpt-title {
+            color: #ff0055;
+            font-family: serif;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(190,55,83,0.6);
+        }
+        pre {
+            direction: ltr !important;
+            text-align: left !important;
+            background: #37000b !important;
+            border: 1px solid rgba(190,55,83,.3) !important;
+            padding: 12px !important;
+            padding-top: 32px !important;
+            border-radius: 12px !important;
+            display: block !important;
+            overflow-x: auto !important;
+            margin: 10px 0 !important;
+            position: relative !important;
+        }
+        code {
+            font-family: monospace, monospace;
+            font-size: 13px;
+            color: #ff80ab;
+            display: block;
+            line-height: 1.5;
+        }
+        .code-copy-btn {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            background: #650018;
+            color: #ffb3c6;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(190,55,83,0.6);
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .code-copy-btn.copied { background: #22c55e !important; color: #fff !important; }
+        /* MRX burgundy theme inspired by the supplied reference */
+        body#appBody { background-color: #570014 !important; background-image: linear-gradient(135deg, #68001b 0%, #5a0015 42%, #47000f 100%) !important; }
+        body#appBody header { background-color: rgba(75, 0, 18, .94) !important; border-color: rgba(142, 0, 35, .55) !important; }
+        #chat { background: transparent !important; }
+        #inputContainerBox { background: rgba(63, 0, 16, .94) !important; border-color: rgba(190, 55, 83, .82) !important; }
+        #sidebar { background-color: #48000f !important; }
+        #hostingModal > div, #expandModal, #clearModal > div, #deleteRoomModal > div { background-color: #4b0012 !important; }
+        .user-msg-box { background-color: #3f0010 !important; }
+        .bot-msg-content, #welcome { color: #fff5f7 !important; }
+        /* Premium burgundy component polish */
+        :root { --mrx-accent: #d85b76; --mrx-accent-bright: #ed8096; --mrx-panel: #650018; --mrx-panel-deep: #4b0012; --mrx-line: #8f2641; --mrx-ink: #fff1f4; }
+        button, a, input, textarea { transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
+        button:hover, a:hover { filter: brightness(1.12); }
+        button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--mrx-accent-bright); outline-offset: 2px; }
+        button:active, a:active { transform: scale(.98); }
+        #appBody header { box-shadow: 0 1px 22px rgba(33,0,9,.32); }
+        #sidebar { box-shadow: -18px 0 50px rgba(25,0,8,.45) !important; }
+        #sidebar button, #sidebar input, #sidebar a { border-color: rgba(143,38,65,.72) !important; }
+        #sidebar button:hover, #sidebar a:hover { background-color: #781d37 !important; color: var(--mrx-ink) !important; }
+        #inputContainerBox { box-shadow: 0 12px 42px rgba(37,0,12,.42), 0 0 20px rgba(190,55,83,.18) !important; }
+        #inputContainerBox textarea { color: var(--mrx-ink) !important; caret-color: var(--mrx-accent-bright); }
+        #inputContainerBox textarea::placeholder { color: #d28a9a !important; }
+        #inputContainerBox button { color: var(--mrx-accent-bright) !important; }
+        #inputContainerBox button:last-child { background: #a62b49 !important; color: #fff5f7 !important; box-shadow: 0 0 16px rgba(190,55,83,.28); }
+        #inputContainerBox button:last-child:hover { background: #bc3e5c !important; }
+        .user-msg-box { background: linear-gradient(145deg,#731a34,#5f1027) !important; border-color: #b94a64 !important; box-shadow: 0 8px 22px rgba(33,0,10,.28); }
+        .bot-msg-content { background: rgba(75,0,18,.24); border: 1px solid rgba(143,38,65,.35); border-radius: 16px; padding: 12px 14px !important; box-shadow: 0 6px 18px rgba(33,0,10,.16); }
+        .bot-msg-content pre { background: #3a000d !important; border-color: #8f2641 !important; }
+        .bot-msg-content code { color: #f0a0ad !important; }
+        .msg-actions-menu, #filePreviewContainer { background: #650018 !important; border-color: #8f2641 !important; }
+        #hostingModal > div, #expandModal, #clearModal > div, #deleteRoomModal > div { box-shadow: 0 18px 60px rgba(28,0,9,.55) !important; }
+    </style>
 </head>
-
-<body>
-
-<div class="container">
-
-    <div class="logo">SAP</div>
-    <div class="subtitle">Lua Roblox Key Generator</div>
-
-    <div class="panel">
-
-        <div class="title">إنشاء مفتاح جديد</div>
-
-        <label>طول المفتاح</label>
-
-        <select id="length">
-            <option value="16">16 حرف</option>
-            <option value="24">24 حرف</option>
-            <option value="32" selected>32 حرف</option>
-            <option value="48">48 حرف</option>
-            <option value="64">64 حرف</option>
-        </select>
-
-        <label>عدد المفاتيح</label>
-
-        <input id="count" type="number" min="1" max="100" value="1">
-
-        <button class="generate" id="generate">
-            توليد المفتاح
+<body class="flex flex-col h-screen justify-between" id="appBody" onclick="handleBodyClick(event)">
+    <header class="flex items-center justify-between border-b backdrop-blur-md bg-[#4b0012]/90 border-[#74132e]/40 px-3.5 py-3 z-20">
+        <button class="flex items-center justify-center border active:scale-95 bg-[#4b0012] border-[#8f2641]/60 h-10 rounded-2xl text-[#e46a82] w-10" onclick="openModal('clearModal')">
+            <i class="fa-solid fa-trash-can text-xs"></i>
         </button>
-
-        <div class="result" id="singleResult">
-
-            <div class="result-top">
-                <span>المفتاح الناتج</span>
-                <button class="copy" id="copySingle">نسخ</button>
-            </div>
-
-            <div class="key" id="singleKey"></div>
-
-            <div class="actions">
-                <button class="action" id="newKey">
-                    توليد مفتاح جديد
-                </button>
-
-                <button class="action" id="downloadSingle">
-                    تحميل TXT
-                </button>
-            </div>
-
+        <button class="flex items-center justify-center border active:scale-95 bg-[#650018] border-[#8f2641]/60 h-10 rounded-2xl text-[#ed8096] w-10" onclick="createNewRoom()" title="محادثة جديدة"><i class="fa-solid fa-plus text-xs"></i></button>
+        <div class="flex items-center gap-2">
+            <img src="https://wormgpt.app/wormgpt-logo.png" alt="Logo" class="w-6 h-6 rounded-full border border-[#b94a64] object-cover">
+            <span class="text-sm wormgpt-title">WormGPT</span>
         </div>
+        <button class="flex items-center justify-center border active:scale-95 bg-[#4b0012] border-[#8f2641]/60 h-10 rounded-2xl text-[#e46a82] w-10" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars text-xs"></i>
+        </button>
+    </header>
 
-        <div class="batch" id="batchSection">
+    <!-- نافذة تكبير الكتابة -->
+    <div id="expandModal" class="fixed inset-0 bg-[#4b0012]/90 z-50 hidden flex flex-col p-4 zoom-in">
+        <div class="flex justify-between items-center border-b border-[#74132e] pb-3 mb-3">
+            <button onclick="closeExpandModal()" class="w-8 h-8 rounded-full bg-red-950/40 border border-[#8f2641] text-[#d96b82] flex items-center justify-center text-xs font-bold transition-transform active:scale-90"><i class="fa-solid fa-circle-xmark"></i></button>
+            <span class="text-xs font-bold text-[#d96b82]">نافذة الكتابة الموسعة ✍️</span>
+        </div>
+        <textarea id="expandedInput" class="flex-1 bg-transparent text-white text-sm outline-none resize-none p-2 text-right leading-relaxed" placeholder="اكتب رسالتك هنا..."></textarea>
+        <button onclick="sendExpanded()" class="mt-3 bg-[#a62b49] text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-all shadow-[0_0_15px_rgba(190,55,83,0.4)]">إرسال الرسالة</button>
+    </div>
 
-            <div class="batch-title">توليد عدة مفاتيح</div>
-
-            <div class="batch-text">
-                يمكنك إنشاء حتى 100 مفتاح دفعة واحدة.
+    <!-- نافذة تأكيد حذف رسائل الغرفة -->
+    <div class="flex items-center justify-center p-4 bg-[#32000b]/80 fixed hidden inset-0 z-50" id="clearModal">
+        <div class="border w-full bg-[#4b0012] border-[#8f2641]/80 max-w-sm p-5 rounded-3xl text-center">
+            <p class="text-xs font-bold text-[#d96b82] mb-4">هل تريد حذف جميع رسائل هذه الغرفة؟</p>
+            <div class="flex gap-2">
+                <button class="text-xs font-bold rounded-xl text-white flex-1 py-2 bg-emerald-600" onclick="clearCurrentRoom()"><i class="fa-solid fa-thumbs-up"></i> موافق</button>
+                <button class="text-xs font-bold rounded-xl text-white flex-1 py-2 bg-red-600" onclick="closeModal('clearModal')"><i class="fa-solid fa-circle-xmark"></i> إلغاء</button>
             </div>
+        </div>
+    </div>
 
-            <button class="action" id="generateBatch">
-                إنشاء المفاتيح
+    <!-- نافذة تأكيد حذف غرفة محددة -->
+    <div class="flex items-center justify-center p-4 bg-[#32000b]/80 fixed hidden inset-0 z-50" id="deleteRoomModal">
+        <div class="border w-full bg-[#4b0012] border-[#8f2641]/80 max-w-sm p-5 rounded-3xl text-center">
+            <p class="text-xs font-bold text-[#d96b82] mb-4">هل تريد حذف هذه الغرفة نهائياً؟</p>
+            <div class="flex gap-2">
+                <button class="text-xs font-bold rounded-xl text-white flex-1 py-2 bg-emerald-600" onclick="confirmDeleteRoom()"><i class="fa-solid fa-thumbs-up"></i> موافق</button>
+                <button class="text-xs font-bold rounded-xl text-white flex-1 py-2 bg-red-600" onclick="closeModal('deleteRoomModal')"><i class="fa-solid fa-circle-xmark"></i> إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hostingModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[#32000b]/80 p-4">
+        <div class="w-full max-w-2xl rounded-3xl border border-[#a43a55]/70 bg-[#48000f] p-5 shadow-[0_0_40px_rgba(190,55,83,0.28)] text-right">
+            <div class="mb-4 flex items-center justify-between border-b border-[#74132e] pb-3"><div><h2 class="font-black text-[#d96b82]">استضافة موقع</h2><p class="mt-1 text-[10px] text-zinc-500">ارفع ملفات مشروعك أو الصق الكود، ثم أنشئ معاينة Static آمنة.</p></div><button onclick="closeHostingModal()" class="text-[#f0a0ad]"><i class="fa-solid fa-circle-xmark"></i></button></div>
+            <textarea id="hostingCodeInput" rows="8" placeholder="الصق كود HTML هنا... إذا تركته فارغًا سيتم استخدام الملفات المرفوعة" class="mb-3 w-full resize-y rounded-2xl border border-[#8f2641]/70 bg-[#32000b]/40 p-3 text-xs leading-relaxed text-white outline-none"></textarea>
+            <label class="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#a43a55]/70 bg-[#650018] p-5 text-xs font-bold text-[#f0a0ad]"><i class="fa-solid fa-cloud-arrow-up text-lg"></i><span id="hostingFilesLabel">رفع ملفات كثيرة أو مجلد كامل</span><input id="hostingFilesInput" type="file" multiple webkitdirectory directory class="hidden" onchange="showHostingFiles(event)"></label>
+            <div class="mb-4 text-[10px] text-zinc-500">يدعم HTML وCSS والصور والفيديو والملفات. تتم إزالة JavaScript والملفات التنفيذية من المعاينة.</div>
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><button onclick="createHostedSiteFromBox(false)" class="rounded-xl bg-red-600 py-3 text-xs font-black text-white active:scale-95"><i class="fa-solid fa-globe ml-1"></i> إنشاء موقع</button><button onclick="createHostedSiteFromBox(true)" class="rounded-xl border border-red-500 bg-[#24060d] py-3 text-xs font-black text-red-200 active:scale-95"><i class="fa-solid fa-plug ml-1"></i> إنشاء مع دمج API</button></div>
+        </div>
+    </div>
+
+    <div id="discordBuilderModal" class="fixed inset-0 z-[65] hidden items-center justify-center bg-[#32000b]/85 p-4"><div class="w-full max-w-xl rounded-3xl border border-[#b94a64]/80 bg-[#4b0012] p-5 shadow-[0_0_45px_rgba(190,55,83,0.38)] text-right"><div class="mb-4 flex items-center justify-between border-b border-[#74132e] pb-3"><div><h2 class="font-black text-[#ed8096]">منشئ بوت Discord</h2><p class="mt-1 text-[10px] text-[#d28a9a]">جهّز الأوامر والملفات بأمان، ولا ترسل التوكن داخل الدردشة.</p></div><button onclick="closeDiscordBuilder()" class="text-[#f0a0ad]"><i class="fa-solid fa-circle-xmark"></i></button></div><input id="discordBotName" class="mb-2 w-full rounded-xl border border-[#8f2641] bg-[#32000b]/50 p-3 text-xs text-white outline-none" placeholder="اسم البوت"><input id="discordBotAvatar" type="file" accept="image/png,image/jpeg,image/webp" class="mb-2 w-full rounded-xl border border-[#8f2641] bg-[#32000b]/50 p-3 text-xs text-[#f0a0ad] outline-none"><textarea id="discordBotBrief" rows="4" class="mb-2 w-full resize-y rounded-xl border border-[#8f2641] bg-[#32000b]/50 p-3 text-xs text-white outline-none" placeholder="طلبات البوت: تغيير الاسم والصورة والبروفايل، الأوامر، الصلاحيات..."></textarea><label class="mb-2 flex items-center gap-2 rounded-xl border border-[#8f2641] bg-[#650018]/70 p-3 text-xs text-[#fff1f4]"><input id="discordBotWithSite" type="checkbox" class="accent-red-600"> إنشاء موقع تعريف/لوحة تحكم مع البوت</label><input id="discordBotSiteBrief" class="mb-2 hidden w-full rounded-xl border border-[#8f2641] bg-[#32000b]/50 p-3 text-xs text-white outline-none" placeholder="طلبات الموقع: الصفحات، الألوان، الأزرار، لوحة التحكم..."><input id="discordBotToken" type="password" autocomplete="off" class="mb-3 w-full rounded-xl border border-[#8f2641] bg-[#32000b]/50 p-3 text-xs text-white outline-none" placeholder="توكن البوت — لا تشاركه في الدردشة"><div class="mb-3 rounded-xl border border-[#8f2641]/60 bg-[#650018]/70 p-3 text-[10px] leading-relaxed text-[#f0a0ad]">التوكن سرّي جدًا. لا تحفظه الواجهة ولا تعرضه في الرسائل. الاستضافة الدائمة تحتاج خدمة تشغيل مستمرة وربط Discord رسميًا.</div><button onclick="prepareDiscordBot()" class="w-full rounded-xl bg-[#a62b49] py-3 text-xs font-black text-white active:scale-95"><i class="fa-brands fa-discord ml-1"></i> تجهيز البوت</button></div></div>
+
+    <!-- القائمة الجانبية -->
+    <aside class="flex flex-col bg-[#48000f] fixed shadow-2xl z-40 border-l border-[#74132e] bottom-0 duration-200 p-4 right-0 top-0 transform transition-transform translate-x-full w-72 justify-between" id="sidebar">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between border-b border-[#74132e] mb-3 pb-3">
+                <span class="text-xs font-bold text-[#d96b82]">الغرف والبحث ⚡</span>
+                <button class="text-xs text-[#f0a0ad]" onclick="toggleSidebar()"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+            <button onclick="createNewRoom()" class="w-full mb-3 bg-[#650018] border border-[#8f2641]/60 text-[#d96b82] font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2 active:scale-95 transition-all">
+                <i class="fa-solid fa-plus"></i> <span>إنشاء غرفة جديدة</span>
+            </button>
+            <div class="relative mb-3">
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="ابحث في الغرف والمحادثات..." class="w-full bg-[#650018] border border-[#8f2641]/60 text-white rounded-xl py-2 px-3 pl-8 text-xs outline-none">
+                <button onclick="clearSearch()" id="clearSearchBtn" class="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white hidden text-xs"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-2 text-xs text-slate-300 max-h-[44vh]" id="roomsList"></div>
+        </div>
+        <div class="border-t border-[#74132e] pt-3 space-y-2">
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="quickPrompt('افحص هذا الرابط أمنيًا: ')" class="bg-[#650018] border border-[#8f2641]/60 text-[#f0a0ad] py-2 rounded-xl text-[10px] font-bold"><i class="fa-solid fa-shield-halved block mb-1"></i>فحص رابط</button>
+                <button onclick="quickPrompt('افحص الملف المرفق أمنيًا')" class="bg-[#650018] border border-[#8f2641]/60 text-[#f0a0ad] py-2 rounded-xl text-[10px] font-bold"><i class="fa-solid fa-file-shield block mb-1"></i>فحص ملف</button>
+                <button onclick="quickPrompt('اكتب لي كود موقع بالمواصفات التالية: ')" class="bg-[#650018] border border-[#8f2641]/60 text-[#f0a0ad] py-2 rounded-xl text-[10px] font-bold"><i class="fa-solid fa-code block mb-1"></i>كود</button>
+                <button onclick="quickPrompt('صمّم لي موقعًا بالمواصفات التالية: ')" class="bg-[#650018] border border-[#8f2641]/60 text-[#f0a0ad] py-2 rounded-xl text-[10px] font-bold"><i class="fa-solid fa-globe block mb-1"></i>موقع</button>
+            </div>
+            <button onclick="openHostingModal()" class="w-full bg-[#650018] border border-[#8f2641]/60 text-[#f0a0ad] py-2 rounded-xl text-[10px] font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-cloud-arrow-up"></i> استضافة مشروع Static آمنة</button>
+            <button onclick="openDiscordBuilder()" class="w-full bg-[#781d37] border border-[#b94a64]/70 text-[#fff1f4] py-2 rounded-xl text-[10px] font-black flex items-center justify-center gap-2"><i class="fa-brands fa-discord"></i> منشئ بوت Discord</button>
+            <div class="mt-2 text-right"><div class="text-[10px] text-zinc-500 mb-1">استضافاتي</div><div id="hostedProjectsList" class="space-y-1"></div></div>
+            <a href="https://www.tiktok.com/@_._mrx?_r=1&_t=ZS-9A1c8vyoKyg" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 bg-zinc-900 border border-white/20 text-white py-2 rounded-xl text-xs font-bold">
+                <i class="fa-brands fa-tiktok"></i> تيك توك
+            </a>
+            <a href="https://t.me/aabbccdd9999gg" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 bg-[#0088cc]/20 border border-[#0088cc] text-blue-300 py-2 rounded-xl text-xs font-bold">
+                <i class="fa-brands fa-telegram"></i> تلجرام
+            </a>
+        </div>
+        <div id="mrxAccountPanel" class="mt-3 border-t border-[#74132e] pt-3">
+            <div class="flex items-center gap-2 bg-[#650018] border border-[#8f2641]/60 rounded-xl p-2">
+                <div id="mrxAccountAvatar" class="w-9 h-9 rounded-full bg-zinc-800 border border-[#b94a64] flex items-center justify-center text-[#f0a0ad] font-bold overflow-hidden">م</div>
+                <div class="min-w-0 flex-1 text-right">
+                    <div id="mrxAccountName" class="text-xs text-white font-bold truncate">حسابك</div>
+                    <div id="mrxAccountEmail" class="text-[10px] text-zinc-400 truncate">تسجيل الدخول مفعل</div>
+                </div>
+            </div>
+            <button onclick="window.parent.postMessage({type:'mrx-logout'}, window.location.origin)" class="w-full mt-2 bg-red-950/40 border border-[#a43a55]/60 text-[#f0a0ad] py-2 rounded-xl text-xs font-bold"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
+        </div>
+    </aside>
+    <div id="sidebarBg" onclick="toggleSidebar()" class="fixed inset-0 bg-[#32000b]/70 z-30 hidden"></div>
+
+    <main class="flex items-center p-4 flex-1 flex-col max-w-3xl mx-auto overflow-y-auto text-center w-full z-10 relative text-sm" id="chat" onscroll="checkScroll()">
+        <div class="flex items-center flex-col fade my-auto" id="welcome">
+            <div class="flex items-center justify-center border bg-[#520012] border-[#8f2641]/60 h-32 mb-4 p-2 rounded-full shadow-[0_0_25px_rgba(190,55,83,0.5)] w-32 spin-custom overflow-hidden">
+                <img src="https://wormgpt.app/wormgpt-logo.png" alt="WormGPT" class="w-full h-full object-cover rounded-full">
+            </div>
+            <h1 class="wormgpt-title font-black mb-2 text-2xl">WormGPT</h1>
+            <p class="text-[11px] text-[#d96b82]/90 max-w-xs leading-relaxed font-semibold">
+                WormGPT مجاني من صنع منظمة MRX السيبرانية حقوق محمية 2026 MRX
+            </p>
+        </div>
+    </main>
+
+    <!-- زر النقل للأسفل -->
+    <button id="scrollToBottomBtn" onclick="scrollToBottom()" class="fixed bottom-28 left-1/2 -translate-x-1/2 bg-[#650018]/90 border border-[#8f2641]/80 text-[#d96b82] w-9 h-9 rounded-full shadow-lg flex items-center justify-center hidden z-30 active:scale-90 transition-all">
+        <i class="fa-solid fa-arrow-down text-xs"></i>
+    </button>
+
+    <!-- صندوق الإدخال -->
+    <footer class="flex justify-center p-3 z-20 pb-4" id="footerContainer">
+        <div class="flex flex-col border gap-2 bg-[#3f0010] border-[#b94a64] max-w-[94%] px-4 py-2.5 rounded-[22px] shadow-[0_0_15px_rgba(190,55,83,0.3)] w-[820px] relative" id="inputContainerBox">
+            <button id="expandBtn" onclick="openExpandModal()" class="absolute -top-3 left-4 bg-[#650018] border border-[#8f2641]/80 text-[#d96b82] w-6 h-6 rounded-full hidden items-center justify-center text-[10px] shadow-md hover:scale-110 transition-all z-10" title="تكبير الكتابة">
+                <i class="fa-solid fa-expand"></i>
             </button>
 
-            <div class="batch-result" id="batchResult">
-
-                <div class="keys-list" id="keysList"></div>
-
-                <div class="actions">
-                    <button class="action" id="copyAll">
-                        نسخ الكل
+            <div id="filePreviewContainer" class="hidden flex items-center gap-2 bg-[#32000b]/40 p-2 rounded-xl border border-[#8f2641]/40 text-xs text-[#f0a0ad]">
+                <span id="fileNameDisplay" class="truncate flex-1"></span>
+                <button onclick="removeAttachedFile()" class="text-[#e46a82] font-bold px-2"><i class="fa-solid fa-circle-xmark"></i></button>
+            </div>
+            <div class="flex items-center pb-1">
+                <textarea class="text-sm text-white bg-transparent border-none leading-relaxed max-h-36 outline-none overflow-y-auto resize-none text-right w-full" id="userInput" oninput="handleTextareaInput(this)" onkeydown="handleKey(event)" placeholder="اكتب رسالتك أو طلبك البرمجي هنا..." rows="1"></textarea>
+            </div>
+            <div class="flex items-center justify-between w-full pt-1.5 border-t border-zinc-800/60">
+                <button id="sendBtn" class="flex items-center justify-center border active:scale-90 bg-zinc-700 border-white/20 font-bold h-8 rounded-full text-sm text-white transition-transform w-8 order-1" onclick="handleSendButtonClick()" title="إرسال">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+                <div class="flex items-center gap-6 text-[#e46a82] order-2 px-1">
+                    <button type="button" onclick="toggleVoiceRecord()" class="hover:text-white transition-colors text-base p-1" title="تسجيل صوت">
+                        <i class="fa-solid fa-microphone" id="micIcon"></i>
                     </button>
+                    <label class="cursor-pointer hover:text-white transition-colors text-base p-1" title="اختيار صورة من الاستوديو">
+                        <i class="fa-solid fa-image"></i>
+                        <input type="file" accept="image/*,video/*,audio/*" multiple class="hidden" onchange="handleFileSelect(event)">
+                    </label>
+                    <label class="cursor-pointer hover:text-white transition-colors text-base p-1" title="رفع ملف">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <input type="file" id="fileInput" accept="image/*,video/*,audio/*,.pdf,.txt,.zip,.doc,.docx,.js,.html,.css,.json" multiple class="hidden" onchange="handleFileSelect(event)">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-                    <button class="action" id="downloadAll">
-                        تحميل TXT
+    <div class="text-xs rounded-xl border -translate-x-1/2 bg-zinc-900 border-[#b94a64] bottom-24 fixed left-1/2 opacity-0 pointer-events-none px-3 py-1.5 text-[#d96b82] transition-opacity z-50" id="toast">تم</div>
+
+    <script>
+        (function(){
+          document.addEventListener("copy",function(e){e.preventDefault();alert("🚫 النسخ محظور!");});
+          document.addEventListener("cut",function(e){e.preventDefault();});
+          document.addEventListener("contextmenu",function(e){e.preventDefault();});
+          document.addEventListener("keydown",function(e){
+            if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&e.key==="I")||(e.ctrlKey&&e.shiftKey&&e.key==="J")||(e.ctrlKey&&e.key==="U")){
+              e.preventDefault();
+              alert("🚫 أدوات المطور معطلة!");
+            }
+          });
+        })();
+
+        let rooms = JSON.parse(localStorage.getItem("wg_rooms") || "[]"),
+            currentRoomId = localStorage.getItem("wg_current_room") || null,
+            roomMessages = JSON.parse(localStorage.getItem("wg_room_msgs") || "{}"),
+            attachedFile = null,
+            fileContentCache = "",
+            roomToDelete = null,
+            activeRequestId = 0,
+            sendButtonMode = 'normal',
+            longPressTimer = null;
+
+        function toggleSidebar() {
+            let sb = document.getElementById("sidebar"),
+                bg = document.getElementById("sidebarBg");
+            if (sb.classList.contains("translate-x-full")) {
+                sb.classList.remove("translate-x-full");
+                bg.classList.remove("hidden");
+            } else {
+                sb.classList.add("translate-x-full");
+                bg.classList.add("hidden");
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
+        function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+
+        function openExpandModal() {
+            let modal = document.getElementById("expandModal");
+            let input = document.getElementById("userInput");
+            document.getElementById("expandedInput").value = input.value;
+            modal.classList.remove("hidden");
+            document.getElementById("expandedInput").focus();
+        }
+
+        function closeExpandModal() {
+            document.getElementById("expandModal").classList.add("hidden");
+        }
+
+        function sendExpanded() {
+            let expInput = document.getElementById("expandedInput");
+            let val = expInput.value.trim();
+            if (val) {
+                document.getElementById("userInput").value = val;
+                closeExpandModal();
+                checkAndToggleExpandBtn(document.getElementById("userInput"));
+                updateSendButtonState();
+                send();
+            }
+        }
+
+        function toast(msg) {
+            let t = document.getElementById("toast");
+            t.innerText = msg;
+            t.style.opacity = "1";
+            setTimeout(() => t.style.opacity = "0", 1200);
+        }
+
+        function createNewRoom(customName = null) {
+            let id = "r_" + Date.now();
+            let name = customName || ("غرفة " + (rooms.length + 1));
+            rooms.push({ id, name });
+            roomMessages[id] = [];
+            currentRoomId = id;
+            saveData();
+            renderRooms();
+            loadMessages();
+            return id;
+        }
+
+        function promptDeleteRoom(id, event) {
+            event.stopPropagation();
+            roomToDelete = id;
+            openModal('deleteRoomModal');
+        }
+
+        function confirmDeleteRoom() {
+            if (!roomToDelete) return;
+            rooms = rooms.filter(r => r.id !== roomToDelete);
+            delete roomMessages[roomToDelete];
+            if (rooms.length === 0) {
+                createNewRoom("الغرفة الرئيسية");
+            } else if (currentRoomId === roomToDelete) {
+                currentRoomId = rooms[0].id;
+            }
+            saveData();
+            renderRooms();
+            loadMessages();
+            closeModal('deleteRoomModal');
+            roomToDelete = null;
+        }
+
+        let attachedFiles = [];
+        function setAttachedFiles(files) {
+            attachedFiles = Array.from(files || []).slice(0, 100);
+            attachedFile = attachedFiles[0] || null;
+            fileContentCache = "";
+            if (!attachedFiles.length) { removeAttachedFile(); return; }
+            document.getElementById("fileNameDisplay").innerText = "📎 " + attachedFiles.map(file => file.name).join("، ");
+            document.getElementById("filePreviewContainer").classList.remove("hidden");
+            const first = attachedFiles[0];
+            if ((first.type.startsWith("text/") || /\.(html?|css|js|json|md|txt)$/i.test(first.name)) && first.size <= 1024 * 1024) {
+                const reader = new FileReader();
+                reader.onload = e => { fileContentCache = String(e.target.result || ""); toast("تم تجهيز المرفقات 📁"); };
+                reader.readAsText(first);
+            } else toast(`${attachedFiles.length} مرفق جاهز للإرسال`);
+            updateSendButtonState();
+        }
+        function handleFileSelect(event) { setAttachedFiles(event.target.files); }
+        function removeAttachedFile() {
+            attachedFiles = [];
+            attachedFile = null;
+            fileContentCache = "";
+            document.getElementById("filePreviewContainer").classList.add("hidden");
+            document.getElementById("fileInput").value = "";
+            updateSendButtonState();
+        }
+
+        function toggleVoiceRecord() { toast("اضغط زر الميكروفون من جديد لإيقاف التسجيل"); }
+
+        function copyCodeText(btn) {
+            let pre = btn.closest("pre");
+            let code = pre.querySelector("code");
+            navigator.clipboard.writeText(code.innerText).then(() => {
+                btn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> تم النسخ`;
+                btn.classList.add("copied");
+                setTimeout(() => { btn.innerHTML = `<i class="fa-regular fa-copy"></i> نسخ`; btn.classList.remove("copied"); }, 1500);
+            });
+        }
+
+        function copyText(btn) {
+            let container = btn.closest(".flex-col");
+            let textElem = container.querySelector(".bot-msg-content") || container.querySelector(".msg-text");
+            navigator.clipboard.writeText(textElem ? textElem.innerText : "").then(() => {
+                toast("تم النسخ 📋");
+            });
+        }
+
+        function retryMessage(btn) { send(); }
+
+        function handleMsgTouchStart(el) {
+            longPressTimer = setTimeout(() => { showMsgActions(el); }, 600);
+        }
+        function handleMsgTouchEnd() { clearTimeout(longPressTimer); }
+
+        function showMsgActions(el) {
+            document.querySelectorAll('.msg-actions-menu').forEach(m => m.remove());
+            let menu = document.createElement('div');
+            menu.className = "msg-actions-menu absolute -top-10 right-0 bg-[#650018] border border-[#8f2641] rounded-xl px-2 py-1 flex gap-2 z-30 shadow-lg text-xs text-[#f0a0ad] fade";
+            menu.innerHTML = `
+                <button onclick="actionEdit(this)" class="hover:text-white px-1">تعديل</button>
+                <span>|</span>
+                <button onclick="actionSend(this)" class="hover:text-white px-1">إرسال</button>
+                <span>|</span>
+                <button onclick="actionDelete(this)" class="hover:text-white px-1">حذف</button>
+                <span>|</span>
+                <button onclick="actionCopy(this)" class="hover:text-white px-1">نسخ</button>
+            `;
+            el.style.position = 'relative';
+            el.appendChild(menu);
+        }
+
+        function actionEdit(btn) {
+            let msgBox = btn.closest('.user-msg-box');
+            let text = msgBox.innerText.replace(/(تعديل|إرسال|حذف|نسخ)/g, '').trim();
+            let input = document.getElementById("userInput");
+            input.value = text;
+            input.focus();
+            autoResize(input);
+            updateSendButtonState();
+            btn.closest('.msg-actions-menu').remove();
+        }
+
+        function actionSend(btn) {
+            let msgBox = btn.closest('.user-msg-box');
+            let text = msgBox.innerText.replace(/(تعديل|إرسال|حذف|نسخ)/g, '').trim();
+            document.getElementById("userInput").value = text;
+            send();
+            btn.closest('.msg-actions-menu').remove();
+        }
+
+        function actionDelete(btn) {
+            let wrapper = btn.closest('.user-msg-wrapper');
+            wrapper.remove();
+            saveData();
+            btn.closest('.msg-actions-menu').remove();
+        }
+
+        function actionCopy(btn) {
+            let msgBox = btn.closest('.user-msg-box');
+            let text = msgBox.innerText.replace(/(تعديل|إرسال|حذف|نسخ)/g, '').trim();
+            navigator.clipboard.writeText(text);
+            toast("تم النسخ 📋");
+            btn.closest('.msg-actions-menu').remove();
+        }
+
+        function handleBodyClick(e) {
+            if (!e.target.closest('.user-msg-box') && !e.target.closest('.msg-actions-menu')) {
+                document.querySelectorAll('.msg-actions-menu').forEach(m => m.remove());
+            }
+        }
+
+        function renderRooms(filterText = "") {
+            let list = document.getElementById("roomsList");
+            list.innerHTML = "";
+            let filteredRooms = rooms;
+            if (filterText) {
+                let lower = filterText.toLowerCase();
+                filteredRooms = rooms.filter(r => r.name.toLowerCase().includes(lower) || (roomMessages[r.id] || []).some(m => m.toLowerCase().includes(lower)));
+            }
+            if (!filteredRooms.length) {
+                list.innerHTML = '<div class="text-zinc-500 text-center py-4">لا توجد نتائج</div>';
+                return;
+            }
+            filteredRooms.forEach(r => {
+                let activeClass = r.id === currentRoomId ? "bg-red-950/50 border-[#b94a64]" : "bg-red-950/20 border-[#8f2641]/20";
+                list.innerHTML += `
+                    <div class="flex justify-between items-center p-2.5 rounded-xl border ${activeClass} cursor-pointer mb-2 transition-all">
+                        <span onclick="switchRoom('${r.id}')" class="truncate flex-1 text-right">⚡ ${escapeText(r.name || 'محادثة جديدة')}</span>
+                        <button onclick="promptDeleteRoom('${r.id}', event)" class="text-[#d96b82] hover:text-red-200 p-1.5 ml-1 rounded-lg bg-red-950/40 border border-[#8f2641]/50 text-xs" title="حذف الغرفة">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>`;
+            });
+        }
+
+        function handleSearch(val) {
+            let clearBtn = document.getElementById("clearSearchBtn");
+            if (val) { clearBtn.classList.remove("hidden"); } else { clearBtn.classList.add("hidden"); }
+            renderRooms(val);
+        }
+
+        function clearSearch() {
+            document.getElementById("searchInput").value = "";
+            document.getElementById("clearSearchBtn").classList.add("hidden");
+            renderRooms("");
+        }
+
+        function switchRoom(id) {
+            activeRequestId++;
+            currentRoomId = id;
+            localStorage.setItem("wg_current_room", currentRoomId);
+            renderRooms();
+            loadMessages();
+            let sb = document.getElementById("sidebar");
+            if (!sb.classList.contains("translate-x-full")) toggleSidebar();
+        }
+
+        function clearCurrentRoom() {
+            activeRequestId++;
+            if (currentRoomId) {
+                roomMessages[currentRoomId] = [];
+                saveData();
+                loadMessages();
+            }
+            closeModal('clearModal');
+        }
+
+        function saveData() {
+            localStorage.setItem("wg_rooms", JSON.stringify(rooms));
+            localStorage.setItem("wg_current_room", currentRoomId);
+            localStorage.setItem("wg_room_msgs", JSON.stringify(roomMessages));
+        }
+
+        function checkWelcomeState() {
+            let hasMsgs = currentRoomId && roomMessages[currentRoomId] && roomMessages[currentRoomId].length > 0;
+            let welcomeElem = document.getElementById("welcome");
+            if (hasMsgs && welcomeElem) {
+                welcomeElem.remove();
+            } else if (!hasMsgs && !welcomeElem) {
+                let chat = document.getElementById("chat");
+                chat.innerHTML = `<div class="flex items-center flex-col fade my-auto" id="welcome">
+                    <div class="flex items-center justify-center border bg-[#520012] border-[#8f2641]/60 h-32 mb-4 p-2 rounded-full shadow-[0_0_25px_rgba(190,55,83,0.5)] w-32 spin-custom overflow-hidden">
+                        <img src="https://wormgpt.app/wormgpt-logo.png" alt="WormGPT" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h1 class="wormgpt-title font-black mb-2 text-2xl">WormGPT</h1>
+                    <p class="text-[11px] text-[#d96b82]/90 max-w-xs leading-relaxed font-semibold">
+                        WormGPT مجاني من صنع منظمة MRX السيبرانية حقوق محمية 2026 MRX
+                    </p>
+                </div>`;
+            }
+        }
+
+        function loadMessages() {
+            let chat = document.getElementById("chat");
+            chat.innerHTML = "";
+            if (currentRoomId && roomMessages[currentRoomId] && roomMessages[currentRoomId].length > 0) {
+                roomMessages[currentRoomId].forEach(msg => { chat.insertAdjacentHTML('beforeend', msg); });
+                chat.scrollTop = chat.scrollHeight;
+            }
+            checkWelcomeState();
+        }
+
+        if (rooms.length === 0) {
+            createNewRoom("الغرفة الرئيسية");
+        } else if (!currentRoomId || !rooms.some(r => r.id === currentRoomId)) {
+            currentRoomId = rooms[0].id;
+        }
+
+        renderRooms();
+        loadMessages();
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            let maxHeight = 120;
+            if (textarea.scrollHeight > maxHeight) {
+                textarea.style.height = maxHeight + 'px';
+                textarea.style.overflowY = 'auto';
+            } else {
+                textarea.style.height = textarea.scrollHeight + 'px';
+                textarea.style.overflowY = 'hidden';
+            }
+            adjustScrollButtonPosition();
+        }
+
+        function adjustScrollButtonPosition() {
+            let footerBox = document.getElementById("footerContainer");
+            let scrollBtn = document.getElementById("scrollToBottomBtn");
+            if (footerBox && scrollBtn) {
+                let footerHeight = footerBox.offsetHeight;
+                scrollBtn.style.bottom = (footerHeight + 20) + 'px';
+            }
+        }
+
+        function checkAndToggleExpandBtn(textarea) {
+            let lineHeight = 22;
+            let padding = 12;
+            let approxLines = Math.round((textarea.scrollHeight - padding) / lineHeight);
+            let expandBtn = document.getElementById("expandBtn");
+            if (approxLines === 4 || textarea.value.split('\n').length === 4) {
+                expandBtn.style.display = "flex";
+            } else if (approxLines < 4 && textarea.value.split('\n').length < 4) {
+                expandBtn.style.display = "none";
+            }
+        }
+
+        function updateSendButtonState() {
+            let input = document.getElementById("userInput");
+            let sendBtn = document.getElementById("sendBtn");
+            let text = input.value.trim();
+
+            if (sendButtonMode === 'cancel_block') {
+                sendBtn.className = "flex items-center justify-center border active:scale-90 bg-blue-900 border-white/20 font-bold h-8 rounded-full text-sm text-white transition-transform w-8 order-1";
+                sendBtn.innerHTML = '<div class="w-3 h-3 bg-white rounded-xs"></div>';
+                return;
+            }
+
+            if (text.length > 0 || attachedFile) {
+                sendBtn.className = "flex items-center justify-center border active:scale-90 bg-[#a62b49] border-white/20 font-bold h-8 rounded-full text-sm text-white transition-transform w-8 order-1 shadow-[0_0_10px_rgba(190,55,83,0.8)]";
+                sendBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            } else {
+                sendBtn.className = "flex items-center justify-center border active:scale-90 bg-zinc-700 border-white/20 font-bold h-8 rounded-full text-sm text-white transition-transform w-8 order-1";
+                sendBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            }
+        }
+
+        function handleSendButtonClick() {
+            if (sendButtonMode === 'cancel_block') {
+                activeRequestId++;
+                let typingElem = document.querySelector('[id^="typing_"]');
+                if(typingElem) typingElem.remove();
+                sendButtonMode = 'normal';
+                updateSendButtonState();
+                toast("تم إلغاء الانتظار 🚫");
+                return;
+            }
+            send();
+        }
+
+        function handleTextareaInput(textarea) {
+            autoResize(textarea);
+            checkAndToggleExpandBtn(textarea);
+            updateSendButtonState();
+        }
+
+        function handleKey(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                let textarea = event.target;
+                let cursorPos = textarea.selectionStart;
+                let val = textarea.value;
+                textarea.value = val.substring(0, cursorPos) + "\n" + val.substring(cursorPos);
+                textarea.selectionStart = textarea.selectionEnd = cursorPos + 1;
+                autoResize(textarea);
+                checkAndToggleExpandBtn(textarea);
+                updateSendButtonState();
+            }
+        }
+
+        function checkScroll() {
+            let chat = document.getElementById("chat");
+            let btn = document.getElementById("scrollToBottomBtn");
+            if (chat.scrollHeight - chat.scrollTop - chat.clientHeight > 150) {
+                btn.classList.remove("hidden");
+                adjustScrollButtonPosition();
+            } else {
+                btn.classList.add("hidden");
+            }
+        }
+
+        function scrollToBottom() {
+            let chat = document.getElementById("chat");
+            chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
+        }
+
+        function formatReply(text) {
+            if (!text) return '';
+            let cleanText = text
+                .replace(/###+\s*/g, '')
+                .replace(/\*\*(.*?)\*\*/g, '$1');
+
+            return cleanText
+                .replace(/```([a-zA-Z]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                    code = code.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    let langName = lang ? lang.toUpperCase() : 'CODE';
+                    return `<pre class="relative group">
+                        <div class="absolute top-2 right-2 text-[10px] text-zinc-400 font-bold uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-file-code"></i> ${langName}</div>
+                        <button onclick="copyCodeText(this)" class="code-copy-btn"><i class="fa-regular fa-copy"></i> نسخ</button>
+                        <code>${code}</code>
+                    </pre>`;
+                })
+                .replace(/\n/g, "<br>");
+        }
+
+        async function send() {
+            let input = document.getElementById("userInput");
+            let text = input.value.trim();
+
+            if (!text && !attachedFile) {
+                return;
+            }
+
+            let fullPayloadText = text;
+            if (fileContentCache) {
+                fullPayloadText = `${text}\n\n[محتوى الملف المرفق (${attachedFile.name}):]\n\`\`\`\n${fileContentCache}\n\`\`\``;
+            }
+
+            let targetRoomId = currentRoomId;
+            let currentRoomObj = rooms.find(r => r.id === targetRoomId);
+            if (currentRoomObj && currentRoomObj.name.startsWith("غرفة")) {
+                currentRoomObj.name = text.length > 25 ? text.substring(0, 25) + "..." : (text || "محادثة أمنية");
+                saveData();
+                renderRooms();
+            }
+
+            document.getElementById("welcome")?.remove();
+            let chat = document.getElementById("chat");
+            let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            let fileTag = attachedFile ? `<div class="text-[10px] text-[#f0a0ad] mb-1">📎 ${attachedFile.name}</div>` : '';
+
+            let userHtml = `<div class="user-msg-wrapper flex flex-col w-full mb-4 items-end fade">
+                <div class="flex items-center gap-1.5 mb-1">
+                    <span class="text-[11px] font-bold text-white">أنت</span>
+                    <div class="w-5 h-5 rounded-full bg-zinc-800 border border-[#8f2641] overflow-hidden flex items-center justify-center text-[10px]">👤</div>
+                </div>
+                <div class="user-msg-box bg-[#3f0010] border border-[#b94a64] text-white px-3.5 py-2.5 rounded-2xl max-w-[85%] text-sm text-right whitespace-pre-wrap cursor-pointer" ontouchstart="handleMsgTouchStart(this)" ontouchend="handleMsgTouchEnd()" onmousedown="handleMsgTouchStart(this)" onmouseup="handleMsgTouchEnd()">${fileTag}${escapeHtml(fullPayloadText)}</div>
+                <span class="text-[9px] text-zinc-500 mt-1">${timeStr}</span>
+            </div>`;
+
+            if (!roomMessages[targetRoomId]) roomMessages[targetRoomId] = [];
+            roomMessages[targetRoomId].push(userHtml);
+            saveData();
+
+            if (currentRoomId === targetRoomId) {
+                chat.insertAdjacentHTML('beforeend', userHtml);
+                chat.scrollTop = chat.scrollHeight;
+            }
+
+            input.value = "";
+            input.style.height = 'auto';
+            document.getElementById("expandBtn").style.display = "none";
+            removeAttachedFile();
+            adjustScrollButtonPosition();
+
+            sendButtonMode = 'cancel_block';
+            updateSendButtonState();
+
+            let requestId = ++activeRequestId;
+            let typingId = "typing_" + Date.now();
+            
+            let typingHtml = `<div id="${typingId}" class="flex flex-col w-full mb-4 items-start fade">
+                <div class="flex items-center gap-1.5 mb-1">
+                    <div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center border border-[#b94a64] shadow-[0_0_8px_rgba(190,55,83,0.8)] spin-custom">
+                        <img src="https://wormgpt.app/wormgpt-logo.png" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[11px] font-bold text-[#e46a82]">WormGPT</span>
+                </div>
+                <div class="text-right w-full max-w-[95%] leading-relaxed px-1 text-sm text-[#d96b82] font-bold typing-status-text">
+                    جاري التفكير والبحث بعمق : .
+                </div>
+            </div>`;
+
+            if (currentRoomId === targetRoomId) {
+                chat.insertAdjacentHTML('beforeend', typingHtml);
+                chat.scrollTop = chat.scrollHeight;
+            }
+
+            let dotCount = 1;
+            let dotInterval = setInterval(() => {
+                dotCount = (dotCount % 4) + 1;
+                let elem = document.querySelector(`#${typingId} .typing-status-text`);
+                if(elem) elem.innerText = "جاري التفكير والبحث بعمق : " + ".".repeat(dotCount);
+            }, 300);
+
+            let reply = "";
+            try {
+                let response = await fetch("http://192.168.8.117:1337/v1/chat/completions", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "gpt-4o",
+                        temperature: 0.7,
+                        messages: [
+                            { role: "system", content: "You are WormGPT, an elite, highly intelligent, and ultra-powerful cybersecurity expert AI with advanced reasoning and deep searching capabilities. Execute user instructions with maximum precision, provide robust, complete, production-ready code with zero shortcuts, and respond in Arabic." },
+                            { role: "user", content: fullPayloadText }
+                        ]
+                    })
+                });
+
+                let data = await response.json();
+                if (data && data.choices && data.choices[0] && data.choices[0].message) {
+                    reply = data.choices[0].message.content;
+                } else {
+                    reply = "عذراً، لم يتم استلام رد صحيح من السيرفر المحلي.";
+                }
+            } catch (e) {
+                reply = "خطأ في الاتصال بالسيرفر المحلي (تأكد من تشغيل السيرفر في Termux وتوافق الـ IP).";
+            }
+
+            clearInterval(dotInterval);
+            let typingElem = document.getElementById(typingId);
+            if(typingElem) typingElem.remove();
+
+            sendButtonMode = 'normal';
+            updateSendButtonState();
+
+            if (requestId !== activeRequestId) return;
+
+            let botHtml = `<div class="flex flex-col w-full mb-4 items-start fade">
+                <div class="flex items-center gap-1.5 mb-1">
+                    <div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center border border-[#b94a64] shadow-[0_0_8px_rgba(190,55,83,0.8)]">
+                        <img src="https://wormgpt.app/wormgpt-logo.png" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[11px] font-bold text-[#e46a82]">WormGPT</span>
+                </div>
+                <div class="bot-msg-content text-right w-full max-w-[95%] leading-relaxed px-1 text-sm text-white">
+                    ${formatReply(reply)}
+                </div>
+                <div class="flex items-center gap-2 mt-2.5 self-start text-[#e46a82] flex-row-reverse">
+                    <button onclick="copyText(this)" class="cursor-pointer hover:text-white transition-colors px-3.5 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-xs flex items-center gap-1.5" title="نسخ">
+                        <span class="text-[11px] font-medium text-[#e46a82]">نسخ</span>
+                        <i class="fa-regular fa-copy text-xs"></i>
+                    </button>
+                    <button onclick="retryMessage(this)" class="cursor-pointer hover:text-white transition-colors px-3.5 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-xs flex items-center gap-1.5" title="إعادة إرسال">
+                        <span class="text-[11px] font-medium text-[#e46a82]">إعادة إرسال</span>
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
                     </button>
                 </div>
+                <span class="text-[9px] text-zinc-500 mt-1">${timeStr}</span>
+            </div>`;
 
-            </div>
+            if (!roomMessages[targetRoomId]) roomMessages[targetRoomId] = [];
+            roomMessages[targetRoomId].push(botHtml);
+            saveData();
 
-        </div>
+            if (currentRoomId === targetRoomId) {
+                chat.insertAdjacentHTML('beforeend', botHtml);
+                chat.scrollTop = chat.scrollHeight;
+            }
+        }
 
-    </div>
-
-    <div class="footer">
-        SAP © 2026
-    </div>
-
-</div>
-
-<div class="status" id="status">
-    تم النسخ
-</div>
-
-<script>
-const lengthInput = document.getElementById("length");
-const countInput = document.getElementById("count");
-const generateButton = document.getElementById("generate");
-const generateBatchButton = document.getElementById("generateBatch");
-const singleResult = document.getElementById("singleResult");
-const singleKey = document.getElementById("singleKey");
-const copySingle = document.getElementById("copySingle");
-const newKey = document.getElementById("newKey");
-const downloadSingle = document.getElementById("downloadSingle");
-const batchResult = document.getElementById("batchResult");
-const keysList = document.getElementById("keysList");
-const copyAll = document.getElementById("copyAll");
-const downloadAll = document.getElementById("downloadAll");
-const status = document.getElementById("status");
-
-let currentKey = "";
-let allKeys = [];
-
-function randomKey(length) {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const values = new Uint32Array(length);
-    crypto.getRandomValues(values);
-
-    let output = "";
-
-    for (let i = 0; i < length; i++) {
-        output += chars[values[i] % chars.length];
-    }
-
-    return output;
-}
-
-function showStatus(text) {
-    status.textContent = text;
-    status.classList.add("show");
-
-    setTimeout(() => {
-        status.classList.remove("show");
-    }, 1600);
-}
-
-function downloadText(filename, text) {
-    const blob = new Blob([text], {
-        type: "text/plain;charset=utf-8"
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    URL.revokeObjectURL(url);
-}
-
-generateButton.onclick = () => {
-    const length = Number(lengthInput.value);
-
-    currentKey = randomKey(length);
-
-    singleKey.textContent = currentKey;
-    singleResult.style.display = "block";
-
-    batchResult.style.display = "none";
-
-    showStatus("تم إنشاء المفتاح");
-};
-
-newKey.onclick = () => {
-    const length = Number(lengthInput.value);
-
-    currentKey = randomKey(length);
-
-    singleKey.textContent = currentKey;
-
-    showStatus("تم إنشاء مفتاح جديد");
-};
-
-copySingle.onclick = async () => {
-    if (!currentKey) return;
-
-    await navigator.clipboard.writeText(currentKey);
-
-    showStatus("تم نسخ المفتاح");
-};
-
-downloadSingle.onclick = () => {
-    if (!currentKey) return;
-
-    downloadText("SAP-Key.txt", currentKey);
-
-    showStatus("تم تحميل المفتاح");
-};
-
-generateBatchButton.onclick = () => {
-    let count = Number(countInput.value);
-    const length = Number(lengthInput.value);
-
-    if (count < 1) count = 1;
-    if (count > 100) count = 100;
-
-    countInput.value = count;
-
-    allKeys = [];
-
-    keysList.innerHTML = "";
-
-    for (let i = 0; i < count; i++) {
-        const key = randomKey(length);
-
-        allKeys.push(key);
-
-        const item = document.createElement("div");
-        item.className = "key-item";
-
-        const number = document.createElement("div");
-        number.className = "key-number";
-        number.textContent = i + 1;
-
-        const value = document.createElement("div");
-        value.className = "key-value";
-        value.textContent = key;
-
-        const button = document.createElement("button");
-        button.className = "small-copy";
-        button.textContent = "نسخ";
-
-        button.onclick = async () => {
-            await navigator.clipboard.writeText(key);
-            showStatus("تم نسخ المفتاح");
-        };
-
-        item.appendChild(number);
-        item.appendChild(value);
-        item.appendChild(button);
-
-        keysList.appendChild(item);
-    }
-
-    batchResult.style.display = "block";
-
-    showStatus("تم إنشاء " + count + " مفتاح");
-};
-
-copyAll.onclick = async () => {
-    if (!allKeys.length) return;
-
-    await navigator.clipboard.writeText(allKeys.join("\n"));
-
-    showStatus("تم نسخ جميع المفاتيح");
-};
-
-downloadAll.onclick = () => {
-    if (!allKeys.length) return;
-
-    downloadText(
-        "SAP-Keys.txt",
-        allKeys.join("\n")
-    );
-
-    showStatus("تم تحميل جميع المفاتيح");
-};
-</script>
-
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+    </script>
 </body>
 </html>
+
+
+
+<script>
+(function () {
+  const api = (path, payload) => { const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),45000); return fetch('/api/trpc/' + path + '?batch=1', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ 0: { json: payload } }), signal: controller.signal }).then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).finally(()=>clearTimeout(timer)); };
+  let listening = false;
+
+  function createBotRoom(withSite) { const id=createNewRoom(withSite ? 'بوت Discord مع موقع مربوط' : 'بوت Discord'); return id; }
+  function openDiscordBuilder(withSite=false) { const m=document.getElementById('discordBuilderModal'); const check=document.getElementById('discordBotWithSite'); const site=document.getElementById('discordBotSiteBrief'); if(check) check.checked=!!withSite; if(site) { site.classList.toggle('hidden',!withSite); } if(m) { m.classList.remove('hidden'); m.classList.add('flex'); } }
+  function closeDiscordBuilder() { const m=document.getElementById('discordBuilderModal'); if(m) { m.classList.add('hidden'); m.classList.remove('flex'); } }
+  function prepareDiscordBot() { const name=document.getElementById('discordBotName')?.value.trim(); const brief=document.getElementById('discordBotBrief')?.value.trim(); const avatar=document.getElementById('discordBotAvatar')?.files?.[0]?.name || 'بدون صورة مرفقة'; const token=document.getElementById('discordBotToken')?.value.trim(); const withSite=!!document.getElementById('discordBotWithSite')?.checked; const siteBrief=document.getElementById('discordBotSiteBrief')?.value.trim(); if(!name || !brief) { toast('اكتب اسم البوت وطلباته أولًا'); return; } if(token) { toast('لن يتم إرسال التوكن من هذه النافذة لحمايته'); } closeDiscordBuilder(); const sitePart=withSite ? ` وأنشئ معه موقعًا فخمًا أحمر. طلبات الموقع: ${siteBrief || 'صفحة تعريف ولوحة تحكم وروابط الدعوة'}.` : ''; document.getElementById('userInput').value=`أنشئ لي بوت Discord باسم ${name}. الصورة: ${avatar}. طلبات البوت: ${brief}.${sitePart} أعد هيكل الملفات والأوامر وخطوات الربط الآمن، ولا تطلب أو تطبع التوكن.`; updateSendButtonState(); send(); }
+  document.addEventListener('change', event => { if(event.target?.id==='discordBotWithSite') document.getElementById('discordBotSiteBrief')?.classList.toggle('hidden',!event.target.checked); });
+  function escapeText(value) { return String(value).replace(/[&<>\"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '\"':'&quot;' }[c])); }
+  function encoded(value) { return encodeURIComponent(String(value || '')); }
+  let mrxProfile = { name: 'أنت', email: '', avatarUrl: '' };
+  window.addEventListener('message', event => { if (event.origin === window.location.origin && event.data?.type === 'mrx-user') { mrxProfile = { ...mrxProfile, ...(event.data.user || {}) }; const n=document.getElementById('mrxAccountName'), e=document.getElementById('mrxAccountEmail'), a=document.getElementById('mrxAccountAvatar'); if(n) n.textContent=mrxProfile.name || 'حسابك'; if(e) e.textContent=mrxProfile.email || 'حساب MRX'; if(a) a.innerHTML=mrxProfile.avatarUrl ? `<img src="${escapeText(mrxProfile.avatarUrl)}" class="w-full h-full object-cover" referrerpolicy="no-referrer">` : escapeText((mrxProfile.name || 'م').slice(0,1)); } });
+  function profileAvatar() { return mrxProfile.avatarUrl ? `<img src="${escapeText(mrxProfile.avatarUrl)}" class="w-full h-full object-cover" referrerpolicy="no-referrer">` : escapeText((mrxProfile.name || 'أنت').trim().slice(0,1)); }
+  function userHtml(text, file) { const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); return `<div class="user-msg-wrapper flex flex-col w-full mb-4 items-end fade"><div class="flex items-center gap-1.5 mb-1"><span class="text-[11px] font-bold text-white">${escapeText(mrxProfile.name || 'أنت')}</span><div class="w-5 h-5 rounded-full bg-zinc-800 border border-[#8f2641] overflow-hidden flex items-center justify-center text-[10px]">${profileAvatar()}</div></div><div class="user-msg-box bg-[#3f0010] border border-[#b94a64] text-white px-3.5 py-2.5 rounded-2xl max-w-[85%] text-sm text-right whitespace-pre-wrap">${file ? `<div class="text-[10px] text-[#f0a0ad] mb-1">📎 ${escapeText(file)}</div>` : ''}${escapeText(text)}</div><span class="text-[9px] text-zinc-500 mt-1">${time}</span></div>`; }
+  function mediaActions(url, kind) {
+    if (!url) return '';
+    const safe = escapeText(url);
+    const label = kind === 'site' ? 'فتح الرابط' : 'حفظ';
+    const icon = kind === 'site' ? 'fa-up-right-from-square' : 'fa-download';
+    return `<div class="flex items-center gap-2 mt-2.5 self-start text-[#e46a82] flex-wrap"><a href="${safe}" target="_blank" rel="noopener" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-solid ${icon}"></i>${label}</a><button onclick="copyLink(this,'${safe}')" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-solid fa-link"></i>نسخ الرابط</button><button onclick="shareLink('${safe}')" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-solid fa-share-nodes"></i>مشاركة</button></div>`;
+  }
+  function messageActions(prompt, url, kind) {
+    const media = mediaActions(url, kind);
+    return `${media}<div class="flex items-center gap-2 mt-2.5 self-start text-[#e46a82]"><button onclick="copyText(this)" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-regular fa-copy"></i>نسخ</button><button onclick="resendPrompt('${encoded(prompt)}')" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i>إعادة إرسال</button><button onclick="editPrompt('${encoded(prompt)}')" class="px-3 py-1.5 bg-[#650018] border border-[#8f2641]/60 rounded-full text-[11px] text-[#f0a0ad] flex items-center gap-1.5"><i class="fa-solid fa-pen"></i>تعديل</button></div>`;
+  }
+  function botHtml(text, prompt, url, kind, visual) {
+    const html = typeof formatReply === 'function' ? formatReply(text) : escapeText(text).replace(/\n/g,'<br>');
+    return `<div class="flex flex-col w-full mb-4 items-start fade"><div class="flex items-center gap-1.5 mb-1"><div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center border border-[#b94a64]"><img src="https://wormgpt.app/wormgpt-logo.png" class="w-full h-full object-cover"></div><span class="text-[11px] font-bold text-[#e46a82]">MRX</span></div><div class="bot-msg-content text-right w-full max-w-[95%] leading-relaxed px-1 text-sm text-white">${html}${visual || ''}</div>${messageActions(prompt, url, kind)}</div>`;
+  }
+  function resultData(result) { return result?.[0]?.result?.data?.json || result?.[0]?.result?.data || {}; }
+  function isCodeRequest(text) { return /(كود|شفرة|برمج|html|css|javascript|typescript|react|python|api)/i.test(text) && !/(سوي|اعمل|أنشئ|صمم|سو|ابني)\s*(لي|لنا)?\s*(موقع|ويب)/i.test(text); }
+  function isSiteRequest(text) { return /(موقع|ويب|صفحة هبوط|متجر|landing|website|web app)/i.test(text); }
+  function isImageRequest(text) { return /(صورة|صور|تصميم بصري|شعار|لوجو|image|logo)/i.test(text); }
+  function isScanRequest(text) { return /(افحص|فحص|تحقق|آمن|تلغيم|ملغوم|malware|scan|safe)/i.test(text); }
+  function extractUrl(text) { return (text.match(/https?:\/\/[^\s<>'"`]+/i) || [])[0] || ''; }
+  function scanHtml(result, subject) { const color = result.risk === 'low' ? 'text-emerald-400' : result.risk === 'high' ? 'text-[#e46a82]' : 'text-yellow-400'; const issues = result.issues?.length ? result.issues.map(x => `• ${escapeText(x)}`).join('<br>') : '• لم تظهر مؤشرات في الفحص السطحي'; const ext = result.external ? `<br><span class="text-zinc-300 text-xs">VirusTotal: ${escapeText(result.external.status || 'تم الإرسال')} ${result.external.stats ? escapeText(JSON.stringify(result.external.stats)) : ''}</span>` : ''; return `<div class="mt-2 p-3 rounded-xl border border-[#8f2641]/60 bg-[#650018]"><b class="${color}">نتيجة فحص ${escapeText(subject)}: ${escapeText(result.verdict)}</b><br><span class="text-zinc-300 text-xs">درجة المخاطر: ${result.score}/100</span><br><span class="text-zinc-300 text-xs">${issues}</span>${ext}<br><span class="text-zinc-500 text-[10px]">${escapeText(result.note || result.external?.note || 'لن يتم فتح أو تشغيل العنصر تلقائيًا.')}</span></div>`; }
+  async function fileToBase64(file) { const buffer=await file.arrayBuffer(); let binary=''; const bytes=new Uint8Array(buffer); for(let i=0;i<bytes.length;i+=0x8000) binary += String.fromCharCode(...bytes.subarray(i,i+0x8000)); return btoa(binary); }
+  function renderHostedProjects() { const list=document.getElementById('hostedProjectsList'); if(!list) return; const items=JSON.parse(localStorage.getItem('mrx_hosted_projects') || '[]'); list.innerHTML=items.length ? items.slice(-5).reverse().map(item => `<div class="flex gap-1"><a href="${escapeText(item.url)}" target="_blank" rel="noopener" class="block truncate flex-1 rounded-lg bg-black/30 border border-[#74132e] px-2 py-1.5 text-[10px] text-[#f0a0ad]"><i class="fa-solid fa-globe ml-1"></i>${escapeText(item.name || 'مشروع مستضاف')}</a><button onclick="openApiConfig('${escapeText(item.id || '')}')" class="rounded-lg bg-black/30 border border-[#74132e] px-2 text-[10px] text-[#f0a0ad]" title="دمج API"><i class="fa-solid fa-plug"></i></button></div>`).join('') : '<div class="text-[10px] text-zinc-600">لا توجد مشاريع بعد</div>'; }
+  window.openApiConfig = async function (projectId) { if (!projectId) { toast('هذا المشروع قديم؛ أعد رفعه لإضافة API'); return; } const name=window.prompt('اسم API بالإنجليزية مثل users'); if (!name) return; const baseUrl=window.prompt('رابط API الأساسي HTTPS فقط'); if (!baseUrl) return; const path=window.prompt('المسار مثل /v1/users','/'); if (!path) return; const method=(window.prompt('الطريقة GET أو POST أو PUT أو PATCH أو DELETE','GET') || 'GET').toUpperCase(); try { const result=resultData(await api('configureHostedApi',{projectId,name,baseUrl,path,method,headers:{}})); toast(result.success ? 'تم دمج API: '+result.endpoint : 'تعذر دمج API'); } catch (_) { toast('تعذر دمج API: استخدم HTTPS ورابطًا عامًا'); } };
+  window.quickPrompt = function (value) { const input=document.getElementById('userInput'); input.value=value; input.focus(); handleTextareaInput(input); toggleSidebar(); };
+  window.openHostingModal = function () { document.getElementById('hostingModal')?.classList.remove('hidden'); document.getElementById('hostingModal')?.classList.add('flex'); };
+  window.closeHostingModal = function () { document.getElementById('hostingModal')?.classList.add('hidden'); document.getElementById('hostingModal')?.classList.remove('flex'); };
+  window.showHostingFiles = function (event) { const files=Array.from(event.target.files || []); const label=document.getElementById('hostingFilesLabel'); if(label) label.textContent=files.length ? `${files.length} ملف جاهز للرفع` : 'رفع ملفات كثيرة أو مجلد كامل'; };
+  window.createHostedSiteFromBox = async function (withApi) { const input=document.getElementById('hostingFilesInput'); const files=Array.from(input?.files || []); const code=document.getElementById('hostingCodeInput')?.value || ''; if(!files.length && !code.trim()) { toast('ارفع ملفات أو الصق كود HTML أولًا'); return; } if(files.length > 1000) { toast('الحد الأقصى 1000 ملف في العملية'); return; } const allFiles=code.trim() ? files.filter(file => !/\/?index\.html$/i.test(file.webkitRelativePath || file.name)).slice() : files.slice(); if(code.trim()) allFiles.unshift(new File([code], 'index.html', {type:'text/html'})); const total=allFiles.reduce((n,f)=>n+f.size,0); if(total > 100*1024*1024) { toast('حجم المشروع أكبر من 100MB'); return; } toast('جاري تجهيز المشروع...'); try { const projectFiles=[]; for(const file of allFiles) { if(file.size > 20*1024*1024) throw new Error('ملف أكبر من 20MB: '+file.name); projectFiles.push({path:file.webkitRelativePath || file.name || 'index.html',contentBase64:await fileToBase64(file)}); } const result=resultData(await api('hostProject',{files:projectFiles})); if(!result.url) throw new Error('تعذر إنشاء الموقع'); const items=JSON.parse(localStorage.getItem('mrx_hosted_projects') || '[]'); const hostedUrl=result.publicUrl || result.url; items.push({id:result.id,name:allFiles[0]?.name || 'مشروع مستضاف',url:hostedUrl,createdAt:Date.now()}); localStorage.setItem('mrx_hosted_projects',JSON.stringify(items.slice(-20))); renderHostedProjects(); const room=currentRoomId; roomMessages[room].push(botHtml('تم إنشاء موقعك من مربع الاستضافة.\n\nالرابط جاهز بالأسفل.','إنشاء موقع',hostedUrl,'site','')); saveData(); loadMessages(); closeHostingModal(); if(withApi) await openApiConfig(result.id); toast('تم إنشاء الموقع'); } catch(error) { toast(error.message || 'تعذر إنشاء الموقع'); } finally { if(input) input.value=''; const codeInput=document.getElementById('hostingCodeInput'); if(codeInput) codeInput.value=''; } };
+  window.hostProjectFiles = async function (event) { const files=Array.from(event.target.files || []); if (!files.length) return; if (files.length > 100) { toast('الحد الأقصى 100 ملف'); return; } const total=files.reduce((n,f)=>n+f.size,0); if (total > 25*1024*1024) { toast('حجم المشروع أكبر من 25MB'); return; } toast('جاري فحص وتجهيز المشروع...'); try { const projectFiles=[]; for (const file of files) { if (file.size > 10*1024*1024) throw new Error('ملف أكبر من 10MB: '+file.name); projectFiles.push({ path:file.webkitRelativePath || file.name, contentBase64:await fileToBase64(file) }); } const result=resultData(await api('hostProject',{files:projectFiles})); if (!result.url) throw new Error('لم يتم إنشاء رابط المشروع'); const room=currentRoomId; const hostedUrl=result.publicUrl || result.url; const hostedItems=JSON.parse(localStorage.getItem('mrx_hosted_projects') || '[]'); hostedItems.push({ id:result.id, name:files[0]?.webkitRelativePath?.split('/')[0] || 'مشروع مستضاف', url:hostedUrl, createdAt:Date.now() }); localStorage.setItem('mrx_hosted_projects',JSON.stringify(hostedItems.slice(-20))); renderHostedProjects(); const reply='تمت استضافة مشروعك كنسخة Static آمنة.\n\nالرابط جاهز بالأسفل. تم منع تشغيل JavaScript والملفات التنفيذية داخل المعاينة.'; roomMessages[room].push(botHtml(reply,'استضافة مشروع',hostedUrl,'site','')); saveData(); loadMessages(); toggleSidebar(); toast('تم إنشاء رابط المشروع'); } catch (error) { toast(error.message || 'تعذر استضافة المشروع'); } finally { event.target.value=''; } };
+  window.copyLink = function (button, url) { navigator.clipboard?.writeText(url); button.innerHTML = '<i class="fa-solid fa-check"></i>تم النسخ'; toast('تم نسخ الرابط'); };
+  window.shareLink = async function (url) { if (navigator.share) { try { await navigator.share({ title:'MRX', url }); } catch (_) {} } else { navigator.clipboard?.writeText(url); toast('تم نسخ الرابط للمشاركة'); } };
+  window.resendPrompt = function (value) { const input=document.getElementById('userInput'); input.value=decodeURIComponent(value); handleTextareaInput(input); window.send(); };
+  window.editPrompt = function (value) { const input=document.getElementById('userInput'); input.value=decodeURIComponent(value); input.focus(); handleTextareaInput(input); toast('تم وضع الكلام للتعديل'); };
+  let mediaRecorder=null, audioChunks=[], recordingStream=null;
+  window.toggleVoiceRecord = async function () {
+    if (mediaRecorder?.state === 'recording') { mediaRecorder.stop(); return; }
+    if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) { toast('تسجيل الصوت غير مدعوم في هذا المتصفح'); return; }
+    try {
+      recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});
+      const mime=MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
+      audioChunks=[]; mediaRecorder=new MediaRecorder(recordingStream,{mimeType:mime});
+      mediaRecorder.ondataavailable=e=>{ if(e.data.size) audioChunks.push(e.data); };
+      mediaRecorder.onstop=()=>{ const blob=new Blob(audioChunks,{type:mime}); const file=new File([blob],`mrx-recording-${Date.now()}.webm`,{type:mime}); setAttachedFiles([file]); recordingStream?.getTracks().forEach(track=>track.stop()); recordingStream=null; document.getElementById('micIcon')?.classList.remove('text-white'); toast('تم إيقاف التسجيل وتجهيزه للإرسال'); };
+      mediaRecorder.start(1000); document.getElementById('micIcon')?.classList.add('text-white'); toast('جاري التسجيل... اضغط الميكروفون للإيقاف');
+    } catch (_) { recordingStream?.getTracks().forEach(track=>track.stop()); recordingStream=null; toast('لم يتم السماح باستخدام الميكروفون'); }
+  };
+  window.send = async function () {
+    const input=document.getElementById('userInput'); const text=input.value.trim();
+    const fileObject=attachedFile; const fileObjects=attachedFiles.length ? attachedFiles : (fileObject ? [fileObject] : []); if (!text && !fileObjects.length) return;
+    const file=fileObjects.map(item=>item.name).join('، '); const payload=fileContentCache ? `${text}\n\n[الملف ${file}]:\n${fileContentCache}` : text;
+    if (/^(أنشئ|انشئ|سوي|سو|صمم|صمّم)\s+لي\s+بوت\s+مع\s+موقع\s+مربوط/i.test(text)) { createBotRoom(true); openDiscordBuilder(true); input.value=''; removeAttachedFile(); toast('اكتب طلبات البوت والموقع'); return; }
+    if (/^(أنشئ|انشئ|سوي|سو|صمم|صمّم)\s+لي\s+بوت(?:\s+ديسكورد)?/i.test(text)) { createBotRoom(false); openDiscordBuilder(false); input.value=''; removeAttachedFile(); toast('اكتب طلبات البوت'); return; }
+    if (/^(سوي|سو|أنشئ|انشئ|افتح|create)\s+(لي\s+)?(روم|غرفة|محادثة|room|chat)/i.test(text)) { const roomTitle=text.replace(/^(سوي|سو|أنشئ|انشئ|افتح|create)\s+(لي\s+)?(روم|غرفة|محادثة|room|chat)\s*/i,'').trim() || 'محادثة جديدة'; createNewRoom(roomTitle.length > 38 ? roomTitle.slice(0,38)+'…' : roomTitle); input.value=''; toast('تم إنشاء الغرفة والانتقال إليها'); return; }
+    if (!currentRoomId || !rooms.some(item => item.id === currentRoomId)) createNewRoom('محادثة جديدة');
+    const room=currentRoomId;
+    const currentRoomObj=rooms.find(item => item.id === room);
+    if (currentRoomObj && /^(غرفة|محادثة جديدة)/.test(currentRoomObj.name || '')) { const seed=(text || (file ? `مرفق: ${file}` : 'محادثة جديدة')).replace(/\s+/g,' ').trim(); currentRoomObj.name=seed.length > 38 ? seed.slice(0,38).trimEnd()+'…' : seed; rooms=[currentRoomObj,...rooms.filter(item => item.id !== room)]; saveData(); renderRooms(); }
+    const u=userHtml(text || 'ملف مرفق',file); if(!roomMessages[room]) roomMessages[room]=[]; roomMessages[room].push(u); saveData(); input.value=''; input.style.height='auto'; removeAttachedFile(); document.getElementById('welcome')?.remove(); loadMessages();
+    const chat=document.getElementById('chat'); const typing='mrx_'+Date.now(); chat.insertAdjacentHTML('beforeend',`<div id="${typing}" class="flex flex-col w-full mb-4 items-start fade"><span class="text-[11px] font-bold text-[#e46a82]">MRX</span><div class="text-sm text-[#d96b82] font-bold">جاري التنفيذ ...</div></div>`); chat.scrollTop=chat.scrollHeight;
+    let reply='', url='', kind='', visual='';
+    try {
+      if (isScanRequest(text) && extractUrl(text)) {
+        const target=extractUrl(text); const result=resultData(await api('ai.scanUrl',{url:target})); reply='اكتمل الفحص بدون فتح الرابط.'; visual=scanHtml(result,'الرابط');
+      } else if (isScanRequest(text) && fileObjects.length) {
+        const firstFile=fileObjects[0]; const base64=firstFile.size <= 10*1024*1024 ? await fileToBase64(firstFile) : ''; const result=resultData(await api('ai.scanFile',{name:firstFile.name,mimeType:firstFile.type,size:firstFile.size,sample:payload || '',base64})); reply='اكتمل الفحص السطحي للملف بدون تشغيله.'; visual=scanHtml(result,'الملف');
+      } else if (isScanRequest(text)) {
+        reply='أرسل الرابط أو أرفق الملف الذي تريد فحصه، وسأفحصه بدون فتحه أو تشغيله.';
+      } else if (fileObjects.length) {
+        const uploads=[]; for (const item of fileObjects.slice(0,20)) { if (item.size > 20*1024*1024) throw new Error('الحد الأقصى للمرفق الواحد 20MB: '+item.name); const uploaded=resultData(await api('uploadAttachment',{name:item.name,mimeType:item.type,contentBase64:await fileToBase64(item)})); if (uploaded.url) uploads.push(uploaded); } reply=`تم رفع ${uploads.length} مرفق وتجهيزه للإرسال.`; visual=uploads.map(item=>mediaActions(item.url,item.mimeType?.startsWith('image/')?'image':'file')).join('');
+      } else if (isCodeRequest(text)) {
+        const response=resultData(await api('ai.chat',{mode:'code',messages:[{role:'user',content:payload}]})); reply=response.content || 'تم استلام طلب الكود.';
+      } else if (isSiteRequest(text)) {
+        const site=resultData(await api('ai.createSite',{prompt:payload})); url=site.publicUrl || site.url || ''; kind='site'; reply='تم إنشاء موقعك من طلبك.\n\nرابط المعاينة جاهز بالأسفل.';
+      } else if (isImageRequest(text)) {
+        const image=resultData(await api('ai.generateImage',{prompt:payload})); url=image.url || ''; kind='image'; reply=image.url ? 'تم إنشاء الصورة بنجاح.' : (image.message || 'تم استلام طلب الصورة.'); visual=image.url ? `<div class="mt-3 max-w-[520px]"><img src="${escapeText(image.url)}" alt="MRX" class="rounded-xl border border-[#8f2641]/60 max-h-96 object-contain"></div>` : '';
+      } else {
+        const task=resultData(await api('ai.executeTask',{prompt:payload})); reply=task.content || 'تم استلام طلبك وسيبدأ MRX بتنفيذه.'; if(task.url) { url=task.publicUrl || task.url; kind='site'; reply += '\n\nرابط المعاينة جاهز بالأسفل.'; }
+      }
+    } catch (_) { reply='تعذر إكمال الطلب الآن. تأكد من تفعيل خدمات الذكاء الاصطناعي في السيرفر.'; }
+    document.getElementById(typing)?.remove(); sendButtonMode='normal'; updateSendButtonState(); roomMessages[room].push(botHtml(reply,text,url,kind,visual)); saveData(); loadMessages(); chat.scrollTop=chat.scrollHeight;
+  };
+  window.addEventListener('load', () => { const input=document.getElementById('userInput'); if(input) input.placeholder='وش طلبك اكتب وانفذ'; renderHostedProjects(); });
+})();
+</script>
