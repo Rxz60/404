@@ -1,0 +1,400 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+local CoreGui = game:GetService("CoreGui")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+_G.MRX_Loaded = _G.MRX_Loaded or false
+
+if _G.MRX_Loaded then
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = "MRX",
+            Text = "لاتفعل سكربت مره ثانيه اطلع وثم فعله مره ثانيه",
+            Duration = 5
+        })
+    end)
+    return
+end
+
+_G.MRX_Loaded = true
+
+pcall(function()
+    settings().Rendering.QualityLevel = Enum.QualityLevel.Level21
+    Lighting.GlobalShadows = true
+    Lighting.Brightness = 2.5
+    Lighting.OutdoorAmbient = Color3.fromRGB(50, 0, 0)
+    Lighting.Technology = Enum.Technology.Future
+    
+    local setfflag = setfflag or set_fflag
+    if setfflag then
+        setfflag("FFlagDebugForceConsoleApp", "True")
+    end
+    UserInputService.OverrideMouseIconBehavior = Enum.OverrideMouseIconBehavior.None
+end)
+
+local AutoTrackEnabled = false
+local AntiBombEnabled = false
+_G.GiveBombActive = false
+_G.CustomSpeed = 16
+local MaxDistance = 15
+local SpinSpeed = 95
+local OriginalPos = nil
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "MRX_BloodRed_UI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = (CoreGui:FindFirstChild("RobloxGui") or CoreGui)
+
+local BorderGlowFrame = Instance.new("Frame")
+BorderGlowFrame.Name = "BorderGlowFrame"
+BorderGlowFrame.Size = UDim2.new(0, 0, 0, 0)
+BorderGlowFrame.Position = UDim2.new(1, -135, 0, 15)
+BorderGlowFrame.AnchorPoint = Vector2.new(0, 0)
+BorderGlowFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+BorderGlowFrame.BorderSizePixel = 0
+BorderGlowFrame.Parent = ScreenGui
+
+local BorderCorner = Instance.new("UICorner")
+BorderCorner.CornerRadius = UDim.new(0, 3)
+BorderCorner.Parent = BorderGlowFrame
+
+local BorderGradient = Instance.new("UIGradient")
+BorderGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(40, 0, 0)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
+})
+BorderGradient.Parent = BorderGlowFrame
+
+TweenService:Create(BorderGradient, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {
+    Rotation = 360
+}):Play()
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(1, -4, 1, -4)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 2, 2)
+MainFrame.BorderSizePixel = 0
+MainFrame.ClipsDescendants = true
+MainFrame.Parent = BorderGlowFrame
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 3)
+UICorner.Parent = MainFrame
+
+local BgImage = Instance.new("ImageLabel")
+BgImage.Size = UDim2.new(1, 0, 1, 0)
+BgImage.Position = UDim2.new(0, 0, 0, 0)
+BgImage.BackgroundTransparency = 1
+BgImage.Image = "rbxassetid://126584489536404"
+BgImage.ImageColor3 = Color3.fromRGB(255, 60, 60)
+BgImage.ImageTransparency = 0.35
+BgImage.ScaleType = Enum.ScaleType.Crop
+BgImage.ZIndex = 1
+BgImage.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 25)
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.BackgroundTransparency = 1
+Title.Text = "MRX"
+Title.TextColor3 = Color3.fromRGB(255, 20, 20)
+Title.TextSize = 20
+Title.Font = Enum.Font.GothamBold
+Title.ZIndex = 3
+Title.Parent = MainFrame
+
+local StatusDot = Instance.new("Frame")
+StatusDot.Size = UDim2.new(0, 8, 0, 8)
+StatusDot.Position = UDim2.new(0, 16, 0.72, -4)
+StatusDot.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+StatusDot.ZIndex = 3
+StatusDot.Parent = MainFrame
+
+local DotCorner = Instance.new("UICorner")
+DotCorner.CornerRadius = UDim.new(0, 3)
+DotCorner.Parent = StatusDot
+
+local TrackLabel = Instance.new("TextLabel")
+TrackLabel.Size = UDim2.new(0, 100, 0, 20)
+TrackLabel.Position = UDim2.new(0, 30, 0.72, -10)
+TrackLabel.BackgroundTransparency = 1
+TrackLabel.Text = "TIME BOMB"
+TrackLabel.TextColor3 = Color3.fromRGB(255, 200, 200)
+TrackLabel.TextSize = 12
+TrackLabel.Font = Enum.Font.GothamBold
+TrackLabel.TextXAlignment = Enum.TextXAlignment.Left
+TrackLabel.ZIndex = 3
+TrackLabel.Parent = MainFrame
+
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(0, 48, 0, 24)
+ToggleBtn.Position = UDim2.new(1, -62, 0.72, -12)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+ToggleBtn.Text = ""
+ToggleBtn.AutoButtonColor = false
+ToggleBtn.ZIndex = 3
+ToggleBtn.Parent = MainFrame
+
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 3)
+BtnCorner.Parent = ToggleBtn
+
+local ToggleCircle = Instance.new("Frame")
+ToggleCircle.Size = UDim2.new(0, 18, 0, 18)
+ToggleCircle.Position = UDim2.new(0, 3, 0.5, -9)
+ToggleCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleCircle.ZIndex = 4
+ToggleCircle.Parent = ToggleBtn
+
+local CircleCorner = Instance.new("UICorner")
+CircleCorner.CornerRadius = UDim.new(0, 3)
+CircleCorner.Parent = ToggleCircle
+
+local AntiBombBtn = Instance.new("TextButton")
+AntiBombBtn.Size = UDim2.new(0, 95, 0, 22)
+AntiBombBtn.Position = UDim2.new(0, 12, 0.36, 0)
+AntiBombBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+AntiBombBtn.Text = "مضاد قنبله"
+AntiBombBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiBombBtn.Font = Enum.Font.GothamBold
+AntiBombBtn.TextSize = 11
+AntiBombBtn.AutoButtonColor = false
+AntiBombBtn.ZIndex = 3
+AntiBombBtn.Parent = MainFrame
+
+local AntiCorner = Instance.new("UICorner")
+AntiCorner.CornerRadius = UDim.new(0, 3)
+AntiCorner.Parent = AntiBombBtn
+
+local GiveBombBtn = Instance.new("TextButton")
+GiveBombBtn.Size = UDim2.new(0, 95, 0, 22)
+GiveBombBtn.Position = UDim2.new(1, -107, 0.36, 0)
+GiveBombBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+GiveBombBtn.Text = "اعطاء قنبله"
+GiveBombBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+GiveBombBtn.Font = Enum.Font.GothamBold
+GiveBombBtn.TextSize = 11
+GiveBombBtn.AutoButtonColor = false
+GiveBombBtn.ZIndex = 3
+GiveBombBtn.Parent = MainFrame
+
+local GiveCorner = Instance.new("UICorner")
+GiveCorner.CornerRadius = UDim.new(0, 3)
+GiveCorner.Parent = GiveBombBtn
+
+TweenService:Create(BorderGlowFrame, TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Size = UDim2.new(0, 245, 0, 115)
+}):Play()
+
+local dragging, dragStart, startPos
+BorderGlowFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = BorderGlowFrame.Position
+    end
+end)
+BorderGlowFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        BorderGlowFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+ToggleBtn.MouseButton1Click:Connect(function()
+    AutoTrackEnabled = not AutoTrackEnabled
+    if AutoTrackEnabled then
+        ToggleCircle:TweenPosition(UDim2.new(1, -21, 0.5, -9), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+        ToggleBtn.BackgroundColor3 = Color3.fromRGB(220, 0, 0)
+        StatusDot.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+        
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            OriginalPos = LocalPlayer.Character.HumanoidRootPart.CFrame
+        end
+    else
+        ToggleCircle:TweenPosition(UDim2.new(0, 3, 0.5, -9), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+        ToggleBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+        StatusDot.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        
+        if OriginalPos and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = OriginalPos
+            OriginalPos = nil
+        end
+    end
+end)
+
+AntiBombBtn.MouseButton1Click:Connect(function()
+    AntiBombEnabled = not AntiBombEnabled
+    local char = LocalPlayer.Character
+    if not char then return end
+    
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hum or not hrp then return end
+
+    if AntiBombEnabled then
+        AntiBombBtn.BackgroundColor3 = Color3.fromRGB(35, 185, 75)
+        hum.PlatformStand = true
+        hrp.CFrame = hrp.CFrame * CFrame.Angles(math.rad(90), 0, math.rad(90))
+        
+        task.spawn(function()
+            while AntiBombEnabled do
+                RunService.Heartbeat:Wait()
+                local currentHum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                local currentHrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                if currentHum and currentHrp then
+                    currentHum.PlatformStand = true
+                    currentHrp.Velocity = Vector3.new(0, -10, 0)
+                    currentHrp.RotVelocity = Vector3.new(0, 0, 0)
+                end
+            end
+        end)
+    else
+        AntiBombBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+        hum.PlatformStand = false
+    end
+end)
+
+local function GetClosestEnemy()
+    local closestPlayer = nil
+    local shortestDistance = MaxDistance
+
+    if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        return nil
+    end
+
+    local myPos = LocalPlayer.Character.HumanoidRootPart.Position
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local isEnemy = true
+            if LocalPlayer.Team ~= nil and player.Team ~= nil and LocalPlayer.Team == player.Team then
+                isEnemy = false
+            end
+
+            if isEnemy and player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChildOfClass("Humanoid").Health > 0 then
+                local enemyPos = player.Character.HumanoidRootPart.Position
+                local dist = (myPos - enemyPos).Magnitude
+
+                if dist <= shortestDistance then
+                    shortestDistance = dist
+                    closestPlayer = player
+                end
+            end
+        end
+    end
+    return closestPlayer
+end
+
+local function GiveBombLogic(targetPlayer)
+    if not targetPlayer or not targetPlayer.Character or not LocalPlayer.Character then return end
+    
+    task.spawn(function()
+        local myHRP = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if not myHRP then return end
+        local savedPos = myHRP.CFrame
+        
+        while _G.GiveBombActive do
+            RunService.Heartbeat:Wait()
+            if targetPlayer and targetPlayer.Character and LocalPlayer.Character then
+                local tH = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+                local mH = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                
+                if tH and mH then
+                    local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool") or LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+                    if tool then 
+                        local freq = 40
+                        local dist = 6 + (math.sin(tick() * freq) * 6)
+                        mH.Velocity = Vector3.new(0,0,0)
+                        mH.CFrame = tH.CFrame * CFrame.new(0, 1, dist) 
+                    end
+                end
+            else 
+                break 
+            end
+        end
+        
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = savedPos
+        end
+    end)
+end
+
+GiveBombBtn.MouseButton1Click:Connect(function()
+    _G.GiveBombActive = not _G.GiveBombActive
+    if _G.GiveBombActive then
+        GiveBombBtn.BackgroundColor3 = Color3.fromRGB(35, 185, 75)
+        local enemy = GetClosestEnemy()
+        if enemy then
+            GiveBombLogic(enemy)
+        else
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    GiveBombLogic(p)
+                    break
+                end
+            end
+        end
+    else
+        GiveBombBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    if LocalPlayer.Character then
+        for _, obj in pairs(LocalPlayer.Character:GetDescendants()) do
+            if obj:IsA("BasePart") and (string.find(obj.Name:lower(), "molotov") or string.find(obj.Name:lower(), "grenade") or string.find(obj.Name:lower(), "bomb")) then
+                obj.Color = Color3.fromRGB(255, 255, 255)
+                local light = obj:FindFirstChild("RedBombLight") or Instance.new("PointLight", obj)
+                light.Name = "RedBombLight"
+                light.Color = Color3.fromRGB(255, 0, 0)
+                light.Brightness = 12
+                light.Range = 12
+                obj.Color = Color3.fromRGB(255, 20, 20)
+            end
+        end
+    end
+
+    if AutoTrackEnabled then
+        local targetEnemy = GetClosestEnemy()
+        if targetEnemy and targetEnemy.Character and targetEnemy.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            local enemyHRP = targetEnemy.Character.HumanoidRootPart
+            local myHRP = LocalPlayer.Character.HumanoidRootPart
+            local timeVal = tick() * SpinSpeed
+            
+            local offset = Vector3.new(math.cos(timeVal) * 3.5, 0, math.sin(timeVal) * 3.5)
+            myHRP.CFrame = CFrame.new(enemyHRP.Position + offset, enemyHRP.Position)
+            myHRP.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+end)
+
+workspace.ChildAdded:Connect(function(child)
+    if string.find(child.Name:lower(), "molotov") or string.find(child.Name:lower(), "bomb") or string.find(child.Name:lower(), "grenade") then
+        if AutoTrackEnabled then
+            AutoTrackEnabled = false
+            ToggleCircle:TweenPosition(UDim2.new(0, 3, 0.5, -9), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+            ToggleBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+            StatusDot.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+            
+            if OriginalPos and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = OriginalPos
+                OriginalPos = nil
+            end
+        end
+    end
+end)
